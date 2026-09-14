@@ -1,0 +1,20 @@
+﻿# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors & IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Obsidian cache (se aberto como vault)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+
+# Temporary / Scratch
+tmp/
+temp/
+*.log
