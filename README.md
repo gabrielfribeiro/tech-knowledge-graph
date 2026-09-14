@@ -1,6 +1,6 @@
-﻿# Tech Knowledge Graph (Agent-Agnostic)
+﻿# Tech Knowledge Graph (Agent-Agnostic & Self-Healing)
 
-Um ecossistema de documentação técnica estruturado em **Grafo de Conhecimento Atômico**, projetado primariamente para ser mantido e consultado por **Agentes de IA** (com baixíssimo consumo de tokens), mas totalmente legível e navegável por humanos através do **Obsidian** ou **Git**.
+Um ecossistema de documentação técnica estruturado em **Grafo de Conhecimento Atômico**, projetado primariamente para ser mantido, corrigido e consultado por **Agentes de IA** (com baixíssimo consumo de tokens), mas totalmente legível e navegável por humanos através do **Obsidian** ou **Git**.
 
 ---
 
@@ -9,7 +9,30 @@ Um ecossistema de documentação técnica estruturado em **Grafo de Conhecimento
 Centralizar o conhecimento técnico da área (projetos, regras de negócio, queries de banco com regras específicas, processos internos e ADRs) com:
 1. **Zero Vendor Lock-in:** Arquivos Markdown locais padronizados com YAML frontmatter.
 2. **Alta Eficiência para IA:** Notas atômicas (100–300 tokens) e índice compilado (`graph-index.json`) para evitar sobrecarga de contexto.
-3. **Interoperabilidade Total:** Funciona em qualquer LLM ou agente (Antigravity, Claude, OpenAI, Cursor, Copilot, scripts Node/Python).
+3. **Ciclo de Auto-Recuperação (Self-Healing):** Criação, validação, auto-reparo e governança totalmente orquestrados.
+4. **Interoperabilidade Total:** Funciona em qualquer LLM ou agente (Antigravity, Claude, OpenAI, Cursor, Copilot, scripts Node/Python).
+
+---
+
+## 🔄 O Ciclo Fechado (Self-Healing Loop)
+
+```text
+    [Entrada Bruta / Documentação]
+                  │
+                  ▼
+       1. knowledge-creator         (Gera nós atômicos tipados)
+                  │
+                  ▼
+       2. knowledge-linter          (Audita integridade e orçamento de tokens)
+                  │
+            (Se houver erros)
+                  ▼
+       3. knowledge-fixer           (Corrige mecânica, links órfãos e stubs)
+                  │
+            (Re-valida 100%)
+                  ▼
+       4. knowledge-governance      (Compila graph-index.json e audita gaps)
+```
 
 ---
 
@@ -24,7 +47,10 @@ Centralizar o conhecimento técnico da área (projetos, regras de negócio, quer
 │   ├── knowledge-linter/             # 2. Validação e integridade
 │   │   ├── SKILL.md                  # Regras de auditoria e conformidade
 │   │   └── scripts/validate.js       # Linter executável (zero dependências)
-│   └── knowledge-governance/         # 3. Governança e inteligência do grafo
+│   ├── knowledge-fixer/              # 3. Auto-reparo e auto-cura (Auto-Healing)
+│   │   ├── SKILL.md                  # Protocolo de remediação cognitiva
+│   │   └── scripts/fix.js            # Auto-fixer mecânico (com criação de stubs)
+│   └── knowledge-governance/         # 4. Governança e inteligência do grafo
 │       ├── SKILL.md                  # Guia de análise de impacto e blast radius
 │       └── scripts/
 │           ├── compile-graph.js      # Compila o grafo para graph-index.json
@@ -43,23 +69,20 @@ Centralizar o conhecimento técnico da área (projetos, regras de negócio, quer
 
 ---
 
-## 🤖 As 3 Skills do Ecossistema
+## 🚀 Comandos Rápidos do Ecossistema
 
-### 1. Criação (`knowledge-creator`)
-Transforma textos soltos, documentações antigas, código e queries em nós atômicos devidamente tipados e interligados por `[[wikilinks]]`.
+Todos os scripts utilizam **Node.js puro (sem npm install nem node_modules)**:
 
-### 2. Validação (`knowledge-linter`)
-Garante que a documentação não quebre, conferindo integridade referencial (sem links órfãos), conformidade de schemas YAML e tamanho de tokens.
 ```bash
+# 1. Validar a base de conhecimento
 node skills/knowledge-linter/scripts/validate.js
-```
 
-### 3. Governança e Análise de Impacto (`knowledge-governance`)
-Mantém o `graph-index.json` atualizado para que qualquer agente possa responder perguntas complexas de dependência e *blast radius* lendo apenas um único arquivo JSON leve, sem gastar tokens abrindo dezenas de arquivos markdown.
-```bash
-# Compila o grafo
+# 2. Auto-corrigir problemas mecânicos e curar links órfãos com stubs
+node skills/knowledge-fixer/scripts/fix.js --create-stubs
+
+# 3. Compilar o grafo em JSON para consumo rápido do agente
 node skills/knowledge-governance/scripts/compile-graph.js
 
-# Audita débitos de documentação
+# 4. Auditar lacunas técnicas e débito de documentação
 node skills/knowledge-governance/scripts/audit-gaps.js
 ```
