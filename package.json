@@ -1,0 +1,17 @@
+﻿{
+  "name": "tech-knowledge-graph",
+  "version": "1.0.0",
+  "description": "Agent-agnostic self-healing knowledge graph ecosystem for engineering teams",
+  "main": "web/server.js",
+  "scripts": {
+    "start": "node web/server.js",
+    "lint": "node skills/knowledge-linter/scripts/validate.js",
+    "fix": "node skills/knowledge-fixer/scripts/fix.js --create-stubs",
+    "compile": "node skills/knowledge-governance/scripts/compile-graph.js",
+    "audit": "node skills/knowledge-governance/scripts/audit-gaps.js",
+    "analyze": "node skills/knowledge-orchestrator/scripts/analyze-intake.js"
+  },
+  "keywords": ["knowledge-graph", "agent", "llm", "obsidian", "tech-lead", "documentation"],
+  "author": "gabrielfribeiro",
+  "license": "MIT"
+}

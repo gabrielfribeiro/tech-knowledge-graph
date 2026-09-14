@@ -1,37 +1,59 @@
 ﻿# Tech Knowledge Graph (Agent-Agnostic & Self-Healing)
 
-Um ecossistema de documentação técnica estruturado em **Grafo de Conhecimento Atômico**, projetado primariamente para ser mantido, corrigido e consultado por **Agentes de IA** (com baixíssimo consumo de tokens), mas totalmente legível e navegável por humanos através do **Obsidian** ou **Git**.
+Um ecossistema completo de documentação técnica estruturado em **Grafo de Conhecimento Atômico**, projetado primariamente para ser mantido, auditado e consultado por **Agentes de IA** (com baixíssimo consumo de tokens), mas com interface web interativa e total compatibilidade com **Obsidian** e **Git**.
 
 ---
 
-## 🎯 Objetivo
+## 🎯 Destaques do Ecossistema
 
-Centralizar o conhecimento técnico da área (projetos, regras de negócio, queries de banco com regras específicas, processos internos e ADRs) com:
-1. **Zero Vendor Lock-in:** Arquivos Markdown locais padronizados com YAML frontmatter.
-2. **Alta Eficiência para IA:** Notas atômicas (100–300 tokens) e índice compilado (`graph-index.json`) para evitar sobrecarga de contexto.
-3. **Ciclo de Auto-Recuperação (Self-Healing):** Criação, validação, auto-reparo e governança totalmente orquestrados.
-4. **Interoperabilidade Total:** Funciona em qualquer LLM ou agente (Antigravity, Claude, OpenAI, Cursor, Copilot, scripts Node/Python).
+1. **Dashboard Web Interativo (`http://localhost:3333`):**
+   * **Ingestão Inteligente com Anti-Conflito:** Cole textos livres, atas ou conversas do Slack e o sistema detecta se há duplicações ou contradições antes de alterar o repositório.
+   * **Visualizador do Grafo:** Canvas interativo com física para explorar nós (projetos, regras, queries, processos, stubs).
+   * **Central de Auditoria:** Métricas de débito de documentação e botões de auto-cura em um clique.
+2. **Ciclo de Auto-Recuperação (Self-Healing Loop):**
+   * Criação, validação de integridade, geração automática de stubs para links órfãos e compilação do grafo.
+3. **Zero Vendor Lock-in & Zero Dependências:**
+   * Arquivos Markdown locais com frontmatter YAML. Servidor e scripts em Node.js nativo (sem `node_modules`).
 
 ---
 
-## 🔄 O Ciclo Fechado (Self-Healing Loop)
+## 🖥️ Como Iniciar a Interface Web
+
+Para abrir o dashboard interativo no seu navegador:
+
+```bash
+# Iniciar o servidor
+npm start
+# Ou diretamente:
+node web/server.js
+```
+
+Acesse no navegador: **[http://localhost:3333](http://localhost:3333)**
+
+---
+
+## 🔄 O Ciclo Fechado de Governança
 
 ```text
-    [Entrada Bruta / Documentação]
-                  │
-                  ▼
-       1. knowledge-creator         (Gera nós atômicos tipados)
-                  │
-                  ▼
-       2. knowledge-linter          (Audita integridade e orçamento de tokens)
-                  │
-            (Se houver erros)
-                  ▼
-       3. knowledge-fixer           (Corrige mecânica, links órfãos e stubs)
-                  │
-            (Re-valida 100%)
-                  ▼
-       4. knowledge-governance      (Compila graph-index.json e audita gaps)
+       [Texto Livre / Slack / Ata de Reunião]
+                         │
+                         ▼
+        5. knowledge-orchestrator    (Detecta duplicatas e contradições)
+                         │
+                   (Se aprovado)
+                         ▼
+        1. knowledge-creator         (Cria nós atômicos tipados)
+                         │
+                         ▼
+        2. knowledge-linter          (Audita integridade e limites de tokens)
+                         │
+                   (Se houver erros)
+                         ▼
+        3. knowledge-fixer           (Auto-cura mecânica + stubs para órfãos)
+                         │
+                   (100% íntegro)
+                         ▼
+        4. knowledge-governance      (Compila graph-index.json e audita gaps)
 ```
 
 ---
@@ -40,7 +62,13 @@ Centralizar o conhecimento técnico da área (projetos, regras de negócio, quer
 
 ```text
 .
+├── web/                              # Interface Web Interativa
+│   ├── server.js                     # Servidor HTTP nativo com endpoints de API
+│   └── public/index.html             # Dashboard (Tailwind + Vis-Network + Marked)
 ├── skills/
+│   ├── knowledge-orchestrator/       # 5. Triagem semântica e anti-conflito
+│   │   ├── SKILL.md                  # Protocolo do agente orquestrador
+│   │   └── scripts/analyze-intake.js # Analisador de divergência semântica
 │   ├── knowledge-creator/            # 1. Criação de nós atômicos
 │   │   ├── SKILL.md                  # Protocolo de decomposição atômica
 │   │   └── templates/                # Templates (project, rule, query, process)
@@ -64,25 +92,30 @@ Centralizar o conhecimento técnico da área (projetos, regras de negócio, quer
 │   ├── processes/                    # Runbooks, SOPs, fluxos operacionais
 │   ├── adrs/                         # Architectural Decision Records
 │   └── graph-index.json              # Grafo compilado para leitura ultrarrápida
+├── package.json                      # Comandos npm rápidos
 └── README.md
 ```
 
 ---
 
-## 🚀 Comandos Rápidos do Ecossistema
-
-Todos os scripts utilizam **Node.js puro (sem npm install nem node_modules)**:
+## 🚀 Comandos via Terminal (Custo Zero de Tokens)
 
 ```bash
-# 1. Validar a base de conhecimento
-node skills/knowledge-linter/scripts/validate.js
+# 1. Iniciar Web App
+npm start
 
-# 2. Auto-corrigir problemas mecânicos e curar links órfãos com stubs
-node skills/knowledge-fixer/scripts/fix.js --create-stubs
+# 2. Analisar texto livre contra o grafo para detectar conflitos
+npm run analyze -- "texto a ser analisado"
 
-# 3. Compilar o grafo em JSON para consumo rápido do agente
-node skills/knowledge-governance/scripts/compile-graph.js
+# 3. Validar a integridade da base
+npm run lint
 
-# 4. Auditar lacunas técnicas e débito de documentação
-node skills/knowledge-governance/scripts/audit-gaps.js
+# 4. Auto-corrigir problemas e curar links órfãos com stubs
+npm run fix
+
+# 5. Recompilar o índice do grafo
+npm run compile
+
+# 6. Auditar débitos técnicos de documentação
+npm run audit
 ```

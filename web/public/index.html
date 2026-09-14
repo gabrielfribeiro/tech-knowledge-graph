@@ -1,0 +1,511 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Knowledge Graph Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { 500: '#6366f1', 600: '#4f46e5' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    #graph-network {
+      width: 100%;
+      height: 600px;
+      background: radial-gradient(circle, #1e293b 10%, #0f172a 90%);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased">
+
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center font-bold text-lg shadow-lg shadow-indigo-500/20">
+          🕸️
+        </div>
+        <div>
+          <h1 class="font-bold text-lg tracking-tight bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+            Tech Knowledge Graph
+          </h1>
+          <p class="text-xs text-slate-400">Agent-Agnostic & Self-Healing Architecture</p>
+        </div>
+      </div>
+
+      <!-- Live metrics badge -->
+      <div class="flex items-center space-x-4 text-xs font-mono">
+        <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 flex items-center space-x-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-slate-400">Nós:</span>
+          <span id="badge-nodes" class="text-emerald-300 font-bold">0</span>
+        </div>
+        <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 flex items-center space-x-2">
+          <span class="text-slate-400">Arestas:</span>
+          <span id="badge-edges" class="text-indigo-300 font-bold">0</span>
+        </div>
+        <a href="https://github.com/gabrielfribeiro/tech-knowledge-graph" target="_blank" class="text-slate-400 hover:text-white transition flex items-center space-x-1">
+          <span>GitHub</span> ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="max-w-7xl mx-auto px-6 flex space-x-8 text-sm font-medium border-t border-slate-800/50">
+      <button onclick="switchTab('intake')" id="tab-btn-intake" class="py-3 border-b-2 border-indigo-500 text-indigo-400 flex items-center space-x-2">
+        <span>📥 Ingestão & Anti-Conflito</span>
+      </button>
+      <button onclick="switchTab('graph')" id="tab-btn-graph" class="py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2">
+        <span>🕸️ Visualizador do Grafo</span>
+      </button>
+      <button onclick="switchTab('audit')" id="tab-btn-audit" class="py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2">
+        <span>🩺 Governança & Auditoria</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-6">
+
+    <!-- TAB 1: INTAKE & ORCHESTRATOR -->
+    <section id="tab-intake" class="space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left: Input Area -->
+        <div class="lg:col-span-6 space-y-4">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-base font-semibold text-white flex items-center space-x-2">
+                <span>📝 Texto Livre de Entrada</span>
+              </h2>
+              <span class="text-xs bg-slate-800 text-slate-400 px-2 py-1 rounded">Slack, Ata, Código, Rascunho</span>
+            </div>
+            <textarea id="intake-text" rows="12" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 font-mono transition" placeholder="Cole aqui qualquer informação técnica desestruturada... Ex:
+'No Billing Engine alteramos a regra de cobrança recorrente: agora clientes ativos são cobrados 3 dias antes, mas em caso de falha são feitas 5 tentativas a cada 12 horas...'"></textarea>
+            
+            <div class="flex items-center justify-between mt-4">
+              <div class="text-xs text-slate-400">
+                O Orquestrador compara contra o <code class="text-indigo-400">graph-index.json</code> antes de alterar arquivos.
+              </div>
+              <button onclick="analyzeText()" id="btn-analyze" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center space-x-2">
+                <span>🔍 Analisar Texto</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Scenario Buttons -->
+          <div class="bg-slate-900/50 border border-slate-800/80 rounded-xl p-4 text-xs text-slate-400 space-y-2">
+            <span class="font-semibold text-slate-300">Testar Cenários Prontos:</span>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="loadSample('conflict')" class="bg-rose-950/50 border border-rose-800/50 text-rose-300 px-3 py-1.5 rounded-lg hover:bg-rose-900/50 transition">
+                🔴 Teste de Conflito (Regra Divergente)
+              </button>
+              <button onclick="loadSample('duplicate')" class="bg-amber-950/50 border border-amber-800/50 text-amber-300 px-3 py-1.5 rounded-lg hover:bg-amber-900/50 transition">
+                🟡 Teste de Duplicação (Mesmo Serviço)
+              </button>
+              <button onclick="loadSample('new')" class="bg-emerald-950/50 border border-emerald-800/50 text-emerald-300 px-3 py-1.5 rounded-lg hover:bg-emerald-900/50 transition">
+                🟢 Teste de Inédito (Nova API)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Analysis & Conflict Resolution Report -->
+        <div class="lg:col-span-6 space-y-4">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl min-h-[460px] flex flex-col">
+            <h2 class="text-base font-semibold text-white mb-3 flex items-center justify-between">
+              <span>🧠 Diagnóstico do Orquestrador</span>
+              <span id="analysis-status" class="text-xs text-slate-500">Aguardando análise...</span>
+            </h2>
+
+            <div id="analysis-container" class="flex-1 flex flex-col justify-center items-center text-slate-500 text-center p-6 space-y-3">
+              <div class="w-12 h-12 rounded-full bg-slate-800/50 flex items-center justify-center text-2xl">
+                🛡️
+              </div>
+              <p class="text-sm">Cole o texto ao lado e clique em <b>Analisar Texto</b> para o orquestrador rastrear entidades, similaridade e verificar se há contradições com a documentação atual.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 2: VISUAL GRAPH EXPLORER -->
+    <section id="tab-graph" class="hidden space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12">
+        
+        <!-- Graph Canvas -->
+        <div class="lg:col-span-8 relative">
+          <div id="graph-network"></div>
+
+          <!-- Graph Overlay Controls -->
+          <div class="absolute top-4 left-4 flex items-center space-x-2 bg-slate-900/90 backdrop-blur border border-slate-700 px-3 py-2 rounded-xl text-xs">
+            <span class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span> <span>Projeto</span></span>
+            <span class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded-full bg-purple-500 inline-block"></span> <span>Regra</span></span>
+            <span class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span> <span>Query</span></span>
+            <span class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> <span>Processo</span></span>
+            <span class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span> <span>Stub</span></span>
+          </div>
+
+          <div class="absolute bottom-4 right-4 flex space-x-2">
+            <button onclick="fetchGraph()" class="bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg text-xs transition">
+              🔄 Recarregar Grafo
+            </button>
+          </div>
+        </div>
+
+        <!-- Node Inspector Sidebar -->
+        <div class="lg:col-span-4 border-l border-slate-800 p-5 flex flex-col h-[600px] overflow-y-auto bg-slate-900/50">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+            <h3 class="font-semibold text-sm text-white flex items-center space-x-2">
+              <span>🔍 Detalhes do Nó</span>
+            </h3>
+            <span id="node-type-badge" class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Clique em um nó</span>
+          </div>
+
+          <div id="node-details" class="flex-1 text-xs text-slate-400 space-y-4">
+            <p class="text-slate-500 italic">Selecione qualquer esfera no grafo ao lado para visualizar os metadados, links e o conteúdo Markdown completo em tempo real.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 3: AUDIT & GOVERNANCE -->
+    <section id="tab-audit" class="hidden space-y-6">
+      
+      <!-- Action Toolbar -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <h2 class="text-base font-semibold text-white">Central de Governança & Auto-Cura</h2>
+          <p class="text-xs text-slate-400">Audite integridade referencial, limites de tokens e execute ações de remediação.</p>
+        </div>
+        <div class="flex items-center space-x-3">
+          <button onclick="runAction('fix')" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-lg transition">
+            🔧 Executar Auto-Fixer (com Stubs)
+          </button>
+          <button onclick="runAction('compile')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-lg transition">
+            🕸️ Recompilar Grafo
+          </button>
+        </div>
+      </div>
+
+      <!-- Metrics Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+          <span class="text-xs text-slate-400 uppercase font-mono">Projetos sem Runbook</span>
+          <div id="audit-projects-no-runbook" class="text-2xl font-bold text-amber-400">0</div>
+          <p class="text-xs text-slate-500">Serviços que ainda não possuem guia de suporte mapeado.</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+          <span class="text-xs text-slate-400 uppercase font-mono">Queries sem Regra</span>
+          <div id="audit-queries-no-rule" class="text-2xl font-bold text-emerald-400">0</div>
+          <p class="text-xs text-slate-500">SQLs operacionais rodando sem especificação de negócio.</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+          <span class="text-xs text-slate-400 uppercase font-mono">Nós Isolados</span>
+          <div id="audit-isolated-nodes" class="text-2xl font-bold text-emerald-400">0</div>
+          <p class="text-xs text-slate-500">Arquivos soltos sem conexões de entrada ou saída.</p>
+        </div>
+      </div>
+
+      <!-- Audit Detail Panels -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+        <h3 class="font-semibold text-sm text-white">Relatório Detalhado de Validação (Linter)</h3>
+        <div id="linter-results" class="text-xs font-mono bg-slate-950 p-4 rounded-xl border border-slate-800/80 text-slate-300 max-h-60 overflow-y-auto">
+          Carregando status do linter...
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Frontend Logic -->
+  <script>
+    let networkInstance = null;
+    let graphDataCache = null;
+
+    function switchTab(tabId) {
+      ['intake', 'graph', 'audit'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+        document.getElementById(`tab-btn-${t}`).className = 'py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2';
+      });
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      document.getElementById(`tab-btn-${tabId}`).className = 'py-3 border-b-2 border-indigo-500 text-indigo-400 flex items-center space-x-2';
+
+      if (tabId === 'graph') {
+        setTimeout(initOrRefreshGraph, 100);
+      } else if (tabId === 'audit') {
+        fetchAudit();
+        fetchValidate();
+      }
+    }
+
+    async function fetchGraph() {
+      try {
+        const res = await fetch('/api/graph');
+        const data = await res.json();
+        graphDataCache = data;
+        document.getElementById('badge-nodes').textContent = data.metadata.total_nodes;
+        document.getElementById('badge-edges').textContent = data.metadata.total_edges;
+        return data;
+      } catch (e) {
+        console.error('Erro ao buscar grafo:', e);
+      }
+    }
+
+    async function initOrRefreshGraph() {
+      const data = await fetchGraph();
+      if (!data) return;
+
+      const container = document.getElementById('graph-network');
+      const nodes = [];
+      const edges = [];
+
+      const colorMap = {
+        project: { background: '#3b82f6', border: '#1d4ed8' },
+        rule: { background: '#a855f7', border: '#7e22ce' },
+        query: { background: '#f59e0b', border: '#b45309' },
+        process: { background: '#10b981', border: '#047857' },
+        stub: { background: '#f43f5e', border: '#be123c' }
+      };
+
+      for (const [id, node] of Object.entries(data.nodes)) {
+        const isStub = node.tags && node.tags.includes('stub');
+        const colors = isStub ? colorMap.stub : (colorMap[node.type] || { background: '#64748b', border: '#475569' });
+
+        nodes.push({
+          id,
+          label: node.title,
+          shape: 'box',
+          margin: 10,
+          color: {
+            background: colors.background,
+            border: colors.border,
+            highlight: { background: '#ffffff', border: colors.border }
+          },
+          font: { color: '#ffffff', face: 'Inter, sans-serif', size: 12, bold: true },
+          borderWidth: 2,
+          shadow: { enabled: true, color: 'rgba(0,0,0,0.5)', size: 8 }
+        });
+      }
+
+      data.edges.forEach(e => {
+        edges.push({
+          from: e.source,
+          to: e.target,
+          label: e.relation,
+          font: { color: '#94a3b8', size: 10, strokeWidth: 0 },
+          arrows: 'to',
+          color: { color: '#475569', highlight: '#818cf8' },
+          smooth: { type: 'cubicBezier', roundness: 0.2 }
+        });
+      });
+
+      const networkData = {
+        nodes: new vis.DataSet(nodes),
+        edges: new vis.DataSet(edges)
+      };
+
+      const options = {
+        physics: {
+          solver: 'forceAtlas2Based',
+          forceAtlas2Based: { gravitationalConstant: -50, centralGravity: 0.01, springLength: 100 }
+        },
+        interaction: { hover: true, tooltipDelay: 200 }
+      };
+
+      networkInstance = new vis.Network(container, networkData, options);
+
+      networkInstance.on('click', function(params) {
+        if (params.nodes.length > 0) {
+          showNodeDetails(params.nodes[0]);
+        }
+      });
+    }
+
+    async function showNodeDetails(nodeId) {
+      try {
+        const res = await fetch(`/api/node?id=${nodeId}`);
+        const data = await res.json();
+        if (data.error) return;
+
+        const node = data.node;
+        document.getElementById('node-type-badge').textContent = `${node.type.toUpperCase()}`;
+        document.getElementById('node-type-badge').className = `text-xs px-2 py-0.5 rounded font-mono font-bold ${
+          node.type === 'project' ? 'bg-blue-900/60 text-blue-300' :
+          node.type === 'rule' ? 'bg-purple-900/60 text-purple-300' :
+          node.type === 'query' ? 'bg-amber-900/60 text-amber-300' : 'bg-emerald-900/60 text-emerald-300'
+        }`;
+
+        const parsedMarkdown = marked.parse(data.content);
+
+        document.getElementById('node-details').innerHTML = `
+          <div class="space-y-3">
+            <div>
+              <span class="text-slate-500">ID:</span> <code class="text-indigo-400 font-mono font-bold">${node.id}</code>
+            </div>
+            <div>
+              <span class="text-slate-500">Caminho:</span> <span class="text-slate-300 font-mono text-[11px]">${node.path}</span>
+            </div>
+            <div>
+              <span class="text-slate-500">Tags:</span> ${(node.tags || []).map(t => `<span class="bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded mr-1">${t}</span>`).join('')}
+            </div>
+            <hr class="border-slate-800">
+            <div class="prose prose-invert prose-sm max-w-none text-slate-200">
+              ${parsedMarkdown}
+            </div>
+          </div>
+        `;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function analyzeText() {
+      const text = document.getElementById('intake-text').value;
+      if (!text.trim()) {
+        alert('Por favor, insira algum texto técnico para análise.');
+        return;
+      }
+
+      const btn = document.getElementById('btn-analyze');
+      const statusEl = document.getElementById('analysis-status');
+      const container = document.getElementById('analysis-container');
+
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳ Rastreando Grafo...</span>';
+      statusEl.textContent = 'Executando checagem semântica...';
+
+      try {
+        const res = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text })
+        });
+        const data = await res.json();
+
+        statusEl.textContent = data.has_conflicts ? '⚠️ Conflito Detectado!' : '✅ Análise Concluída';
+        statusEl.className = data.has_conflicts ? 'text-xs text-rose-400 font-bold' : 'text-xs text-emerald-400 font-bold';
+
+        let html = `<div class="w-full space-y-4 text-left">`;
+
+        if (data.has_conflicts) {
+          html += `
+            <div class="bg-rose-950/40 border border-rose-800 rounded-xl p-4">
+              <div class="flex items-center space-x-2 text-rose-400 font-bold text-sm mb-1">
+                <span>🛑 CONTRADIÇÃO DETECTADA</span>
+              </div>
+              <p class="text-xs text-rose-200">O texto informado diverge de regras consolidadas na base de conhecimento. Veja os apontamentos abaixo:</p>
+            </div>
+          `;
+        }
+
+        data.actions.forEach(act => {
+          const isConflict = act.status === 'CONFLICT';
+          const isUpdate = act.status === 'UPDATE';
+          const badgeClass = isConflict ? 'bg-rose-900/60 text-rose-300 border-rose-700' :
+                             isUpdate ? 'bg-amber-900/60 text-amber-300 border-amber-700' :
+                             'bg-emerald-900/60 text-emerald-300 border-emerald-700';
+          const badgeText = isConflict ? '🔴 CONTRADIÇÃO / DIVERGÊNCIA' : isUpdate ? '🟡 ATUALIZAÇÃO / NÓ EXISTENTE' : '🟢 NOVO NÓ ATÔMICO';
+
+          html += `
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs px-2 py-0.5 rounded border font-mono font-bold ${badgeClass}">${badgeText}</span>
+                <span class="text-xs text-slate-500 font-mono">${act.target_id}</span>
+              </div>
+              <h4 class="font-semibold text-sm text-white">${act.title}</h4>
+              <p class="text-xs text-slate-400">${act.reason}</p>
+              
+              <ul class="text-xs space-y-1 mt-2 text-slate-300 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+                ${act.details.map(d => `<li class="flex items-start space-x-1.5"><span class="text-indigo-400 font-bold">•</span><span>${d}</span></li>`).join('')}
+              </ul>
+            </div>
+          `;
+        });
+
+        html += `</div>`;
+        container.innerHTML = html;
+
+      } catch (e) {
+        alert('Erro na análise: ' + e.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>🔍 Analisar Texto</span>';
+      }
+    }
+
+    function loadSample(type) {
+      const textarea = document.getElementById('intake-text');
+      if (type === 'conflict') {
+        textarea.value = `No Billing Engine alteramos a regra de cobrança recorrente: agora clientes ativos tentam cobrança a cada 12 horas (ao invés de 24h) e o status vai para BLOQUEADO caso falhe.`;
+      } else if (type === 'duplicate') {
+        textarea.value = `O serviço de Billing Engine roda no cluster EKS da squad de Monetização, escrito em Go. Queremos adicionar a tag [faturamento-v2] nele.`;
+      } else if (type === 'new') {
+        textarea.value = `Criada a nova API proj-notifications-service responsável por disparar e-mails transacionais via SendGrid quando uma fatura é emitida com sucesso.`;
+      }
+      analyzeText();
+    }
+
+    async function fetchAudit() {
+      try {
+        const res = await fetch('/api/audit');
+        const data = await res.json();
+        document.getElementById('audit-projects-no-runbook').textContent = data.summary.projectsWithoutRunbooksCount;
+        document.getElementById('audit-queries-no-rule').textContent = data.summary.queriesWithoutRulesCount;
+        document.getElementById('audit-isolated-nodes').textContent = data.summary.isolatedCount;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function fetchValidate() {
+      try {
+        const res = await fetch('/api/validate');
+        const data = await res.json();
+        const container = document.getElementById('linter-results');
+        if (!data.issues || data.issues.length === 0) {
+          container.innerHTML = '<span class="text-emerald-400 font-bold">✅ Base 100% íntegra! Nenhum erro de linter ou link órfão encontrado.</span>';
+        } else {
+          container.innerHTML = data.issues.map(i => {
+            const color = i.severity === 'ERROR' ? 'text-rose-400' : 'text-amber-400';
+            return `<div class="${color}">[${i.severity}] ${i.file}: ${i.detail}</div>`;
+          }).join('');
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function runAction(action) {
+      if (!confirm(`Deseja executar a ação "${action}"?`)) return;
+      try {
+        const res = await fetch(`/api/action/${action}`, { method: 'POST' });
+        const data = await res.json();
+        alert(data.success ? 'Ação executada com sucesso!' : 'Erro: ' + data.error);
+        fetchAudit();
+        fetchValidate();
+        fetchGraph();
+      } catch (e) {
+        alert('Erro ao executar: ' + e.message);
+      }
+    }
+
+    // Initial load
+    fetchGraph();
+  </script>
+</body>
+</html>
