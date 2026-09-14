@@ -9,9 +9,18 @@
     "fix": "node skills/knowledge-fixer/scripts/fix.js --create-stubs",
     "compile": "node skills/knowledge-governance/scripts/compile-graph.js",
     "audit": "node skills/knowledge-governance/scripts/audit-gaps.js",
-    "analyze": "node skills/knowledge-orchestrator/scripts/analyze-intake.js"
+    "analyze": "node skills/knowledge-orchestrator/scripts/analyze-intake.js",
+    "ingest": "node skills/knowledge-orchestrator/scripts/ingest.js"
   },
-  "keywords": ["knowledge-graph", "agent", "llm", "obsidian", "tech-lead", "documentation"],
+  "keywords": [
+    "knowledge-graph",
+    "agent",
+    "llm",
+    "obsidian",
+    "tech-lead",
+    "documentation",
+    "copilot-specialist"
+  ],
   "author": "gabrielfribeiro",
   "license": "MIT"
 }
