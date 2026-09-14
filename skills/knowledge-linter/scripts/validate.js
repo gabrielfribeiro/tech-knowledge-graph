@@ -27,6 +27,7 @@ function getAllMarkdownFiles(dir, fileList = []) {
 }
 
 function parseFrontmatter(content) {
+  content = content.replace(/^\uFEFF/, '').trimStart();
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!match) return { frontmatter: null, body: content };
   const rawYaml = match[1];

@@ -1,10 +1,137 @@
 {
   "metadata": {
-    "generated_at": "2026-09-14T22:44:46.122Z",
-    "total_nodes": 0,
-    "total_edges": 0,
-    "counts_by_type": {}
+    "generated_at": "2026-09-14T22:51:12.656Z",
+    "total_nodes": 5,
+    "total_edges": 9,
+    "counts_by_type": {
+      "process": 1,
+      "project": 2,
+      "query": 1,
+      "rule": 1
+    }
   },
-  "nodes": {},
-  "edges": []
+  "nodes": {
+    "proc-reprocessar-cobranca-falha": {
+      "id": "proc-reprocessar-cobranca-falha",
+      "type": "process",
+      "title": "Reprocessamento Manual de Cobranças Pendentes",
+      "path": "knowledge-base/processes/proc-reprocessar-cobranca-falha.md",
+      "updated_at": "2026-09-14",
+      "tags": [
+        "runbook",
+        "suporte",
+        "incidente"
+      ],
+      "metadata": {}
+    },
+    "proj-billing-engine": {
+      "id": "proj-billing-engine",
+      "type": "project",
+      "title": "Motor de Cobrança (Billing Engine)",
+      "path": "knowledge-base/projects/proj-billing-engine.md",
+      "updated_at": "2026-09-14",
+      "tags": [
+        "backend",
+        "golang",
+        "financeiro",
+        "billing"
+      ],
+      "metadata": {
+        "responsavel": "Squad Monetização",
+        "repositorio": "https://github.com/empresa/billing-engine"
+      }
+    },
+    "proj-payment-gateway": {
+      "id": "proj-payment-gateway",
+      "type": "project",
+      "title": "Serviço: proj-payment-gateway",
+      "path": "knowledge-base/projects/proj-payment-gateway.md",
+      "updated_at": "2026-09-14",
+      "tags": [
+        "stub",
+        "pendente"
+      ],
+      "metadata": {
+        "responsavel": null,
+        "repositorio": null
+      }
+    },
+    "qry-assinaturas-pendentes-faturamento": {
+      "id": "qry-assinaturas-pendentes-faturamento",
+      "type": "query",
+      "title": "Busca de Assinaturas Vencendo sem Fatura Gerada",
+      "path": "knowledge-base/queries/qry-assinaturas-pendentes-faturamento.md",
+      "updated_at": "2026-09-14",
+      "tags": [
+        "sql",
+        "auditoria",
+        "billing"
+      ],
+      "metadata": {
+        "database": "postgres-billing"
+      }
+    },
+    "rule-cobranca-recorrente": {
+      "id": "rule-cobranca-recorrente",
+      "type": "rule",
+      "title": "Regra de Cobrança Recorrente e Tentativas",
+      "path": "knowledge-base/rules/rule-cobranca-recorrente.md",
+      "updated_at": "2026-09-14",
+      "tags": [
+        "regras",
+        "financeiro",
+        "assinaturas"
+      ],
+      "metadata": {
+        "dominio": "Monetização e Faturamento"
+      }
+    }
+  },
+  "edges": [
+    {
+      "source": "proc-reprocessar-cobranca-falha",
+      "target": "proj-billing-engine",
+      "relation": "related_to"
+    },
+    {
+      "source": "proc-reprocessar-cobranca-falha",
+      "target": "qry-assinaturas-pendentes-faturamento",
+      "relation": "references"
+    },
+    {
+      "source": "proc-reprocessar-cobranca-falha",
+      "target": "proj-billing-engine",
+      "relation": "references"
+    },
+    {
+      "source": "proj-billing-engine",
+      "target": "proj-payment-gateway",
+      "relation": "depends_on"
+    },
+    {
+      "source": "qry-assinaturas-pendentes-faturamento",
+      "target": "proj-billing-engine",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "qry-assinaturas-pendentes-faturamento",
+      "target": "rule-cobranca-recorrente",
+      "relation": "implements_rule"
+    },
+    {
+      "source": "qry-assinaturas-pendentes-faturamento",
+      "target": "proc-reprocessar-cobranca-falha",
+      "relation": "references"
+    },
+    {
+      "source": "rule-cobranca-recorrente",
+      "target": "proj-billing-engine",
+      "relation": "related_to"
+    },
+    {
+      "source": "rule-cobranca-recorrente",
+      "target": "proj-billing-engine",
+      "relation": "references"
+    }
+  ]
 }
