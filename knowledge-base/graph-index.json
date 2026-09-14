@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_at": "2026-09-14T23:01:17.638Z",
+    "generated_at": "2026-09-14T23:18:07.592Z",
     "total_nodes": 5,
     "total_edges": 9,
     "counts_by_type": {
@@ -8,6 +8,12 @@
       "project": 2,
       "query": 1,
       "rule": 1
+    },
+    "counts_by_relation": {
+      "belongs_to": 3,
+      "references": 4,
+      "depends_on": 1,
+      "implements_rule": 1
     }
   },
   "nodes": {
@@ -91,7 +97,7 @@
     {
       "source": "proc-reprocessar-cobranca-falha",
       "target": "proj-billing-engine",
-      "relation": "related_to"
+      "relation": "belongs_to"
     },
     {
       "source": "proc-reprocessar-cobranca-falha",
@@ -126,7 +132,7 @@
     {
       "source": "rule-cobranca-recorrente",
       "target": "proj-billing-engine",
-      "relation": "related_to"
+      "relation": "belongs_to"
     },
     {
       "source": "rule-cobranca-recorrente",

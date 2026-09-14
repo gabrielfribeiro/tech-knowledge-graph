@@ -1,0 +1,63 @@
+﻿{
+  "version": "1.0.0",
+  "updated_at": "2026-09-14",
+  "description": "Catálogo canônico de relações (arestas) do grafo técnico. Proíbe a duplicação semântica mapeando sinônimos para o predicado oficial.",
+  "relations": {
+    "depends_on": {
+      "canonical": "depends_on",
+      "description": "Indica dependência técnica direta entre dois serviços ou componentes (A não funciona sem B).",
+      "allowed_sources": ["project"],
+      "allowed_targets": ["project"],
+      "synonyms": ["relies_on", "needs", "has_dependency", "depende_de", "consome_api", "calls_service"]
+    },
+    "belongs_to": {
+      "canonical": "belongs_to",
+      "description": "Indica pertencimento estrutural (ex: uma query pertence ao banco de um projeto específico).",
+      "allowed_sources": ["query", "process", "rule"],
+      "allowed_targets": ["project"],
+      "synonyms": ["part_of", "pertence_a", "owned_by", "servico_dono"]
+    },
+    "implements_rule": {
+      "canonical": "implements_rule",
+      "description": "Indica que um código ou query SQL executa na prática uma regra de negócio formal.",
+      "allowed_sources": ["query", "project"],
+      "allowed_targets": ["rule"],
+      "synonyms": ["executes_rule", "aplica_regra", "implementa_regra", "follows_rule"]
+    },
+    "recovers_service": {
+      "canonical": "recovers_service",
+      "description": "Indica que um runbook/processo é o procedimento para recuperar um serviço durante ou após incidente.",
+      "allowed_sources": ["process"],
+      "allowed_targets": ["project"],
+      "synonyms": ["restores", "recupera_servico", "troubleshoots", "fixes_incident"]
+    },
+    "publishes_event": {
+      "canonical": "publishes_event",
+      "description": "Indica disparo de evento assíncrono para filas, tópicos ou webhooks.",
+      "allowed_sources": ["project"],
+      "allowed_targets": ["project"],
+      "synonyms": ["produces_to", "dispara_evento", "emits_event", "sends_webhook"]
+    },
+    "consumed_by": {
+      "canonical": "consumed_by",
+      "description": "Indica consumo assíncrono de eventos ou dados por um worker/serviço.",
+      "allowed_sources": ["project"],
+      "allowed_targets": ["project"],
+      "synonyms": ["listens_to", "consumido_por", "subscribes_to"]
+    },
+    "deprecated_by": {
+      "canonical": "deprecated_by",
+      "description": "Indica que um nó antigo (query legada, serviço antigo) foi substituído por outro nó mais recente.",
+      "allowed_sources": ["project", "query", "rule", "process"],
+      "allowed_targets": ["project", "query", "rule", "process"],
+      "synonyms": ["replaced_by", "substituido_por", "migrated_to"]
+    },
+    "references": {
+      "canonical": "references",
+      "description": "Menção contextual geral ou link bidirecional livre no corpo do texto.",
+      "allowed_sources": ["any"],
+      "allowed_targets": ["any"],
+      "synonyms": ["mentions", "cita", "relacionado_com", "related_to"]
+    }
+  }
+}

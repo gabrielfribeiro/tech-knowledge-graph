@@ -4,6 +4,32 @@ const path = require('path');
 const REPO_ROOT = path.resolve(__dirname, '../../../');
 const KB_DIR = path.join(REPO_ROOT, 'knowledge-base');
 const OUTPUT_FILE = path.join(KB_DIR, 'graph-index.json');
+const CATALOG_FILE = path.join(REPO_ROOT, 'spec/relations-catalog.json');
+
+// Load canonical relations and build synonym map
+let synonymMap = {};
+if (fs.existsSync(CATALOG_FILE)) {
+  try {
+    const rawCatalog = fs.readFileSync(CATALOG_FILE, 'utf8').replace(/^\uFEFF/, '');
+    const catalog = JSON.parse(rawCatalog);
+    for (const [canonical, data] of Object.entries(catalog.relations || {})) {
+      synonymMap[canonical.toLowerCase()] = canonical;
+      if (Array.isArray(data.synonyms)) {
+        data.synonyms.forEach(syn => {
+          synonymMap[syn.toLowerCase()] = canonical;
+        });
+      }
+    }
+  } catch (e) {
+    console.warn('Aviso: Não foi possível carregar o catálogo de relações:', e.message);
+  }
+}
+
+function normalizeRelation(rel) {
+  if (!rel) return 'references';
+  const clean = rel.toLowerCase().trim().replace(/[\s\-]+/g, '_');
+  return synonymMap[clean] || clean;
+}
 
 function getAllMarkdownFiles(dir, fileList = []) {
   if (!fs.existsSync(dir)) return fileList;
@@ -83,10 +109,15 @@ function compileGraph() {
     const s = cleanId(source);
     const t = cleanId(target);
     if (!s || !t || s === t) return;
-    const key = `${s}->${t}:${relation}`;
+    
+    // Normalize relation using canonical catalog
+    const canonicalRel = normalizeRelation(relation);
+    const key = `${s}->${t}:${canonicalRel}`;
+    
+    // Strict deduplication: an edge between s and t with canonicalRel can NEVER repeat
     if (!edgeSet.has(key)) {
       edgeSet.add(key);
-      edges.push({ source: s, target: t, relation });
+      edges.push({ source: s, target: t, relation: canonicalRel });
     }
   }
 
@@ -110,7 +141,6 @@ function compileGraph() {
       metadata: {}
     };
 
-    // Store type-specific metadata
     if (frontmatter.type === 'query') {
       nodes[id].metadata.database = frontmatter.database || null;
     } else if (frontmatter.type === 'project') {
@@ -131,7 +161,7 @@ function compileGraph() {
       frontmatter.depends_on.forEach(dep => addEdge(id, dep, 'depends_on'));
     }
     if (Array.isArray(frontmatter.related_projects)) {
-      frontmatter.related_projects.forEach(rel => addEdge(id, rel, 'related_to'));
+      frontmatter.related_projects.forEach(rel => addEdge(id, rel, 'belongs_to'));
     }
 
     // Capture body markdown wikilinks
@@ -141,10 +171,14 @@ function compileGraph() {
     }
   }
 
-  // Count by type
   const countsByType = {};
   for (const node of Object.values(nodes)) {
     countsByType[node.type] = (countsByType[node.type] || 0) + 1;
+  }
+
+  const countsByRelation = {};
+  for (const edge of edges) {
+    countsByRelation[edge.relation] = (countsByRelation[edge.relation] || 0) + 1;
   }
 
   const graphData = {
@@ -152,7 +186,8 @@ function compileGraph() {
       generated_at: new Date().toISOString(),
       total_nodes: Object.keys(nodes).length,
       total_edges: edges.length,
-      counts_by_type: countsByType
+      counts_by_type: countsByType,
+      counts_by_relation: countsByRelation
     },
     nodes,
     edges
@@ -164,9 +199,9 @@ function compileGraph() {
 }
 
 const graph = compileGraph();
-console.log(`\n🕸️ Grafo Compilado com Sucesso!`);
+console.log(`\n🕸️ Grafo Compilado e Normalizado com Sucesso!`);
 console.log(`Arquivo: knowledge-base/graph-index.json`);
 console.log(`Total de Nós: ${graph.metadata.total_nodes}`);
-console.log(`Total de Arestas (Conexões): ${graph.metadata.total_edges}`);
-console.log('Distribuição:', graph.metadata.counts_by_type);
+console.log(`Total de Arestas Únicas: ${graph.metadata.total_edges}`);
+console.log('Relações Canônicas Utilizadas:', graph.metadata.counts_by_relation);
 console.log('');
