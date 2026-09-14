@@ -9,7 +9,7 @@ Um ecossistema de documentação técnica estruturado em **Grafo de Conhecimento
 Centralizar o conhecimento técnico da área (projetos, regras de negócio, queries de banco com regras específicas, processos internos e ADRs) com:
 1. **Zero Vendor Lock-in:** Arquivos Markdown locais padronizados.
 2. **Alta Eficiência para IA:** Notas atômicas (100–300 tokens) para evitar sobrecarga de contexto.
-3. **Interoperabilidade Total:** Funciona em qualquer LLM ou agente (Antigravity, Claude, OpenAI, Cursor, Copilot, scripts Python).
+3. **Interoperabilidade Total:** Funciona em qualquer LLM ou agente (Antigravity, Claude, OpenAI, Cursor, Copilot, scripts Node/Python).
 
 ---
 
@@ -18,9 +18,13 @@ Centralizar o conhecimento técnico da área (projetos, regras de negócio, quer
 ```text
 .
 ├── skills/
-│   └── knowledge-creator/            # Skill de Criação de Nós
-│       ├── SKILL.md                  # Especificação e protocolo do agente
-│       └── templates/                # Templates prontos (projetos, regras, queries, processos)
+│   ├── knowledge-creator/            # 1. Skill de Criação de Nós
+│   │   ├── SKILL.md                  # Protocolo de decomposição atômica e regras do agente
+│   │   └── templates/                # Templates prontos (project, rule, query, process)
+│   └── knowledge-linter/             # 2. Skill de Validação / Linter
+│       ├── SKILL.md                  # Regras de linting cognitivo para agentes
+│       └── scripts/
+│           └── validate.js           # Validador executável determinístico (zero dependências)
 ├── spec/
 │   └── architecture.md               # Documentação técnica e racional de economia de tokens
 ├── knowledge-base/                   # Vault de notas atômicas (pode ser aberto no Obsidian)
@@ -34,26 +38,17 @@ Centralizar o conhecimento técnico da área (projetos, regras de negócio, quer
 
 ---
 
-## 🤖 Como Usar as Skills com Qualquer Agente
+## 🤖 Como Usar as Skills
 
-### Opção 1: Em Ambientes com Suporte a Skills (ex: Antigravity / Claude Code)
-Aponte o agente para a pasta `skills/knowledge-creator/SKILL.md` ou use-a como instrução de contexto.
+### 1. Criação de Conhecimento (`knowledge-creator`)
+Passe qualquer texto bruto, código ou dúvida para o agente instruído com `skills/knowledge-creator/SKILL.md`. O agente dividirá o conteúdo em notas atômicas interligadas.
 
-### Opção 2: Em Qualquer Chatbot / LLM (Cursor, ChatGPT, Gemini, etc.)
-Copie o conteúdo de `skills/knowledge-creator/SKILL.md` como **System Prompt** ou instrução inicial e passe a documentação bruta que você deseja converter.
-
----
-
-## 🚀 Como Conectar com o seu Repositório no GitHub
-
-Para subir este projeto para o GitHub:
-
-1. Crie um novo repositório vazio no seu [GitHub](https://github.com/new) (ex: `tech-knowledge-graph`).
-2. No seu terminal, dentro desta pasta:
-   ```bash
-   git remote add origin https://github.com/<seu-usuario>/tech-knowledge-graph.git
-   git add .
-   git commit -m "feat: initial commit with knowledge-creator skill and base structure"
-   git branch -M main
-   git push -u origin main
-   ```
+### 2. Validação da Base (`knowledge-linter`)
+Para auditar a integridade da base, links órfãos e orçamentos de tokens:
+- **Via linha de comando / CI (Custo 0 de tokens):**
+  ```bash
+  node skills/knowledge-linter/scripts/validate.js
+  # Ou com saída JSON para automações:
+  node skills/knowledge-linter/scripts/validate.js --json
+  ```
+- **Via Agente de IA:** Aponte o agente para `skills/knowledge-linter/SKILL.md` para auditoria contextual e semântica.
