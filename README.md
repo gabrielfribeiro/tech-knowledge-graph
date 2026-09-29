@@ -1,23 +1,20 @@
-﻿<div align="center">
-  <img src="assets/avatar.jpg" alt="Mascote Cobrança" width="180" style="border-radius: 50%; box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);" />
-  <h1>Tech Knowledge Graph (Agent-Agnostic, Teams & Self-Healing)</h1>
-  <p><b>Ecossistema de Inteligência Técnica e Governança da Squad de Cobrança & Faturamento</b></p>
-</div>
+﻿# Tech Knowledge Graph (Agent-Agnostic, Teams & Self-Healing)
+
+Um ecossistema completo de documentação técnica estruturado em **Grafo de Conhecimento Atômico**, projetado para alimentar tanto desenvolvedores no **Obsidian**, quanto o **GitHub Copilot** e **Agentes corporativos no Microsoft Teams** (via Copilot Studio).
 
 ---
 
 ## 🎯 Destaques do Ecossistema
 
-1. **Avatar Oficial do Agente (`assets/avatar.jpg`):**
-   * Mascote oficial da Squad de Cobrança para identificação no Microsoft Teams, Copilot Studio e documentações.
-2. **Exportador Otimizado para Microsoft Teams (`npm run export:teams`):**
+1. **Exportador Otimizado para Microsoft Teams (`npm run export:teams`):**
    * Converte o grafo de notas atômicas em documentos enriquecidos (Self-Contained Chunks) para o RAG do Copilot Studio / SharePoint.
    * Gera o catálogo mestre `00_CATALOGO_E_MAPA_GERAL_DA_AREA.md` e o System Prompt corporativo.
-3. **GitHub Copilot Specialist Nativo (`.github/copilot-instructions.md`):**
+   * Inclui o avatar oficial da Squad (`assets/avatar.jpg` e `dist/teams/avatar.jpg`) para cadastro do bot.
+2. **GitHub Copilot Specialist Nativo (`.github/copilot-instructions.md`):**
    * Transforma o Copilot da IDE em um especialista na arquitetura da sua área técnica.
-4. **Visualizador em Grafo no Obsidian (via Plugin Juggl):**
+3. **Visualizador em Grafo no Obsidian (via Plugin Juggl):**
    * Compatível com rótulos de arestas (`depends_on`, `implements_rule`, `belongs_to`).
-5. **Ciclo de Auto-Recuperação e Anti-Conflito:**
+4. **Ciclo de Auto-Recuperação e Anti-Conflito:**
    * Detecção de duplicatas e contradições semânticas em texto livre.
 
 ---
@@ -50,8 +47,7 @@ Os arquivos prontos serão gerados na pasta **`dist/teams/`**:
 
 ```text
 .
-├── assets/                           # 🎨 Imagens e avatar oficial do projeto
-│   └── avatar.jpg                    # Mascote oficial da Squad Cobrança
+├── assets/                           # 🎨 Imagens e avatar oficial do projeto (avatar.jpg)
 ├── dist/teams/                       # 📦 Exportação gerada para o Microsoft Teams
 │   ├── avatar.jpg                    # Ícone para o Agente no Copilot Studio
 │   └── 00_CATALOGO_...               # Catálogo mestre
