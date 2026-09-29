@@ -1,46 +1,48 @@
-﻿# Tech Knowledge Graph (Agent-Agnostic & Self-Healing)
-
-Um ecossistema completo de documentação técnica estruturado em **Grafo de Conhecimento Atômico**, projetado primariamente para ser mantido, auditado e consultado por **Agentes de IA e GitHub Copilot** (com baixíssimo consumo de tokens), com dashboard web de ingestão e total compatibilidade com **Obsidian** e **Git**.
+﻿<div align="center">
+  <img src="assets/avatar.jpg" alt="Mascote Cobrança" width="180" style="border-radius: 50%; box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);" />
+  <h1>Tech Knowledge Graph (Agent-Agnostic, Teams & Self-Healing)</h1>
+  <p><b>Ecossistema de Inteligência Técnica e Governança da Squad de Cobrança & Faturamento</b></p>
+</div>
 
 ---
 
 ## 🎯 Destaques do Ecossistema
 
-1. **GitHub Copilot Specialist Nativo (`.github/copilot-instructions.md`):**
-   * Sempre que você colar um texto livre no Copilot Chat (VS Code / JetBrains), ele atua como **Especialista Sênior do Projeto**, decompondo o texto em nós atômicos e detectando contradições de regras automaticamente.
-2. **Dashboard Web Interativo (`http://localhost:3333`):**
-   * **Ingestão Inteligente com Anti-Conflito:** Cole textos livres, atas ou conversas do Slack e o sistema detecta se há duplicações ou contradições antes de alterar o repositório.
-   * **Central de Auditoria:** Métricas de débito de documentação e botões de auto-cura em um clique.
-3. **Ciclo de Auto-Recuperação (Self-Healing Loop):**
-   * Criação, validação de integridade, geração automática de stubs para links órfãos e compilação do grafo.
-4. **Zero Vendor Lock-in & Zero Dependências:**
-   * Arquivos Markdown locais com frontmatter YAML. Servidor e scripts em Node.js nativo (sem `node_modules`).
+1. **Avatar Oficial do Agente (`assets/avatar.jpg`):**
+   * Mascote oficial da Squad de Cobrança para identificação no Microsoft Teams, Copilot Studio e documentações.
+2. **Exportador Otimizado para Microsoft Teams (`npm run export:teams`):**
+   * Converte o grafo de notas atômicas em documentos enriquecidos (Self-Contained Chunks) para o RAG do Copilot Studio / SharePoint.
+   * Gera o catálogo mestre `00_CATALOGO_E_MAPA_GERAL_DA_AREA.md` e o System Prompt corporativo.
+3. **GitHub Copilot Specialist Nativo (`.github/copilot-instructions.md`):**
+   * Transforma o Copilot da IDE em um especialista na arquitetura da sua área técnica.
+4. **Visualizador em Grafo no Obsidian (via Plugin Juggl):**
+   * Compatível com rótulos de arestas (`depends_on`, `implements_rule`, `belongs_to`).
+5. **Ciclo de Auto-Recuperação e Anti-Conflito:**
+   * Detecção de duplicatas e contradições semânticas em texto livre.
 
 ---
 
-## 🔄 O Ciclo de Ingestão Autônoma
+## 🚀 Como Exportar a Base para o Agente do Microsoft Teams
 
-```text
-       [Texto Livre / Slack / Ata de Reunião]
-                         │
-                         ▼
-        Copilot Specialist / Orchestrator   (Detecta duplicatas e contradições)
-                         │
-                   (Se aprovado)
-                         ▼
-        1. knowledge-creator                (Fatia em nós atômicos: 100-300 tokens)
-                         │
-                         ▼
-        2. knowledge-linter                 (Audita integridade e limites de tokens)
-                         │
-                   (Se houver erros)
-                         ▼
-        3. knowledge-fixer                  (Auto-cura mecânica + stubs para órfãos)
-                         │
-                   (100% íntegro)
-                         ▼
-        4. knowledge-governance             (Compila graph-index.json e audita gaps)
+Para gerar a versão otimizada para o Copilot Studio / Teams:
+
+```bash
+# Executa a compilação e exportação semântica
+npm run export:teams
+# Ou diretamente:
+node skills/knowledge-governance/scripts/export-for-teams.js
 ```
+
+Os arquivos prontos serão gerados na pasta **`dist/teams/`**:
+1. `dist/teams/avatar.jpg` (Ícone oficial do agente para upload no Teams / Copilot Studio)
+2. `dist/teams/00_CATALOGO_E_MAPA_GERAL_DA_AREA.md` (Catálogo mestre)
+3. `dist/teams/CONFIGURACAO_AGENTE_COPILOT_STUDIO.md` (Prompt do sistema e instruções)
+4. `dist/teams/servicos/` (Fichas técnicas dos microsserviços)
+5. `dist/teams/regras/` (Regras de negócio e critérios)
+6. `dist/teams/queries/` (Queries SQL com serviço e regra associados)
+7. `dist/teams/processos/` (Runbooks com passos operacionais)
+
+👉 **Basta fazer o upload da pasta `dist/teams/` para a pasta do SharePoint associada ao seu Agente no Teams / Copilot Studio!**
 
 ---
 
@@ -48,45 +50,19 @@ Um ecossistema completo de documentação técnica estruturado em **Grafo de Con
 
 ```text
 .
-├── .github/
-│   └── copilot-instructions.md       # Instruções nativas do GitHub Copilot
+├── assets/                           # 🎨 Imagens e avatar oficial do projeto
+│   └── avatar.jpg                    # Mascote oficial da Squad Cobrança
+├── dist/teams/                       # 📦 Exportação gerada para o Microsoft Teams
+│   ├── avatar.jpg                    # Ícone para o Agente no Copilot Studio
+│   └── 00_CATALOGO_...               # Catálogo mestre
 ├── skills/
-│   ├── copilot-specialist/           # 🌟 Skill do Copilot Especialista no Projeto
-│   │   └── SKILL.md                  # Protocolo de ingestão autônoma de texto livre
-│   ├── knowledge-orchestrator/       # 5. Triagem semântica e anti-conflito
-│   │   ├── SKILL.md                  # Protocolo de resolução de divergências
-│   │   └── scripts/
-│   │       ├── analyze-intake.js     # Analisador de divergência semântica
-│   │       └── ingest.js             # Pipeline de ingestão em 1 comando
-│   ├── knowledge-creator/            # 1. Criação de nós atômicos
-│   ├── knowledge-linter/             # 2. Validação e integridade
-│   ├── knowledge-fixer/              # 3. Auto-reparo e stubs
-│   └── knowledge-governance/         # 4. Compilação do grafo e gaps
+│   ├── knowledge-governance/scripts/export-for-teams.js  # Pipeline de exportação
+│   ├── copilot-specialist/           # Skill do Copilot Especialista
+│   ├── knowledge-orchestrator/       # Triagem semântica e anti-conflito
+│   ├── knowledge-creator/            # Criação de nós atômicos
+│   ├── knowledge-linter/             # Validação e integridade
+│   └── knowledge-fixer/              # Auto-reparo e stubs
 ├── web/                              # Interface Web Interativa (localhost:3333)
-├── knowledge-base/                   # Vault de notas atômicas (compatível com Obsidian)
+├── knowledge-base/                   # Vault canônico (Obsidian + Git)
 └── README.md
-```
-
----
-
-## 🚀 Comandos via Terminal
-
-```bash
-# 1. Iniciar Web App
-npm start
-
-# 2. Analisar texto livre contra o grafo para detectar conflitos
-npm run analyze -- "texto a ser analisado"
-
-# 3. Validar a integridade da base
-npm run lint
-
-# 4. Auto-corrigir problemas e curar links órfãos com stubs
-npm run fix
-
-# 5. Recompilar o índice do grafo
-npm run compile
-
-# 6. Auditar débitos técnicos de documentação
-npm run audit
 ```

@@ -10,7 +10,8 @@
     "compile": "node skills/knowledge-governance/scripts/compile-graph.js",
     "audit": "node skills/knowledge-governance/scripts/audit-gaps.js",
     "analyze": "node skills/knowledge-orchestrator/scripts/analyze-intake.js",
-    "ingest": "node skills/knowledge-orchestrator/scripts/ingest.js"
+    "ingest": "node skills/knowledge-orchestrator/scripts/ingest.js",
+    "export:teams": "node skills/knowledge-governance/scripts/export-for-teams.js"
   },
   "keywords": [
     "knowledge-graph",
@@ -19,7 +20,8 @@
     "obsidian",
     "tech-lead",
     "documentation",
-    "copilot-specialist"
+    "copilot-specialist",
+    "microsoft-teams"
   ],
   "author": "gabrielfribeiro",
   "license": "MIT"
