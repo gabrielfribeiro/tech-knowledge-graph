@@ -1,13 +1,22 @@
-# 🤖 Guia de Configuração do Agente no Microsoft Teams / Copilot Studio
+﻿# 🤖 Guia de Configuração do Agente no Microsoft Teams / Copilot Studio
 
 Este documento contém as instruções exatas para configurar o seu agente corporativo no **Microsoft Copilot Studio** para responder pelo **Microsoft Teams**.
 
-## 1. Onde Fazer o Upload destes Arquivos
+---
+
+## 🎨 1. Avatar Oficial do Agente
+Utilize a imagem **`avatar.jpg`** presente nesta pasta como o ícone/avatar oficial do bot ao cadastrá-lo no Copilot Studio e no Teams.
+
+---
+
+## 📁 2. Onde Fazer o Upload destes Arquivos
 1. Crie uma pasta no SharePoint da sua Squad (exemplo: `Documentos/Base-Tecnica-Teams/`).
 2. Faça o upload de **todos os arquivos desta pasta (`dist/teams/`)** para lá.
 3. No **Microsoft Copilot Studio**, abra o seu agente, vá em **Knowledge (Conhecimento)** > **Add Knowledge** > **SharePoint** e cole o link da pasta.
 
-## 2. Instruções do Sistema (System Prompt) para Colar no Copilot Studio
+---
+
+## 🧠 3. Instruções do Sistema (System Prompt) para Colar no Copilot Studio
 Copie e cole o texto abaixo no campo **Instructions** (Instruções) do seu Agente no Copilot Studio:
 
 ```text
@@ -21,7 +30,9 @@ Diretrizes de resposta:
 5. Fidelidade aos Fatos: NUNCA invente queries ou regras que não estejam documentadas. Se não encontrar o registro, responda honestamente: "Essa informação não está catalogada na base técnica da área."
 ```
 
-## 3. Perguntas de Teste Sugeridas (Conversation Starters)
+---
+
+## 💬 4. Perguntas de Teste Sugeridas (Conversation Starters)
 - "Quais são os microsserviços da squad de Monetização e suas dependências?"
 - "Como funciona a regra de cobrança recorrente e retentativas do Billing Engine?"
 - "Qual query SQL eu uso para identificar assinaturas travadas sem fatura?"
