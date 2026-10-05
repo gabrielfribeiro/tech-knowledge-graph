@@ -1,0 +1,10 @@
+﻿{
+  "mcpServers": {
+    "tech-knowledge-graph": {
+      "command": "node",
+      "args": [
+        "C:/Users/gabri/.gemini/antigravity/scratch/tech-knowledge-graph/mcp-server/index.js"
+      ]
+    }
+  }
+}

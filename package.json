@@ -5,6 +5,8 @@
   "main": "web/server.js",
   "scripts": {
     "start": "node web/server.js",
+    "mcp": "node mcp-server/index.js",
+    "index:vectors": "node mcp-server/vector-indexer.js",
     "lint": "node skills/knowledge-linter/scripts/validate.js",
     "fix": "node skills/knowledge-fixer/scripts/fix.js --create-stubs",
     "compile": "node skills/knowledge-governance/scripts/compile-graph.js",
@@ -15,13 +17,14 @@
   },
   "keywords": [
     "knowledge-graph",
+    "mcp",
+    "model-context-protocol",
+    "vector-search",
+    "embeddings",
+    "graphrag",
     "agent",
-    "llm",
     "obsidian",
-    "tech-lead",
-    "documentation",
-    "copilot-specialist",
-    "microsoft-teams"
+    "tech-lead"
   ],
   "author": "gabrielfribeiro",
   "license": "MIT"

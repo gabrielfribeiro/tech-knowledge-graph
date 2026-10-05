@@ -1,45 +1,57 @@
-﻿# Tech Knowledge Graph (Agent-Agnostic, Teams & Self-Healing)
+﻿# Tech Knowledge Graph (Agent-Agnostic, Teams, MCP & Self-Healing)
 
-Um ecossistema completo de documentação técnica estruturado em **Grafo de Conhecimento Atômico**, projetado para alimentar tanto desenvolvedores no **Obsidian**, quanto o **GitHub Copilot** e **Agentes corporativos no Microsoft Teams** (via Copilot Studio).
+Um ecossistema completo de documentação técnica estruturado em **Grafo de Conhecimento Atômico**, projetado para alimentar tanto desenvolvedores no **Obsidian**, quanto o **GitHub Copilot**, **Agentes corporativos no Microsoft Teams** e **qualquer IA externa via Servidor MCP (Model Context Protocol)**.
 
 ---
 
 ## 🎯 Destaques do Ecossistema
 
-1. **Exportador Otimizado para Microsoft Teams (`npm run export:teams`):**
+1. **Servidor MCP com Busca Vetorial / GraphRAG (`mcp-server/index.js`):**
+   * Servidor compatível com o protocolo aberto MCP (Anthropic). Conecta diretamente no **Claude Desktop**, **Cursor**, **Antigravity** e **VS Code**.
+   * Expõe ferramentas de busca semântica vetorial (`search_knowledge_semantic`), leitura de nós (`get_entity`) e navegação de arestas (`traverse_graph`).
+2. **Exportador Otimizado para Microsoft Teams (`npm run export:teams`):**
    * Converte o grafo de notas atômicas em documentos enriquecidos (Self-Contained Chunks) para o RAG do Copilot Studio / SharePoint.
-   * Gera o catálogo mestre `00_CATALOGO_E_MAPA_GERAL_DA_AREA.md` e o System Prompt corporativo.
-   * Inclui o avatar oficial da Squad (`assets/avatar.jpg` e `dist/teams/avatar.jpg`) para cadastro do bot.
-2. **GitHub Copilot Specialist Nativo (`.github/copilot-instructions.md`):**
+3. **GitHub Copilot Specialist Nativo (`.github/copilot-instructions.md`):**
    * Transforma o Copilot da IDE em um especialista na arquitetura da sua área técnica.
-3. **Visualizador em Grafo no Obsidian (via Plugin Juggl):**
+4. **Visualizador em Grafo no Obsidian (via Plugin Juggl):**
    * Compatível com rótulos de arestas (`depends_on`, `implements_rule`, `belongs_to`).
-4. **Ciclo de Auto-Recuperação e Anti-Conflito:**
+5. **Ciclo de Auto-Recuperação e Anti-Conflito:**
    * Detecção de duplicatas e contradições semânticas em texto livre.
 
 ---
 
-## 🚀 Como Exportar a Base para o Agente do Microsoft Teams
+## 🔌 Como Conectar em IAs Externas via MCP (Claude, Cursor, etc.)
 
-Para gerar a versão otimizada para o Copilot Studio / Teams:
+O servidor roda localmente via `stdio` com inicialização ultrarrápida:
 
 ```bash
-# Executa a compilação e exportação semântica
-npm run export:teams
-# Ou diretamente:
-node skills/knowledge-governance/scripts/export-for-teams.js
+# Iniciar o servidor MCP
+node mcp-server/index.js
 ```
 
-Os arquivos prontos serão gerados na pasta **`dist/teams/`**:
-1. `dist/teams/avatar.jpg` (Ícone oficial do agente para upload no Teams / Copilot Studio)
-2. `dist/teams/00_CATALOGO_E_MAPA_GERAL_DA_AREA.md` (Catálogo mestre)
-3. `dist/teams/CONFIGURACAO_AGENTE_COPILOT_STUDIO.md` (Prompt do sistema e instruções)
-4. `dist/teams/servicos/` (Fichas técnicas dos microsserviços)
-5. `dist/teams/regras/` (Regras de negócio e critérios)
-6. `dist/teams/queries/` (Queries SQL com serviço e regra associados)
-7. `dist/teams/processos/` (Runbooks com passos operacionais)
+### Configuração no Claude Desktop (`claude_desktop_config.json`):
+```json
+{
+  "mcpServers": {
+    "tech-knowledge-graph": {
+      "command": "node",
+      "args": ["C:/Users/gabri/.gemini/antigravity/scratch/tech-knowledge-graph/mcp-server/index.js"]
+    }
+  }
+}
+```
 
-👉 **Basta fazer o upload da pasta `dist/teams/` para a pasta do SharePoint associada ao seu Agente no Teams / Copilot Studio!**
+### Configuração no Cursor (`.cursor/mcp.json`):
+```json
+{
+  "mcpServers": {
+    "tech-knowledge": {
+      "command": "node",
+      "args": ["C:/Users/gabri/.gemini/antigravity/scratch/tech-knowledge-graph/mcp-server/index.js"]
+    }
+  }
+}
+```
 
 ---
 
@@ -47,18 +59,16 @@ Os arquivos prontos serão gerados na pasta **`dist/teams/`**:
 
 ```text
 .
-├── assets/                           # 🎨 Imagens e avatar oficial do projeto (avatar.jpg)
+├── mcp-server/                       # 🔌 Servidor MCP (Model Context Protocol)
+│   ├── index.js                      # Servidor JSON-RPC 2.0 (stdio) com Tools e Resources
+│   ├── vector-indexer.js             # Motor de vetorização e busca semântica
+│   ├── client-configs/               # Configurações prontas (Claude, Cursor, Antigravity)
+│   └── README.md                     # Documentação do MCP Server
 ├── dist/teams/                       # 📦 Exportação gerada para o Microsoft Teams
-│   ├── avatar.jpg                    # Ícone para o Agente no Copilot Studio
-│   └── 00_CATALOGO_...               # Catálogo mestre
-├── skills/
-│   ├── knowledge-governance/scripts/export-for-teams.js  # Pipeline de exportação
-│   ├── copilot-specialist/           # Skill do Copilot Especialista
-│   ├── knowledge-orchestrator/       # Triagem semântica e anti-conflito
-│   ├── knowledge-creator/            # Criação de nós atômicos
-│   ├── knowledge-linter/             # Validação e integridade
-│   └── knowledge-fixer/              # Auto-reparo e stubs
-├── web/                              # Interface Web Interativa (localhost:3333)
-├── knowledge-base/                   # Vault canônico (Obsidian + Git)
+├── skills/                           # 🤖 Skills do ecossistema de governança
+├── web/                              # 🌐 Interface Web Interativa (localhost:3333)
+├── knowledge-base/                   # 💎 Vault canônico (Obsidian + Git)
+│   ├── graph-index.json              # Topologia consolidada do grafo
+│   └── vector-store.json             # Banco vetorial local indexado
 └── README.md
 ```
