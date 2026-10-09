@@ -5,6 +5,7 @@
   "main": "web/server.js",
   "scripts": {
     "start": "node web/server.js",
+    "analyze:repo": "node skills/repo-analyzer/scripts/analyze-repo.js",
     "mcp": "node mcp-server/index.js",
     "index:vectors": "node mcp-server/vector-indexer.js",
     "lint": "node skills/knowledge-linter/scripts/validate.js",
@@ -17,11 +18,9 @@
   },
   "keywords": [
     "knowledge-graph",
-    "mcp",
-    "model-context-protocol",
-    "vector-search",
-    "embeddings",
-    "graphrag",
+    "code-analysis",
+    "repo-analyzer",
+    "reverse-engineering",
     "agent",
     "obsidian",
     "tech-lead"

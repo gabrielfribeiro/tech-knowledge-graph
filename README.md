@@ -1,14 +1,15 @@
-﻿# Tech Knowledge Graph (Agent-Agnostic, Teams, MCP & Self-Healing)
+﻿# Tech Knowledge Graph (Agent-Agnostic, Teams, Repo-Analyzer & Self-Healing)
 
-Um ecossistema completo de documentação técnica estruturado em **Grafo de Conhecimento Atômico**, projetado para alimentar tanto desenvolvedores no **Obsidian**, quanto o **GitHub Copilot**, **Agentes corporativos no Microsoft Teams** e **qualquer IA externa via Servidor MCP (Model Context Protocol)**.
+Um ecossistema completo de documentação técnica estruturado em **Grafo de Conhecimento Atômico**, projetado para alimentar desenvolvedores no **Obsidian**, o **GitHub Copilot**, **Agentes corporativos no Microsoft Teams** e realizar **Engenharia Reversa Automatizada de Repositórios Git**.
 
 ---
 
 ## 🎯 Destaques do Ecossistema
 
-1. **Servidor MCP com Busca Vetorial / GraphRAG (`mcp-server/index.js`):**
-   * Servidor compatível com o protocolo aberto MCP (Anthropic). Conecta diretamente no **Claude Desktop**, **Cursor**, **Antigravity** e **VS Code**.
-   * Expõe ferramentas de busca semântica vetorial (`search_knowledge_semantic`), leitura de nós (`get_entity`) e navegação de arestas (`traverse_graph`).
+1. **Análise Automatizada de Repositórios (`skills/repo-analyzer`):**
+   * Ativado pelo comando: *"Vamos analisar o projeto {nome ou link do repo}"*.
+   * Clona o repositório temporariamente, extrai o Commit Hash e data, inspeciona arquitetura, regras de negócio, queries, endpoints e cobertura de testes.
+   * Exclui o repositório clonado da máquina após a análise e registra o histórico em `spec/analyzed-repositories.md`.
 2. **Exportador Otimizado para Microsoft Teams (`npm run export:teams`):**
    * Converte o grafo de notas atômicas em documentos enriquecidos (Self-Contained Chunks) para o RAG do Copilot Studio / SharePoint.
 3. **GitHub Copilot Specialist Nativo (`.github/copilot-instructions.md`):**
@@ -20,38 +21,22 @@ Um ecossistema completo de documentação técnica estruturado em **Grafo de Con
 
 ---
 
-## 🔌 Como Conectar em IAs Externas via MCP (Claude, Cursor, etc.)
+## 🔬 Como Usar o Analista de Repositórios
 
-O servidor roda localmente via `stdio` com inicialização ultrarrápida:
+Basta solicitar:
+> **"Vamos analisar o projeto https://github.com/empresa/meu-servico.git"**
 
+Ou executar via terminal:
 ```bash
-# Iniciar o servidor MCP
-node mcp-server/index.js
+npm run analyze:repo -- "https://github.com/empresa/meu-servico.git"
 ```
 
-### Configuração no Claude Desktop (`claude_desktop_config.json`):
-```json
-{
-  "mcpServers": {
-    "tech-knowledge-graph": {
-      "command": "node",
-      "args": ["C:/Users/gabri/.gemini/antigravity/scratch/tech-knowledge-graph/mcp-server/index.js"]
-    }
-  }
-}
-```
-
-### Configuração no Cursor (`.cursor/mcp.json`):
-```json
-{
-  "mcpServers": {
-    "tech-knowledge": {
-      "command": "node",
-      "args": ["C:/Users/gabri/.gemini/antigravity/scratch/tech-knowledge-graph/mcp-server/index.js"]
-    }
-  }
-}
-```
+O agente:
+1. Clona o código de forma efêmera;
+2. Extrai Commit Hash, Tag e Timestamp;
+3. Gera os nós (`projects/`, `rules/`, `queries/`, etc.);
+4. **Exclui a pasta clonada (zero resíduo no disco)**;
+5. Registra a análise no histórico de versões (`spec/analyzed-repositories.md`).
 
 ---
 
@@ -59,16 +44,21 @@ node mcp-server/index.js
 
 ```text
 .
-├── mcp-server/                       # 🔌 Servidor MCP (Model Context Protocol)
-│   ├── index.js                      # Servidor JSON-RPC 2.0 (stdio) com Tools e Resources
-│   ├── vector-indexer.js             # Motor de vetorização e busca semântica
-│   ├── client-configs/               # Configurações prontas (Claude, Cursor, Antigravity)
-│   └── README.md                     # Documentação do MCP Server
-├── dist/teams/                       # 📦 Exportação gerada para o Microsoft Teams
-├── skills/                           # 🤖 Skills do ecossistema de governança
-├── web/                              # 🌐 Interface Web Interativa (localhost:3333)
+├── skills/
+│   ├── repo-analyzer/                # 🔬 Nova Skill: Analista de Repositórios Git
+│   │   ├── SKILL.md                  # Protocolo e gatilho do analista
+│   │   └── scripts/analyze-repo.js   # Motor de clonagem, inspeção e limpeza
+│   ├── copilot-specialist/           # Skill do Copilot Especialista
+│   ├── knowledge-orchestrator/       # Triagem semântica e anti-conflito
+│   ├── knowledge-creator/            # Criação de nós atômicos
+│   ├── knowledge-linter/             # Validação e integridade
+│   └── knowledge-fixer/              # Auto-reparo e stubs
+├── spec/
+│   ├── analyzed-repositories.md      # 📜 Tabela de repositórios e versões analisadas
+│   └── relations-catalog.md          # Catálogo de arestas canônicas
+├── dist/teams/                       # 📦 Exportação para Microsoft Teams
 ├── knowledge-base/                   # 💎 Vault canônico (Obsidian + Git)
-│   ├── graph-index.json              # Topologia consolidada do grafo
-│   └── vector-store.json             # Banco vetorial local indexado
+│   ├── analyzed-repositories.json    # Log estruturado de versões analisadas
+│   └── graph-index.json              # Topologia consolidada do grafo
 └── README.md
 ```
