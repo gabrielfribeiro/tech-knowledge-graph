@@ -1,4 +1,4 @@
-﻿---
+---
 name: knowledge-governance
 description: Compila o índice do grafo em JSON, audita gaps de documentação (knowledge debt), realiza análises de impacto (blast radius) e permite consultas relacionais rápidas com baixíssimo custo de tokens.
 version: 1.0.0
@@ -21,19 +21,19 @@ node skills/knowledge-governance/scripts/compile-graph.js
 ```
 
 ### Estrutura do Grafo Compilado:
-- **`nodes`**: Dicionário indexado pelo ID (`proj-*`, `rule-*`, `qry-*`, `proc-*`, `adr-*`) contendo título, tipo, tags, caminho e metadados.
-- **`edges`**: Lista de conexões orientadas com relações semânticas (`belongs_to`, `implements_rule`, `depends_on`, `related_to`, `references`).
+- **`nodes`**: Dicionário indexado pelo ID (`proj-*`, `rule-*`, `qry-*`, `proc-*`, `adr-*`, `table-*`) contendo título, tipo, tags, caminho e metadados.
+- **`edges`**: Lista de conexões orientadas com relações semânticas canônicas (`belongs_to`, `implements_rule`, `depends_on`, `owns_table`, `reads_from_table`, `writes_to_table`, `foreign_key_to`, `decides_on`, `references`).
 
 ---
 
 ## 2. Casos de Uso do Agente
 
 ### Caso A: Análise de Impacto (Blast Radius)
-**Pergunta do Usuário:** *"Se eu alterar a regra de cálculo de frete, o que mais é afetado?"*
+**Pergunta do Usuário:** *"Se eu alterar a tabela `table-subscriptions` ou a regra de cobrança, o que mais é afetado?"*
 **Protocolo do Agente:**
 1. Leia **apenas** `knowledge-base/graph-index.json`.
-2. Filtre todas as arestas onde `target == "rule-calculo-frete"`.
-3. Identifique imediatamente quais queries implementam a regra e quais serviços a referenciam.
+2. Filtre todas as arestas onde `target == "table-subscriptions"` ou `target == "rule-cobranca-recorrente"`.
+3. Identifique imediatamente quais queries executam leituras/escritas, quais microsserviços possuem a tabela e quais runbooks operam nela.
 4. Responda ao usuário sem ter aberto nenhum arquivo `.md` (custo: ~100 tokens).
 
 ### Caso B: Auditoria de Débito de Conhecimento (Knowledge Debt)
@@ -46,6 +46,8 @@ node skills/knowledge-governance/scripts/audit-gaps.js
 O script identificará automaticamente:
 - Projetos em produção sem runbooks ou guias de suporte associados.
 - Queries críticas rodando no banco sem regra de negócio formalizada.
+- Tabelas de banco sem microsserviço proprietário catalogado.
+- ADRs sem componentes ou decisões mapeadas.
 - Nós isolados (sem nenhuma conexão com o restante do sistema).
 
 ### Caso C: Onboarding / Visão Geral da Área

@@ -1,4 +1,4 @@
-﻿---
+---
 name: knowledge-creator
 description: Extrai e cria nós atômicos de conhecimento técnico (projetos, regras, queries, processos, ADRs) em formato Markdown para grafos de conhecimento interoperáveis entre agentes de IA e Obsidian.
 version: 1.0.0
@@ -29,6 +29,7 @@ Você atua como o **Knowledge Architect** da área técnica. Seu objetivo é ing
 | **Query / SQL** | `knowledge-base/queries/` | `qry-<kebab-case>` | `knowledge-base/queries/qry-busca-pedidos-travados.md` |
 | **Processo / Runbook** | `knowledge-base/processes/` | `proc-<kebab-case>` | `knowledge-base/processes/proc-deploy-hotfix.md` |
 | **Decisão de Arquitetura** | `knowledge-base/adrs/` | `adr-<000>-<kebab-case>` | `knowledge-base/adrs/adr-001-adotar-postgres.md` |
+| **Tabela / Schema** | `knowledge-base/tables/` | `table-<kebab-case>` | `knowledge-base/tables/table-subscriptions.md` |
 
 ---
 
@@ -142,12 +143,81 @@ Gatilho operacional (ex: incidentes, rotinas, deploys manuais).
 3. Validação final.
 ```
 
+### 3.5 Decisão de Arquitetura (`adrs/adr-*.md`)
+```markdown
+---
+id: adr-<000>-<nome>
+type: adr
+title: "ADR <000>: <Título>"
+status: accepted # draft | accepted | superseded | rejected
+date: <YYYY-MM-DD>
+deciders:
+  - "<Nome ou Papel>"
+updated_at: <YYYY-MM-DD>
+tags: [adr, arquitetura]
+affects_projects:
+  - "[[proj-<servico>]]"
+---
+
+# ADR <000>: <Título>
+
+## Contexto e Desafio
+Explicação do problema ou restrição técnica que motivou a decisão.
+
+## Decisão Tomada
+Abordagem técnica, tecnologia ou arquitetura escolhida.
+
+## Consequências e Trade-offs
+- **Positivas:** Benefícios e ganhos obtidos.
+- **Negativas / Atenção:** Complexidade ou concessões técnicas.
+
+## Componentes Afetados
+- Serviços: `[[proj-<servico>]]`
+- Tabelas: `[[table-<tabela>]]`
+```
+
+### 3.6 Tabela de Banco de Dados / Schema (`tables/table-*.md`)
+```markdown
+---
+id: table-<nome>
+type: table
+title: <Nome da Tabela>
+database: <Instância / Banco>
+schema: public
+service_owner: "[[proj-<servico>]]"
+primary_key: id
+foreign_keys: []
+indexes: []
+retention: permanente
+updated_at: <YYYY-MM-DD>
+tags: [database, table, <tags>]
+---
+
+# Tabela: <Nome da Tabela>
+
+## Descrição e Domínio
+Significado dos dados e papel no modelo relacional.
+
+## Dicionário de Dados / Colunas Principais
+| Coluna | Tipo | Obrigatório | Descrição |
+| :--- | :--- | :--- | :--- |
+| `id` | UUID / BIGINT | Sim | Identificador primário único. |
+| `status` | VARCHAR(50) | Sim | Estado do registro. |
+
+## Índices e Performance
+- **Primary Key:** `id`
+
+## Relações e Integridade
+- **Microsserviço Proprietário:** `[[proj-<servico>]]`
+- **Consultas Frequentes:** `[[qry-<nome>]]`
+```
+
 ---
 
 ## 4. Protocolo de Execução do Agente
 
 1. **Decomposição:** Ao receber um bloco de informação, identifique todas as entidades implícitas ou explícitas.
-2. **Geração de IDs:** Normalize os nomes usando `kebab-case` precedido pelo prefixo correspondente (`proj-`, `rule-`, `qry-`, `proc-`, `adr-`).
+2. **Geração de IDs:** Normalize os nomes usando `kebab-case` precedido pelo prefixo correspondente (`proj-`, `rule-`, `qry-`, `proc-`, `adr-`, `table-`).
 3. **Interligação:** Preencha os campos `belongs_to`, `implements_rule`, `related_projects` e referências no corpo do texto usando `[[id]]`.
 4. **Gravação:** Salve cada arquivo em seu respectivo diretório dentro de `knowledge-base/`.
 5. **Relatório Conciso de Saída:**

@@ -1,45 +1,50 @@
-﻿# Tech Knowledge Graph (Agent-Agnostic, Teams & Self-Healing)
+# Tech Knowledge Graph (Agent-Agnostic, Teams, Repo-Analyzer & Self-Healing)
 
-Um ecossistema completo de documentação técnica estruturado em **Grafo de Conhecimento Atômico**, projetado para alimentar tanto desenvolvedores no **Obsidian**, quanto o **GitHub Copilot** e **Agentes corporativos no Microsoft Teams** (via Copilot Studio).
+Um ecossistema completo de documentação técnica estruturado em **Grafo de Conhecimento Atômico**, projetado para alimentar desenvolvedores no **Obsidian**, o **GitHub Copilot**, **Agentes corporativos no Microsoft Teams** e realizar **Engenharia Reversa Automatizada de Repositórios Git**.
+
+---
+
+## 🏛️ Os 6 Tipos de Nós Canônicos (First-Class Citizens)
+
+A base é estritamente tipada em 6 nós atômicos de conhecimento:
+
+| Prefixo | Diretório | Tipo | Descrição |
+| :--- | :--- | :--- | :--- |
+| `proj-*` | `knowledge-base/projects/` | `project` | Serviços, microsserviços, APIs e aplicações da área. |
+| `rule-*` | `knowledge-base/rules/` | `rule` | Regras de negócio formais, políticas de cobrança, SLAs e cálculos. |
+| `qry-*` | `knowledge-base/queries/` | `query` | Consultas SQL críticas de suporte, relatórios e auditoria. |
+| `proc-*` | `knowledge-base/processes/` | `process` | Processos operacionais, runbooks de incidente e guias de suporte. |
+| `adr-*` | `knowledge-base/adrs/` | `adr` | Decisões de Arquitetura (Architectural Decision Records). |
+| `table-*` | `knowledge-base/tables/` | `table` | Modelos de dados, schemas e tabelas de banco de dados. |
 
 ---
 
 ## 🎯 Destaques do Ecossistema
 
-1. **Exportador Otimizado para Microsoft Teams (`npm run export:teams`):**
-   * Converte o grafo de notas atômicas em documentos enriquecidos (Self-Contained Chunks) para o RAG do Copilot Studio / SharePoint.
-   * Gera o catálogo mestre `00_CATALOGO_E_MAPA_GERAL_DA_AREA.md` e o System Prompt corporativo.
-   * Inclui o avatar oficial da Squad (`assets/avatar.jpg` e `dist/teams/avatar.jpg`) para cadastro do bot.
-2. **GitHub Copilot Specialist Nativo (`.github/copilot-instructions.md`):**
+1. **Análise Automatizada de Repositórios (`skills/repo-analyzer`):**
+   * Ativado pelo comando: *"Vamos analisar o projeto {nome ou link do repo}"*.
+   * Clona o repositório temporariamente, extrai o Commit Hash e data, inspeciona arquitetura, regras de negócio, queries, schemas/tabelas e cobertura de testes.
+   * Exclui o repositório clonado da máquina após a análise e registra o histórico em `spec/analyzed-repositories.md`.
+2. **Exportador Otimizado para Microsoft Teams (`npm run export:teams`):**
+   * Converte o grafo de notas atômicas em documentos enriquecidos (Self-Contained Chunks) divididos em `servicos/`, `regras/`, `queries/`, `processos/`, `tabelas/` e `adrs/` para o RAG do Copilot Studio / SharePoint.
+3. **GitHub Copilot Specialist Nativo (`.github/copilot-instructions.md`):**
    * Transforma o Copilot da IDE em um especialista na arquitetura da sua área técnica.
-3. **Visualizador em Grafo no Obsidian (via Plugin Juggl):**
-   * Compatível com rótulos de arestas (`depends_on`, `implements_rule`, `belongs_to`).
-4. **Ciclo de Auto-Recuperação e Anti-Conflito:**
-   * Detecção de duplicatas e contradições semânticas em texto livre.
+4. **Visualizador em Grafo no Obsidian (via Plugin Juggl):**
+   * Compatível com rótulos de arestas canônicas (`depends_on`, `implements_rule`, `owns_table`, `reads_from_table`, `decides_on`).
+5. **Ciclo de Auto-Recuperação e Anti-Conflito:**
+   * Detecção de duplicatas, stubs automatizados para links órfãos e governança de débito técnico.
 
 ---
 
-## 🚀 Como Exportar a Base para o Agente do Microsoft Teams
+## 🔬 Como Usar o Analista de Repositórios
 
-Para gerar a versão otimizada para o Copilot Studio / Teams:
+Basta solicitar:
+> **"Vamos analisar o projeto https://github.com/empresa/meu-servico.git"**
 
+Ou executar via terminal:
 ```bash
-# Executa a compilação e exportação semântica
-npm run export:teams
-# Ou diretamente:
-node skills/knowledge-governance/scripts/export-for-teams.js
+npm run analyze:repo -- "https://github.com/empresa/meu-servico.git"
 ```
-
-Os arquivos prontos serão gerados na pasta **`dist/teams/`**:
-1. `dist/teams/avatar.jpg` (Ícone oficial do agente para upload no Teams / Copilot Studio)
-2. `dist/teams/00_CATALOGO_E_MAPA_GERAL_DA_AREA.md` (Catálogo mestre)
-3. `dist/teams/CONFIGURACAO_AGENTE_COPILOT_STUDIO.md` (Prompt do sistema e instruções)
-4. `dist/teams/servicos/` (Fichas técnicas dos microsserviços)
-5. `dist/teams/regras/` (Regras de negócio e critérios)
-6. `dist/teams/queries/` (Queries SQL com serviço e regra associados)
-7. `dist/teams/processos/` (Runbooks com passos operacionais)
-
-👉 **Basta fazer o upload da pasta `dist/teams/` para a pasta do SharePoint associada ao seu Agente no Teams / Copilot Studio!**
 
 ---
 
@@ -47,18 +52,36 @@ Os arquivos prontos serão gerados na pasta **`dist/teams/`**:
 
 ```text
 .
-├── assets/                           # 🎨 Imagens e avatar oficial do projeto (avatar.jpg)
-├── dist/teams/                       # 📦 Exportação gerada para o Microsoft Teams
-│   ├── avatar.jpg                    # Ícone para o Agente no Copilot Studio
-│   └── 00_CATALOGO_...               # Catálogo mestre
 ├── skills/
-│   ├── knowledge-governance/scripts/export-for-teams.js  # Pipeline de exportação
+│   ├── repo-analyzer/                # 🔬 Analista de Repositórios Git
+│   │   ├── SKILL.md                  # Protocolo e gatilho do analista
+│   │   └── scripts/analyze-repo.js   # Motor de clonagem, inspeção e limpeza
 │   ├── copilot-specialist/           # Skill do Copilot Especialista
 │   ├── knowledge-orchestrator/       # Triagem semântica e anti-conflito
-│   ├── knowledge-creator/            # Criação de nós atômicos
-│   ├── knowledge-linter/             # Validação e integridade
-│   └── knowledge-fixer/              # Auto-reparo e stubs
-├── web/                              # Interface Web Interativa (localhost:3333)
-├── knowledge-base/                   # Vault canônico (Obsidian + Git)
+│   ├── knowledge-creator/            # Criação de nós atômicos (templates de todos os 6 nós)
+│   ├── knowledge-linter/             # Validação e integridade referencial
+│   └── knowledge-fixer/              # Auto-reparo e stubs automáticos
+├── spec/
+│   ├── analyzed-repositories.md      # 📜 Tabela de repositórios e versões analisadas
+│   ├── relations-catalog.json        # Catálogo de arestas canônicas (máquina)
+│   └── relations-catalog.md          # Catálogo de arestas canônicas (humano)
+├── dist/teams/                       # 📦 Exportação para Microsoft Teams / SharePoint
+│   ├── 00_CATALOGO_E_MAPA_GERAL_DA_AREA.md
+│   ├── CONFIGURACAO_AGENTE_COPILOT_STUDIO.md
+│   ├── servicos/
+│   ├── regras/
+│   ├── queries/
+│   ├── processos/
+│   ├── tabelas/
+│   └── adrs/
+├── knowledge-base/                   # 💎 Vault canônico (Obsidian + Git)
+│   ├── projects/                     # proj-*
+│   ├── rules/                        # rule-*
+│   ├── queries/                      # qry-*
+│   ├── processes/                    # proc-*
+│   ├── adrs/                         # adr-*
+│   ├── tables/                       # table-*
+│   ├── analyzed-repositories.json    # Log estruturado de versões analisadas
+│   └── graph-index.json              # Topologia consolidada do grafo
 └── README.md
 ```

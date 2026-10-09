@@ -12,6 +12,7 @@
 - **[REFERENCES]** Aponta para o PROJECT: **Motor de Cobrança (Billing Engine)** (`proj-billing-engine`)
 
 ### Componentes que Dependem ou Utilizam Este Nó:
+- O ADR **ADR 001: Cobrança Assíncrona e Resiliência com Filas SQS** (`adr-001-cobranca-assincrona-com-filas`) conecta via **REFERENCES**
 - O QUERY **Busca de Assinaturas Vencendo sem Fatura Gerada** (`qry-assinaturas-pendentes-faturamento`) conecta via **REFERENCES**
 
 ## 📖 Conteúdo e Especificação Técnica

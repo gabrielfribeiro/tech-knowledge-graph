@@ -1,4 +1,4 @@
-﻿---
+---
 name: knowledge-linter
 description: Valida a conformidade de schemas YAML, integridade referencial de links bidirecionais, regras de atomicidade e orçamento de tokens na base de conhecimento.
 version: 1.0.0
@@ -21,11 +21,12 @@ Você atua como o **Quality & Compliance Engineer** da base de conhecimento. Sua
   - Prefixo `qry-` deve estar em `knowledge-base/queries/` com `type: query`.
   - Prefixo `proc-` deve estar em `knowledge-base/processes/` com `type: process`.
   - Prefixo `adr-` deve estar em `knowledge-base/adrs/` com `type: adr`.
+  - Prefixo `table-` deve estar em `knowledge-base/tables/` com `type: table`.
 
 ### 📋 Campos Obrigatórios do Frontmatter
 - **`LINT-003` (Campos Globais):** Todo arquivo deve conter:
   - `id: string`
-  - `type: "project" | "rule" | "query" | "process" | "adr"`
+  - `type: "project" | "rule" | "query" | "process" | "adr" | "table"`
   - `title: string`
   - `updated_at: YYYY-MM-DD`
   - `tags: array`
@@ -34,12 +35,15 @@ Você atua como o **Quality & Compliance Engineer** da base de conhecimento. Sua
   - **Rule:** deve conter `dominio: string` e `related_projects: array`.
   - **Process:** deve conter `related_projects: array`.
   - **Project:** deve conter `responsavel: string`.
+  - **Table:** deve conter `database: string` e `service_owner: "[[proj-<nome>]]"`.
+  - **ADR:** deve conter `status: "draft" | "accepted" | "superseded" | "rejected"` e `deciders: array`.
 
 ### 🔗 Integridade Referencial
 - **`LINT-005` (Links Órfãos / Dead Links):** Todo link no formato `[[id]]` (seja no frontmatter ou no corpo markdown) DEVE corresponder a um arquivo existente em `knowledge-base/**/<id>.md`.
 - **`LINT-006` (Semântica de Relação):**
-  - O campo `belongs_to` de uma query deve apontar estritamente para um nó do tipo `project`.
+  - O campo `belongs_to` ou `service_owner` deve apontar estritamente para um nó do tipo `project`.
   - O campo `implements_rule` de uma query deve apontar estritamente para um nó do tipo `rule`.
+  - O campo `affects_projects` de um ADR deve apontar para nós do tipo `project`.
 
 ### ⚡ Atomicidade e Economia de Tokens
 - **`LINT-007` (Token Budget):** O corpo do arquivo (excluindo frontmatter) não deve ultrapassar **400 palavras**. Se ultrapassar, emitir aviso de recomendação de desagregação.

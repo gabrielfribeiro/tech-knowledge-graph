@@ -1,4 +1,4 @@
-﻿---
+---
 name: knowledge-fixer
 description: Repara automaticamente inconsistências na base de conhecimento (sincronização de IDs, datas ausentes, pastas incorretas, criação de stubs para links órfãos e desagregação de notas longas).
 version: 1.0.0
@@ -18,7 +18,7 @@ Executados diretamente sem custo de tokens da LLM:
 - **`SYNC_ID`:** Ajusta o campo `id` no frontmatter para bater com o nome do arquivo.
 - **`MOVE_FILE`:** Se um arquivo tiver prefixo incompatível com sua pasta (ex: `qry-*` na pasta `projects/`), move para o diretório correto.
 - **`INJECT_DEFAULTS`:** Preenche campos ausentes com valores padrão (data atual em `updated_at`, array `tags: []`).
-- **`CREATE_STUBS` (Cura de Links Órfãos):** Ao usar `--create-stubs`, cria notas placeholder com `status: stub` para links `[[...]]` que ainda não possuem arquivo criado.
+- **`CREATE_STUBS` (Cura de Links Órfãos):** Ao usar `--create-stubs`, cria notas placeholder pré-formatadas para qualquer um dos 6 tipos de nós (`proj-*`, `rule-*`, `qry-*`, `proc-*`, `adr-*`, `table-*`), garantindo conformidade imediata com o linter.
 
 **Comandos Shell:**
 ```bash

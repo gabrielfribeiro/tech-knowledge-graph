@@ -1,4 +1,4 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 const KB_DIR = path.resolve(__dirname, '../../../knowledge-base');
@@ -9,6 +9,7 @@ const PREFIX_FOLDER_MAP = {
   'qry-': { folder: 'queries', type: 'query' },
   'proc-': { folder: 'processes', type: 'process' },
   'adr-': { folder: 'adrs', type: 'adr' },
+  'table-': { folder: 'tables', type: 'table' },
 };
 
 function getAllMarkdownFiles(dir, fileList = []) {
@@ -143,7 +144,7 @@ function runLint() {
         severity: 'ERROR',
         file: relPath,
         rule: 'LINT-002',
-        detail: `Nome "${basename}" não inicia com prefixo reconhecido (proj-, rule-, qry-, proc-, adr-).`
+        detail: `Nome "${basename}" não inicia com prefixo reconhecido (proj-, rule-, qry-, proc-, adr-, table-).`
       });
     }
 
@@ -160,6 +161,23 @@ function runLint() {
       if (!frontmatter.belongs_to) issues.push({ severity: 'ERROR', file: relPath, rule: 'LINT-004', detail: 'Query sem campo "belongs_to".' });
     } else if (frontmatter.type === 'project') {
       if (!frontmatter.responsavel) issues.push({ severity: 'WARN', file: relPath, rule: 'LINT-004', detail: 'Projeto sem campo "responsavel".' });
+    } else if (frontmatter.type === 'rule') {
+      if (!frontmatter.dominio) issues.push({ severity: 'WARN', file: relPath, rule: 'LINT-004', detail: 'Regra sem campo "dominio".' });
+    } else if (frontmatter.type === 'table') {
+      if (!frontmatter.database) issues.push({ severity: 'ERROR', file: relPath, rule: 'LINT-004', detail: 'Tabela sem campo "database".' });
+      if (!frontmatter.service_owner && !frontmatter.belongs_to) issues.push({ severity: 'ERROR', file: relPath, rule: 'LINT-004', detail: 'Tabela sem campo "service_owner" ou "belongs_to".' });
+    } else if (frontmatter.type === 'adr') {
+      if (!frontmatter.status) {
+        issues.push({ severity: 'ERROR', file: relPath, rule: 'LINT-004', detail: 'ADR sem campo "status".' });
+      } else {
+        const validStatuses = ['draft', 'accepted', 'superseded', 'rejected'];
+        if (!validStatuses.includes(String(frontmatter.status).toLowerCase())) {
+          issues.push({ severity: 'ERROR', file: relPath, rule: 'LINT-004', detail: `Status de ADR inválido ("${frontmatter.status}"). Permitidos: ${validStatuses.join(', ')}.` });
+        }
+      }
+      if (!frontmatter.deciders && !frontmatter.decisores) {
+        issues.push({ severity: 'WARN', file: relPath, rule: 'LINT-004', detail: 'ADR sem campo "deciders" especificado.' });
+      }
     }
 
     // LINT-005: Referential integrity

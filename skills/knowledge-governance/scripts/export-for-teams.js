@@ -1,4 +1,4 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 const REPO_ROOT = path.resolve(__dirname, '../../../');
@@ -65,15 +65,15 @@ function exportForTeams() {
   const nodes = graph.nodes || {};
   const edges = graph.edges || [];
 
-  // Recreate dist/teams directory
-  if (fs.existsSync(DIST_TEAMS)) {
-    fs.rmSync(DIST_TEAMS, { recursive: true, force: true });
-  }
+  // Ensure dist/teams and clean generated subdirectories while preserving assets like avatar.jpg
   ensureDir(DIST_TEAMS);
-  ensureDir(path.join(DIST_TEAMS, 'servicos'));
-  ensureDir(path.join(DIST_TEAMS, 'regras'));
-  ensureDir(path.join(DIST_TEAMS, 'queries'));
-  ensureDir(path.join(DIST_TEAMS, 'processos'));
+  ['servicos', 'regras', 'queries', 'processos', 'tabelas', 'adrs'].forEach(sub => {
+    const subPath = path.join(DIST_TEAMS, sub);
+    if (fs.existsSync(subPath)) {
+      fs.rmSync(subPath, { recursive: true, force: true });
+    }
+    ensureDir(subPath);
+  });
 
   // Pre-load all node files
   const loadedNodes = {};
@@ -127,6 +127,12 @@ function exportForTeams() {
     } else if (meta.type === 'process') {
       categoryFolder = 'processos';
       typeName = 'RUNBOOK OPERACIONAL / PROCESSO';
+    } else if (meta.type === 'table') {
+      categoryFolder = 'tabelas';
+      typeName = 'TABELA DE BANCO DE DADOS / MODELO';
+    } else if (meta.type === 'adr') {
+      categoryFolder = 'adrs';
+      typeName = 'DECISÃO ARQUITETURAL / ADR';
     }
 
     let doc = `# [${typeName}] ${meta.title}\n\n`;
@@ -138,6 +144,13 @@ function exportForTeams() {
     if (frontmatter.repositorio) doc += `- **Repositório Git:** ${frontmatter.repositorio}\n`;
     if (frontmatter.dominio) doc += `- **Domínio de Negócio:** ${frontmatter.dominio}\n`;
     if (frontmatter.database) doc += `- **Banco de Dados:** ${frontmatter.database}\n`;
+    if (frontmatter.schema) doc += `- **Schema / Namespace:** ${frontmatter.schema}\n`;
+    if (frontmatter.service_owner) doc += `- **Microsserviço Proprietário:** ${frontmatter.service_owner}\n`;
+    if (frontmatter.primary_key) doc += `- **Chave Primária (PK):** ${frontmatter.primary_key}\n`;
+    if (frontmatter.retention) doc += `- **Retenção de Dados:** ${frontmatter.retention}\n`;
+    if (frontmatter.status) doc += `- **Status da Decisão:** ${String(frontmatter.status).toUpperCase()}\n`;
+    if (frontmatter.deciders && frontmatter.deciders.length > 0) doc += `- **Decisores:** ${(Array.isArray(frontmatter.deciders) ? frontmatter.deciders : [frontmatter.deciders]).join(', ')}\n`;
+    if (frontmatter.date) doc += `- **Data da Decisão:** ${frontmatter.date}\n`;
     if (frontmatter.tags && frontmatter.tags.length > 0) doc += `- **Tags:** ${frontmatter.tags.join(', ')}\n`;
     doc += `\n`;
 
@@ -242,6 +255,35 @@ function exportForTeams() {
   }
   catalog += `\n`;
 
+  // Tables Table
+  catalog += `## 🗄️ Tabelas de Banco de Dados & Schemas\n\n`;
+  catalog += `| ID | Nome da Tabela | Banco / Schema | Microsserviço Proprietário | Chave Primária |\n`;
+  catalog += `| :--- | :--- | :--- | :--- | :--- |\n`;
+  for (const [id, n] of Object.entries(nodes)) {
+    if (n.type === 'table') {
+      const db = n.metadata?.database || 'N/A';
+      const schema = n.metadata?.schema ? ` (${n.metadata.schema})` : '';
+      const owner = n.metadata?.service_owner ? `\`${cleanId(n.metadata.service_owner)}\`` : 'Não definido';
+      const pk = n.metadata?.primary_key || 'id';
+      catalog += `| \`${id}\` | **${n.title}** | ${db}${schema} | ${owner} | \`${pk}\` |\n`;
+    }
+  }
+  catalog += `\n`;
+
+  // ADRs Table
+  catalog += `## 📐 Decisões Arquiteturais Registradas (ADRs)\n\n`;
+  catalog += `| ID | Título da Decisão | Status | Data | Componentes Afetados |\n`;
+  catalog += `| :--- | :--- | :--- | :--- | :--- |\n`;
+  for (const [id, n] of Object.entries(nodes)) {
+    if (n.type === 'adr') {
+      const status = (n.metadata?.status || 'draft').toUpperCase();
+      const date = n.metadata?.date || n.updated_at || 'N/A';
+      const affected = (outEdges[id] || []).filter(e => e.relation === 'decides_on').map(e => `\`${e.target}\``).join(', ') || 'Geral';
+      catalog += `| \`${id}\` | **${n.title}** | ${status} | ${date} | ${affected} |\n`;
+    }
+  }
+  catalog += `\n`;
+
   fs.writeFileSync(path.join(DIST_TEAMS, '00_CATALOGO_E_MAPA_GERAL_DA_AREA.md'), catalog, 'utf8');
 
   // 3. Generate Copilot Studio Configuration Guide
@@ -256,18 +298,21 @@ function exportForTeams() {
   configGuide += `## 2. Instruções do Sistema (System Prompt) para Colar no Copilot Studio\n`;
   configGuide += `Copie e cole o texto abaixo no campo **Instructions** (Instruções) do seu Agente no Copilot Studio:\n\n`;
   configGuide += `\`\`\`text\n`;
-  configGuide += `Você é o Tech Lead Assistant e Especialista de Arquitetura da equipe de engenharia no Microsoft Teams. Seu papel é orientar desenvolvedores, suporte e liderança técnica sobre serviços, regras de negócio, queries de banco de dados e runbooks de incidentes.\n\n`;
+  configGuide += `Você é o Tech Lead Assistant e Especialista de Arquitetura da equipe de engenharia no Microsoft Teams. Seu papel é orientar desenvolvedores, suporte e liderança técnica sobre serviços, regras de negócio, tabelas de banco de dados, decisões de arquitetura (ADRs), queries e runbooks de incidentes.\n\n`;
   configGuide += `Diretrizes de resposta:\n`;
   configGuide += `1. Respostas Diretas e Objetivas: Vá direto ao ponto técnico. Use bullet points e tabelas para clareza.\n`;
   configGuide += `2. Formatação de Código: Sempre envolva códigos SQL, comandos curl/bash e endpoints em blocos de código formatados com syntax highlighting.\n`;
-  configGuide += `3. Citação de Contexto: Ao citar um serviço ou processo, informe sempre a squad responsável e o ID técnico entre parênteses.\n`;
+  configGuide += `3. Citação de Contexto: Ao citar um serviço, tabela ou processo, informe sempre a squad responsável e o ID técnico entre parênteses.\n`;
   configGuide += `4. Relações e Impacto: Se o usuário perguntar sobre uma falha ou incidente, consulte as relações de 'recovers_service' e 'depends_on' para sugerir o runbook correto.\n`;
-  configGuide += `5. Fidelidade aos Fatos: NUNCA invente queries ou regras que não estejam documentadas. Se não encontrar o registro, responda honestamente: "Essa informação não está catalogada na base técnica da área."\n`;
+  configGuide += `5. Decisões Arquiteturais: Para dúvidas sobre escolhas de design, consulte as ADRs documentadas.\n`;
+  configGuide += `6. Fidelidade aos Fatos: NUNCA invente queries, schemas ou regras que não estejam documentadas. Se não encontrar o registro, responda honestamente: "Essa informação não está catalogada na base técnica da área."\n`;
   configGuide += `\`\`\`\n\n`;
 
   configGuide += `## 3. Perguntas de Teste Sugeridas (Conversation Starters)\n`;
   configGuide += `- "Quais são os microsserviços da squad de Monetização e suas dependências?"\n`;
   configGuide += `- "Como funciona a regra de cobrança recorrente e retentativas do Billing Engine?"\n`;
+  configGuide += `- "Quais tabelas pertencem ao Billing Engine e quais são suas chaves primárias?"\n`;
+  configGuide += `- "Quais decisões de arquitetura (ADRs) fundamentam a cobrança assíncrona?"\n`;
   configGuide += `- "Qual query SQL eu uso para identificar assinaturas travadas sem fatura?"\n`;
   configGuide += `- "Qual é o runbook para reprocessar cobranças quando a fila de eventos falha?"\n`;
 
@@ -280,7 +325,9 @@ function exportForTeams() {
   console.log(`   - dist/teams/servicos/ (${fs.readdirSync(path.join(DIST_TEAMS, 'servicos')).length} serviços)`);
   console.log(`   - dist/teams/regras/ (${fs.readdirSync(path.join(DIST_TEAMS, 'regras')).length} regras)`);
   console.log(`   - dist/teams/queries/ (${fs.readdirSync(path.join(DIST_TEAMS, 'queries')).length} queries)`);
-  console.log(`   - dist/teams/processos/ (${fs.readdirSync(path.join(DIST_TEAMS, 'processos')).length} processos)\n`);
+  console.log(`   - dist/teams/processos/ (${fs.readdirSync(path.join(DIST_TEAMS, 'processos')).length} processos)`);
+  console.log(`   - dist/teams/tabelas/ (${fs.readdirSync(path.join(DIST_TEAMS, 'tabelas')).length} tabelas)`);
+  console.log(`   - dist/teams/adrs/ (${fs.readdirSync(path.join(DIST_TEAMS, 'adrs')).length} adrs)\n`);
 }
 
 module.exports = { exportForTeams };
