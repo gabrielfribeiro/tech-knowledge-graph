@@ -1,18 +1,21 @@
-﻿---
+---
 id: qry-assinaturas-pendentes-faturamento
 type: query
 title: Busca de Assinaturas Vencendo sem Fatura Gerada
 database: postgres-billing
-updated_at: 2026-09-14
+updated_at: 2026-10-09
 tags: [sql, auditoria, billing]
 belongs_to: "[[proj-billing-engine]]"
 implements_rule: "[[rule-cobranca-recorrente]]"
+reads_tables:
+  - "[[table-subscriptions]]"
+  - "[[table-invoices]]"
 ---
 
 # Query: Busca de Assinaturas Vencendo sem Fatura Gerada
 
 ## Objetivo
-Identifica assinaturas ativas com data de vencimento atingida para as quais ainda não foi emitida fatura no período atual.
+Identifica registros na `[[table-subscriptions]]` com data de vencimento atingida para os quais ainda não consta fatura gerada na `[[table-invoices]]` no ciclo corrente.
 
 ## SQL
 ```sql

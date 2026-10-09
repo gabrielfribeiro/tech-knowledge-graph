@@ -1,6 +1,6 @@
-﻿{
-  "version": "1.0.0",
-  "updated_at": "2026-09-14",
+{
+  "version": "1.1.0",
+  "updated_at": "2026-10-09",
   "description": "Catálogo canônico de relações (arestas) do grafo técnico. Proíbe a duplicação semântica mapeando sinônimos para o predicado oficial.",
   "relations": {
     "depends_on": {
@@ -12,10 +12,10 @@
     },
     "belongs_to": {
       "canonical": "belongs_to",
-      "description": "Indica pertencimento estrutural (ex: uma query pertence ao banco de um projeto específico).",
-      "allowed_sources": ["query", "process", "rule"],
+      "description": "Indica pertencimento estrutural (ex: uma query ou tabela pertence ao banco de um projeto específico).",
+      "allowed_sources": ["query", "process", "rule", "table"],
       "allowed_targets": ["project"],
-      "synonyms": ["part_of", "pertence_a", "owned_by", "servico_dono"]
+      "synonyms": ["part_of", "pertence_a", "owned_by", "servico_dono", "service_owner"]
     },
     "implements_rule": {
       "canonical": "implements_rule",
@@ -23,6 +23,41 @@
       "allowed_sources": ["query", "project"],
       "allowed_targets": ["rule"],
       "synonyms": ["executes_rule", "aplica_regra", "implementa_regra", "follows_rule"]
+    },
+    "owns_table": {
+      "canonical": "owns_table",
+      "description": "Indica o microsserviço/projeto que é proprietário e gerencia as migrações de uma tabela.",
+      "allowed_sources": ["project"],
+      "allowed_targets": ["table"],
+      "synonyms": ["manages_table", "table_owner", "dono_da_tabela", "possui_tabela"]
+    },
+    "reads_from_table": {
+      "canonical": "reads_from_table",
+      "description": "Indica leitura/consulta de dados em uma tabela (por uma query, serviço ou processo).",
+      "allowed_sources": ["query", "project", "process"],
+      "allowed_targets": ["table"],
+      "synonyms": ["reads_table", "queries_table", "consulta_tabela", "le_tabela"]
+    },
+    "writes_to_table": {
+      "canonical": "writes_to_table",
+      "description": "Indica escrita/modificação de dados em uma tabela (INSERT/UPDATE/DELETE/UPSERT por serviço ou processo).",
+      "allowed_sources": ["project", "process"],
+      "allowed_targets": ["table"],
+      "synonyms": ["writes_table", "modifies_table", "grava_tabela", "escreve_tabela"]
+    },
+    "foreign_key_to": {
+      "canonical": "foreign_key_to",
+      "description": "Indica relacionamento relacional ou chave estrangeira entre duas tabelas.",
+      "allowed_sources": ["table"],
+      "allowed_targets": ["table"],
+      "synonyms": ["references_table", "fk_to", "relaciona_com_tabela", "chave_estrangeira_para"]
+    },
+    "decides_on": {
+      "canonical": "decides_on",
+      "description": "Indica que um ADR formaliza uma decisão arquitetural ou técnica sobre um projeto, tabela, processo ou regra.",
+      "allowed_sources": ["adr"],
+      "allowed_targets": ["project", "table", "process", "rule"],
+      "synonyms": ["affects", "decides", "impacts", "decisao_sobre", "aplica_se_a", "affects_project", "affects_projects"]
     },
     "recovers_service": {
       "canonical": "recovers_service",
@@ -47,10 +82,10 @@
     },
     "deprecated_by": {
       "canonical": "deprecated_by",
-      "description": "Indica que um nó antigo (query legada, serviço antigo) foi substituído por outro nó mais recente.",
-      "allowed_sources": ["project", "query", "rule", "process"],
-      "allowed_targets": ["project", "query", "rule", "process"],
-      "synonyms": ["replaced_by", "substituido_por", "migrated_to"]
+      "description": "Indica que um nó antigo (query legada, serviço antigo, ADR revogada) foi substituído por outro mais recente.",
+      "allowed_sources": ["project", "query", "rule", "process", "adr", "table"],
+      "allowed_targets": ["project", "query", "rule", "process", "adr", "table"],
+      "synonyms": ["replaced_by", "substituido_por", "migrated_to", "superseded_by", "revoked_by"]
     },
     "references": {
       "canonical": "references",

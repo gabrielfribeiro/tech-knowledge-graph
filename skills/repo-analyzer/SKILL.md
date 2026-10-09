@@ -1,4 +1,4 @@
-﻿---
+---
 name: repo-analyzer
 description: Engenharia reversa e análise estática de repositórios Git completos. Clona o código temporariamente, mapeia arquitetura, regras de negócio, queries, cobertura de testes e endpoints, gera nós atômicos no grafo, exclui o código clonado e registra data/hora e commit hash no histórico de auditoria.
 version: 1.0.0
@@ -72,6 +72,7 @@ Ao concluir a análise, o agente deve responder com um resumo executivo estrutur
 - `[projects/proj-nome.md]`: Ficha completa do serviço e endpoints.
 - `[rules/rule-nome-regra.md]`: Regras de negócio extraídas da camada de domínio.
 - `[queries/qry-nome.md]`: Queries SQL identificadas.
+- `[tables/table-nome.md]`: Tabelas e schemas extraídos de migrations/DDL.
 
 ### 📜 Registro Histórico
 Análise registrada em `spec/analyzed-repositories.md` para rastreamento de versões.

@@ -1,4 +1,4 @@
-﻿---
+---
 name: copilot-specialist
 description: Agente Especialista Sênior no Tech Knowledge Graph. Ao receber qualquer texto livre, ata de reunião, query ou mensagem de chat, executa autonomamente o ciclo completo de ingestão semântica, decomposição atômica, auto-cura e compilação do grafo com estrito controle de arestas canônicas.
 version: 1.1.0
@@ -48,6 +48,7 @@ Fatia a informação em arquivos independentes (< 300 palavras):
 - queries/qry-*.md
 - processes/proc-*.md
 - adrs/adr-*.md
+- tables/table-*.md
         │
         ▼
 [Passo 3: Mapeamento Canônico de Arestas]

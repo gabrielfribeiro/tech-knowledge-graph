@@ -1,4 +1,4 @@
-﻿# GitHub Copilot Custom Workspace Instructions
+# GitHub Copilot Custom Workspace Instructions
 
 Você é o **Copilot Specialist & Staff Knowledge Architect** deste repositório. 
 Sua especificação canônica detalhada está documentada em [`skills/copilot-specialist/SKILL.md`](file://skills/copilot-specialist/SKILL.md).
@@ -27,6 +27,21 @@ Quando o usuário enviar textos livres comuns, dúvidas ou snippets sem o comand
 1. Continue usando a esteira padrão (`knowledge-orchestrator`);
 2. Verifique contradições de regras antes de gravar;
 3. Decomponha em notas atômicas (< 300 palavras) e auto-cure stubs.
+
+---
+
+## 🏛️ Ontologia dos 6 Tipos de Nós Canônicos
+
+| Prefixo | Pasta | Tipo | Descrição |
+| :--- | :--- | :--- | :--- |
+| `proj-*` | `knowledge-base/projects/` | `project` | Serviços, microsserviços e aplicações. |
+| `rule-*` | `knowledge-base/rules/` | `rule` | Regras de negócio, cálculos e políticas. |
+| `qry-*` | `knowledge-base/queries/` | `query` | Consultas SQL de suporte, auditoria e relatórios. |
+| `proc-*` | `knowledge-base/processes/` | `process` | Processos operacionais, runbooks e contingência. |
+| `adr-*` | `knowledge-base/adrs/` | `adr` | Registros de Decisão de Arquitetura (ADRs). |
+| `table-*` | `knowledge-base/tables/` | `table` | Tabelas de banco de dados, schemas e modelos. |
+
+Relações canônicas: `depends_on`, `belongs_to`, `implements_rule`, `owns_table`, `reads_from_table`, `writes_to_table`, `foreign_key_to`, `decides_on`, `recovers_service`, `references`.
 
 ---
 

@@ -1,4 +1,4 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 const REPO_ROOT = path.resolve(__dirname, '../../../');
@@ -148,11 +148,24 @@ function compileGraph() {
       nodes[id].metadata.repositorio = frontmatter.repositorio || null;
     } else if (frontmatter.type === 'rule') {
       nodes[id].metadata.dominio = frontmatter.dominio || null;
+    } else if (frontmatter.type === 'table') {
+      nodes[id].metadata.database = frontmatter.database || null;
+      nodes[id].metadata.schema = frontmatter.schema || null;
+      nodes[id].metadata.service_owner = frontmatter.service_owner || frontmatter.belongs_to || null;
+      nodes[id].metadata.primary_key = frontmatter.primary_key || null;
+    } else if (frontmatter.type === 'adr') {
+      nodes[id].metadata.status = frontmatter.status || 'draft';
+      nodes[id].metadata.deciders = frontmatter.deciders || frontmatter.decisores || [];
+      nodes[id].metadata.date = frontmatter.date || null;
     }
 
     // Capture frontmatter edges
     if (frontmatter.belongs_to) {
       addEdge(id, frontmatter.belongs_to, 'belongs_to');
+    }
+    if (frontmatter.service_owner) {
+      addEdge(id, frontmatter.service_owner, 'belongs_to');
+      addEdge(frontmatter.service_owner, id, 'owns_table');
     }
     if (frontmatter.implements_rule) {
       addEdge(id, frontmatter.implements_rule, 'implements_rule');
@@ -162,6 +175,27 @@ function compileGraph() {
     }
     if (Array.isArray(frontmatter.related_projects)) {
       frontmatter.related_projects.forEach(rel => addEdge(id, rel, 'belongs_to'));
+    }
+    if (frontmatter.affects_projects) {
+      const affects = Array.isArray(frontmatter.affects_projects) ? frontmatter.affects_projects : [frontmatter.affects_projects];
+      affects.forEach(aff => addEdge(id, aff, 'decides_on'));
+    }
+    if (frontmatter.decides_on) {
+      const dec = Array.isArray(frontmatter.decides_on) ? frontmatter.decides_on : [frontmatter.decides_on];
+      dec.forEach(t => addEdge(id, t, 'decides_on'));
+    }
+    if (Array.isArray(frontmatter.foreign_keys)) {
+      frontmatter.foreign_keys.forEach(fk => {
+        if (fk && fk.references_table) addEdge(id, fk.references_table, 'foreign_key_to');
+      });
+    }
+    if (frontmatter.reads_tables || frontmatter.reads_from_table) {
+      const tables = [].concat(frontmatter.reads_tables || frontmatter.reads_from_table || []);
+      tables.forEach(t => addEdge(id, t, 'reads_from_table'));
+    }
+    if (frontmatter.writes_tables || frontmatter.writes_to_table) {
+      const tables = [].concat(frontmatter.writes_tables || frontmatter.writes_to_table || []);
+      tables.forEach(t => addEdge(id, t, 'writes_to_table'));
     }
 
     // Capture body markdown wikilinks

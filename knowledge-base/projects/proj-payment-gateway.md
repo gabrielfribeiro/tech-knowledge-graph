@@ -2,6 +2,7 @@
 id: proj-payment-gateway
 type: project
 title: Serviço: proj-payment-gateway
+responsavel: Squad Pagamentos
 status: stub
 updated_at: 2026-09-14
 tags:

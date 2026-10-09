@@ -1,4 +1,4 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 const REPO_ROOT = path.resolve(__dirname, '../../../');
@@ -9,7 +9,8 @@ const PREFIX_CONFIG = {
   'rule-': { folder: 'rules', type: 'rule', defaultTitle: 'Regra de Negócio' },
   'qry-': { folder: 'queries', type: 'query', defaultTitle: 'Query' },
   'proc-': { folder: 'processes', type: 'process', defaultTitle: 'Processo / Runbook' },
-  'adr-': { folder: 'adrs', type: 'adr', defaultTitle: 'ADR' }
+  'adr-': { folder: 'adrs', type: 'adr', defaultTitle: 'ADR' },
+  'table-': { folder: 'tables', type: 'table', defaultTitle: 'Tabela / Modelo de Dados' }
 };
 
 const isDryRun = process.argv.includes('--dry-run');
@@ -204,10 +205,22 @@ function runFixer() {
             id: linkId,
             type: config.type,
             title: `${config.defaultTitle}: ${linkId}`,
-            status: 'stub',
             updated_at: new Date().toISOString().split('T')[0],
             tags: ['stub', 'pendente']
           };
+
+          if (config.type === 'adr') {
+            stubFrontmatter.status = 'draft';
+            stubFrontmatter.deciders = ['Tech Lead / Engenharia'];
+          } else if (config.type === 'table') {
+            stubFrontmatter.database = 'postgres-prod';
+            stubFrontmatter.service_owner = '[[proj-desconhecido]]';
+          } else if (config.type === 'query') {
+            stubFrontmatter.database = 'postgres-prod';
+            stubFrontmatter.belongs_to = '[[proj-desconhecido]]';
+          } else if (config.type === 'rule') {
+            stubFrontmatter.dominio = 'Geral';
+          }
 
           const stubBody = `# ${config.defaultTitle}: ${linkId}\n\n> [!NOTE]\n> Esta nota é um **stub gerado automaticamente** para resolver um link órfão. Atualize com o conteúdo técnico detalhado assim que disponível.\n`;
           fs.writeFileSync(stubPath, `${serializeFrontmatter(stubFrontmatter)}\n\n${stubBody}`, 'utf8');

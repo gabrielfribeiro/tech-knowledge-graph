@@ -1,4 +1,4 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 const REPO_ROOT = path.resolve(__dirname, '../../../');
@@ -40,6 +40,8 @@ function auditGaps() {
   const projectsWithoutQueries = [];
   const queriesWithoutRules = [];
   const rulesWithoutProjects = [];
+  const tablesWithoutOwners = [];
+  const adrsWithoutDecisions = [];
   const isolatedNodes = [];
 
   for (const [id, node] of Object.entries(nodes)) {
@@ -72,6 +74,21 @@ function auditGaps() {
                          incoming.some(e => nodes[e.source]?.type === 'project');
       if (!hasProject) rulesWithoutProjects.push(node);
     }
+
+    // Tables
+    if (node.type === 'table') {
+      const outgoing = edgesBySource[id] || [];
+      const incoming = edgesByTarget[id] || [];
+      const hasOwner = outgoing.some(e => e.relation === 'belongs_to') || incoming.some(e => e.relation === 'owns_table');
+      if (!hasOwner) tablesWithoutOwners.push(node);
+    }
+
+    // ADRs
+    if (node.type === 'adr') {
+      const outgoing = edgesBySource[id] || [];
+      const hasDecision = outgoing.some(e => e.relation === 'decides_on' || e.relation === 'references');
+      if (!hasDecision) adrsWithoutDecisions.push(node);
+    }
   }
 
   return {
@@ -81,14 +98,18 @@ function auditGaps() {
       isolatedCount: isolatedNodes.length,
       projectsWithoutRunbooksCount: projectsWithoutRunbooks.length,
       projectsWithoutQueriesCount: projectsWithoutQueries.length,
-      queriesWithoutRulesCount: queriesWithoutRules.length
+      queriesWithoutRulesCount: queriesWithoutRules.length,
+      tablesWithoutOwnersCount: tablesWithoutOwners.length,
+      adrsWithoutDecisionsCount: adrsWithoutDecisions.length
     },
     gaps: {
       isolatedNodes,
       projectsWithoutRunbooks,
       projectsWithoutQueries,
       queriesWithoutRules,
-      rulesWithoutProjects
+      rulesWithoutProjects,
+      tablesWithoutOwners,
+      adrsWithoutDecisions
     }
   };
 }
@@ -117,7 +138,15 @@ if (isJson) {
   if (report.gaps.queriesWithoutRules.length === 0) console.log('   ✅ Todas as queries documentam a regra que implementam.');
   else report.gaps.queriesWithoutRules.forEach(q => console.log(`   ⚠️  ${q.id} (${q.title})`));
 
-  console.log(`\n3. Nós Isolados no Grafo (Sem nenhuma conexão) (${report.gaps.isolatedNodes.length}):`);
+  console.log(`\n3. Tabelas sem Serviço Proprietário Mapeado (${report.gaps.tablesWithoutOwners.length}):`);
+  if (report.gaps.tablesWithoutOwners.length === 0) console.log('   ✅ Todas as tabelas possuem um microsserviço proprietário definido.');
+  else report.gaps.tablesWithoutOwners.forEach(t => console.log(`   ⚠️  ${t.id} (${t.title})`));
+
+  console.log(`\n4. ADRs sem Impacto Registrado no Ecossistema (${report.gaps.adrsWithoutDecisions.length}):`);
+  if (report.gaps.adrsWithoutDecisions.length === 0) console.log('   ✅ Todas as decisões arquiteturais estão vinculadas a serviços ou componentes.');
+  else report.gaps.adrsWithoutDecisions.forEach(a => console.log(`   ⚠️  ${a.id} (${a.title})`));
+
+  console.log(`\n5. Nós Isolados no Grafo (Sem nenhuma conexão) (${report.gaps.isolatedNodes.length}):`);
   if (report.gaps.isolatedNodes.length === 0) console.log('   ✅ Nenhum nó isolado encontrado.');
   else report.gaps.isolatedNodes.forEach(n => console.log(`   ⚠️  [${n.type}] ${n.id}`));
 

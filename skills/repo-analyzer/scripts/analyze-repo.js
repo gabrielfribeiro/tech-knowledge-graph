@@ -1,4 +1,4 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
@@ -229,6 +229,56 @@ function inspectQueries(repoDir) {
   return queries.slice(0, 5);
 }
 
+// 4.1 Inspect Tables & Schemas
+function inspectTables(repoDir) {
+  const tables = [];
+  const files = findFiles(repoDir, name => /\.(sql|prisma)$/i.test(name));
+
+  for (const file of files) {
+    try {
+      const content = fs.readFileSync(file, 'utf8');
+
+      // SQL CREATE TABLE
+      const createRegex = /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?([a-zA-Z0-9_\.]+)\s*\(([\s\S]*?)\);/gi;
+      let match;
+      while ((match = createRegex.exec(content)) !== null) {
+        let rawName = match[1].replace(/['"`]/g, '').trim();
+        if (rawName.includes('.')) rawName = rawName.split('.').pop();
+        const body = match[2];
+        const pkMatch = body.match(/PRIMARY\s+KEY\s*\(([a-zA-Z0-9_,\s]+)\)/i) || body.match(/([a-zA-Z0-9_]+)\s+[^,\n]+PRIMARY\s+KEY/i);
+        const pk = pkMatch ? pkMatch[1].trim() : 'id';
+
+        if (!tables.some(t => t.name === rawName)) {
+          tables.push({
+            name: rawName,
+            pk,
+            file: path.relative(repoDir, file).replace(/\\/g, '/'),
+            rawSchema: body.split(/\r?\n/).slice(0, 8).join('\n').trim()
+          });
+        }
+      }
+
+      // Prisma models
+      if (file.endsWith('.prisma')) {
+        const modelRegex = /model\s+([A-Za-z0-9_]+)\s*\{([\s\S]*?)\}/g;
+        let pMatch;
+        while ((pMatch = modelRegex.exec(content)) !== null) {
+          const mName = pMatch[1].toLowerCase();
+          if (!tables.some(t => t.name === mName)) {
+            tables.push({
+              name: mName,
+              pk: 'id',
+              file: path.relative(repoDir, file).replace(/\\/g, '/'),
+              rawSchema: pMatch[2].split(/\r?\n/).slice(0, 8).join('\n').trim()
+            });
+          }
+        }
+      }
+    } catch (_) {}
+  }
+  return tables.slice(0, 5);
+}
+
 // 5. Inspect Business Rules
 function inspectRules(repoDir) {
   const rules = [];
@@ -301,11 +351,13 @@ async function analyzeRepository(repoInput, options = {}) {
     const tests = inspectTests(targetPath);
     const endpoints = inspectEndpoints(targetPath);
     const queries = inspectQueries(targetPath);
+    const tables = inspectTables(targetPath);
     const rules = inspectRules(targetPath);
 
     console.log(`   - Stack Detectada: ${stack.languages.join(', ') || 'Não identificada'}`);
     console.log(`   - Frameworks:      ${stack.frameworks.join(', ') || 'Nenhum identificado'}`);
     console.log(`   - Banco de Dados:  ${stack.databases.join(', ') || 'Nenhum identificado'}`);
+    console.log(`   - Tabelas/Schemas: ${tables.length} mapeadas`);
     console.log(`   - Mensageria:      ${stack.messaging.join(', ') || 'Nenhuma identificada'}`);
     console.log(`   - Arquivos Testes: ${tests.totalTestFiles} (${tests.testFrameworks.join(', ') || 'Sem framework claro'})`);
     console.log(`   - Endpoints/Rotas: ${endpoints.length} mapeados`);
@@ -408,6 +460,43 @@ ${q.sql}
 `;
         fs.writeFileSync(qryFile, qryContent, 'utf8');
         entitiesCreated.push(qryId);
+      }
+    }
+
+    // 4.4 Table Nodes
+    if (tables.length > 0) {
+      for (let i = 0; i < tables.length; i++) {
+        const t = tables[i];
+        const tableId = `table-${repoSlug}-${cleanSlug(t.name)}`;
+        const tableFile = path.join(KB_DIR, 'tables', `${tableId}.md`);
+        const tableContent = `---
+id: ${tableId}
+type: table
+title: Tabela ${t.name.toUpperCase()} (${repoSlug})
+database: ${stack.databases[0] || 'postgres-prod'}
+schema: public
+service_owner: "[[${projId}]]"
+primary_key: ${t.pk}
+updated_at: ${timestamp.split('T')[0]}
+tags: [database, table, ${repoSlug}]
+---
+
+# Tabela: ${t.name.toUpperCase()}
+
+## Descrição e Domínio
+Tabela de banco de dados extraída a partir das migrações / schemas do projeto \`${repoSlug}\` (\`${t.file}\`).
+
+## Chave Primária e Definição
+- **Primary Key:** \`${t.pk}\`
+- **Microsserviço Proprietário:** \`[[${projId}]]\`
+
+\`\`\`sql
+-- Definição detectada
+${t.rawSchema}
+\`\`\`
+`;
+        fs.writeFileSync(tableFile, tableContent, 'utf8');
+        entitiesCreated.push(tableId);
       }
     }
 

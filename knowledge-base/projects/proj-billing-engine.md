@@ -1,4 +1,4 @@
-﻿---
+---
 id: proj-billing-engine
 type: project
 title: Motor de Cobrança (Billing Engine)
@@ -22,3 +22,7 @@ Serviço responsável por orquestrar o ciclo de faturamento recorrente (mensal e
 
 ## Pontos de Entrada Críticos
 - `POST /internal/v1/billing/retry`: Endpoint operacional para reprocessamento de faturas em lote.
+
+## Modelagem de Dados & Arquitetura
+- **Tabelas Principais:** `[[table-subscriptions]]`, `[[table-invoices]]`
+- **Decisões Registradas:** `[[adr-001-cobranca-assincrona-com-filas]]`

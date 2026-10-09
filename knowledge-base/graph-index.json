@@ -1,22 +1,49 @@
 {
   "metadata": {
-    "generated_at": "2026-10-09T17:27:23.777Z",
-    "total_nodes": 5,
-    "total_edges": 9,
+    "generated_at": "2026-10-09T18:09:08.025Z",
+    "total_nodes": 8,
+    "total_edges": 35,
     "counts_by_type": {
+      "adr": 1,
       "process": 1,
       "project": 2,
       "query": 1,
-      "rule": 1
+      "rule": 1,
+      "table": 2
     },
     "counts_by_relation": {
-      "belongs_to": 3,
-      "references": 4,
+      "decides_on": 2,
+      "references": 22,
+      "belongs_to": 5,
       "depends_on": 1,
-      "implements_rule": 1
+      "implements_rule": 1,
+      "reads_from_table": 2,
+      "owns_table": 2
     }
   },
   "nodes": {
+    "adr-001-cobranca-assincrona-com-filas": {
+      "id": "adr-001-cobranca-assincrona-com-filas",
+      "type": "adr",
+      "title": "ADR 001: Cobrança Assíncrona e Resiliência com Filas SQS",
+      "path": "knowledge-base/adrs/adr-001-cobranca-assincrona-com-filas.md",
+      "updated_at": "2026-10-09",
+      "tags": [
+        "adr",
+        "arquitetura",
+        "billing",
+        "sqs",
+        "resiliencia"
+      ],
+      "metadata": {
+        "status": "accepted",
+        "deciders": [
+          "Staff Architect",
+          "Tech Lead Monetização"
+        ],
+        "date": "2026-09-14"
+      }
+    },
     "proc-reprocessar-cobranca-falha": {
       "id": "proc-reprocessar-cobranca-falha",
       "type": "process",
@@ -58,7 +85,7 @@
         "pendente"
       ],
       "metadata": {
-        "responsavel": null,
+        "responsavel": "Squad Pagamentos",
         "repositorio": null
       }
     },
@@ -67,7 +94,7 @@
       "type": "query",
       "title": "Busca de Assinaturas Vencendo sem Fatura Gerada",
       "path": "knowledge-base/queries/qry-assinaturas-pendentes-faturamento.md",
-      "updated_at": "2026-09-14",
+      "updated_at": "2026-10-09",
       "tags": [
         "sql",
         "auditoria",
@@ -91,9 +118,87 @@
       "metadata": {
         "dominio": "Monetização e Faturamento"
       }
+    },
+    "table-invoices": {
+      "id": "table-invoices",
+      "type": "table",
+      "title": "Tabela de Faturas (invoices)",
+      "path": "knowledge-base/tables/table-invoices.md",
+      "updated_at": "2026-10-09",
+      "tags": [
+        "database",
+        "table",
+        "billing",
+        "postgres"
+      ],
+      "metadata": {
+        "database": "postgres-billing",
+        "schema": "public",
+        "service_owner": "[[proj-billing-engine]]",
+        "primary_key": "id"
+      }
+    },
+    "table-subscriptions": {
+      "id": "table-subscriptions",
+      "type": "table",
+      "title": "Tabela de Assinaturas (subscriptions)",
+      "path": "knowledge-base/tables/table-subscriptions.md",
+      "updated_at": "2026-10-09",
+      "tags": [
+        "database",
+        "table",
+        "billing",
+        "postgres"
+      ],
+      "metadata": {
+        "database": "postgres-billing",
+        "schema": "public",
+        "service_owner": "[[proj-billing-engine]]",
+        "primary_key": "id"
+      }
     }
   },
   "edges": [
+    {
+      "source": "adr-001-cobranca-assincrona-com-filas",
+      "target": "proj-billing-engine",
+      "relation": "decides_on"
+    },
+    {
+      "source": "adr-001-cobranca-assincrona-com-filas",
+      "target": "proj-payment-gateway",
+      "relation": "decides_on"
+    },
+    {
+      "source": "adr-001-cobranca-assincrona-com-filas",
+      "target": "table-subscriptions",
+      "relation": "references"
+    },
+    {
+      "source": "adr-001-cobranca-assincrona-com-filas",
+      "target": "proj-payment-gateway",
+      "relation": "references"
+    },
+    {
+      "source": "adr-001-cobranca-assincrona-com-filas",
+      "target": "proc-reprocessar-cobranca-falha",
+      "relation": "references"
+    },
+    {
+      "source": "adr-001-cobranca-assincrona-com-filas",
+      "target": "table-invoices",
+      "relation": "references"
+    },
+    {
+      "source": "adr-001-cobranca-assincrona-com-filas",
+      "target": "proj-billing-engine",
+      "relation": "references"
+    },
+    {
+      "source": "adr-001-cobranca-assincrona-com-filas",
+      "target": "rule-cobranca-recorrente",
+      "relation": "references"
+    },
     {
       "source": "proc-reprocessar-cobranca-falha",
       "target": "proj-billing-engine",
@@ -115,6 +220,21 @@
       "relation": "depends_on"
     },
     {
+      "source": "proj-billing-engine",
+      "target": "table-subscriptions",
+      "relation": "references"
+    },
+    {
+      "source": "proj-billing-engine",
+      "target": "table-invoices",
+      "relation": "references"
+    },
+    {
+      "source": "proj-billing-engine",
+      "target": "adr-001-cobranca-assincrona-com-filas",
+      "relation": "references"
+    },
+    {
       "source": "qry-assinaturas-pendentes-faturamento",
       "target": "proj-billing-engine",
       "relation": "belongs_to"
@@ -123,6 +243,26 @@
       "source": "qry-assinaturas-pendentes-faturamento",
       "target": "rule-cobranca-recorrente",
       "relation": "implements_rule"
+    },
+    {
+      "source": "qry-assinaturas-pendentes-faturamento",
+      "target": "table-subscriptions",
+      "relation": "reads_from_table"
+    },
+    {
+      "source": "qry-assinaturas-pendentes-faturamento",
+      "target": "table-invoices",
+      "relation": "reads_from_table"
+    },
+    {
+      "source": "qry-assinaturas-pendentes-faturamento",
+      "target": "table-subscriptions",
+      "relation": "references"
+    },
+    {
+      "source": "qry-assinaturas-pendentes-faturamento",
+      "target": "table-invoices",
+      "relation": "references"
     },
     {
       "source": "qry-assinaturas-pendentes-faturamento",
@@ -137,6 +277,61 @@
     {
       "source": "rule-cobranca-recorrente",
       "target": "proj-billing-engine",
+      "relation": "references"
+    },
+    {
+      "source": "table-invoices",
+      "target": "proj-billing-engine",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "proj-billing-engine",
+      "target": "table-invoices",
+      "relation": "owns_table"
+    },
+    {
+      "source": "table-invoices",
+      "target": "table-subscriptions",
+      "relation": "references"
+    },
+    {
+      "source": "table-invoices",
+      "target": "proj-billing-engine",
+      "relation": "references"
+    },
+    {
+      "source": "table-invoices",
+      "target": "rule-cobranca-recorrente",
+      "relation": "references"
+    },
+    {
+      "source": "table-invoices",
+      "target": "qry-assinaturas-pendentes-faturamento",
+      "relation": "references"
+    },
+    {
+      "source": "table-subscriptions",
+      "target": "proj-billing-engine",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "proj-billing-engine",
+      "target": "table-subscriptions",
+      "relation": "owns_table"
+    },
+    {
+      "source": "table-subscriptions",
+      "target": "proj-billing-engine",
+      "relation": "references"
+    },
+    {
+      "source": "table-subscriptions",
+      "target": "rule-cobranca-recorrente",
+      "relation": "references"
+    },
+    {
+      "source": "table-subscriptions",
+      "target": "qry-assinaturas-pendentes-faturamento",
       "relation": "references"
     }
   ]

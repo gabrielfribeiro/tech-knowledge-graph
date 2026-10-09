@@ -1,4 +1,4 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
@@ -10,7 +10,8 @@ const FOLDER_MAP = {
   rule: 'rules',
   query: 'queries',
   process: 'processes',
-  adr: 'adrs'
+  adr: 'adrs',
+  table: 'tables'
 };
 
 function runCommand(cmd) {
