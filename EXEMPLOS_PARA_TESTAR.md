@@ -4,14 +4,14 @@ Este guia contém **exemplos prontos (copiar e colar)** para testar todas as cap
 
 ---
 
-## ⚡ Como funciona a Economia de Custo de IA (Token-Saver)
+## ⚡ Como funciona a Economia de Custo de IA
 
-1. **Pacote de Contexto Minificado ([`dist/context/active-context.md`](dist/context/active-context.md)):**
-   - Em vez de a IA ler 15 arquivos Markdown (~4.500 tokens por pergunta), o script `node scripts/context-pack.js` comprime o Perfil da Squad + os nós conectados à tarefa ativa em **~250 tokens** (redução de **~94%** de leitura).
-2. **Offload Determinístico (0 Tokens de LLM):**
-   - Linter, Auto-Fixer, Compilação do Grafo, Extração de Plugins VS Code e Geração de Cypress + Jira Xray rodam localmente via Node.js sem gastar 1 centavo de IA.
-3. **Modo Telegráfico nos Agentes (`.github/agents/*.agent.md`):**
-   - Os 4 agentes estão proibidos de dar "bom dia", explicar teoria ou repetir código no chat. Eles editam os arquivos direto e respondem em **até 4 linhas** (`STATUS / ARQUIVOS / PRÓXIMO`).
+1. **Leitura 100% Livre da Base de Conhecimento (Entrada Rica):**
+   - O agente lê livremente toda a `knowledge-base/` (`projects/`, `rules/`, `tables/`, `queries/`, `processes/`, `adrs/`, `graph-index.json`) e `spec/` para nunca perder contexto nem alucinar regras.
+2. **Zero Conversa Fiada na Resposta (Saída Enxuta):**
+   - Onde a IA mais gasta dinheiro e tempo é gerando texto inútil no chat (saudações, explicações teóricas, repetindo código). O Orquestrador é proibido de conversar à toa: ele **edita os arquivos direto** e responde em **até 5 linhas executivas**.
+3. **Offload Determinístico (0 Tokens de LLM):**
+   - Linter, Auto-Fixer, Compilação do Grafo, Extração de Plugins VS Code e Geração de Cypress + Jira Xray rodam localmente via Node.js sem gastar cota de IA.
 
 ---
 
@@ -23,7 +23,7 @@ Rode estes comandos no terminal do VS Code (`Ctrl + '`) para validar toda a engr
 ```powershell
 npm.cmd run squad:simulate
 ```
-> **O que acontece:** Simula os 4 agentes trabalhando na tarefa ativa, gera o contexto minificado em `dist/context/active-context.md`, cria os testes Cypress das regras (`dist/xray/cypress/*.cy.ts`), monta o payload do Jira Xray (`dist/xray/evidences/xray-execution-payload.json`) e recompila o Grafo (`15 nós`).
+> **O que acontece:** Simula o Orquestrador acionando as 4 etapas na tarefa ativa, cria os testes Cypress das regras (`dist/xray/cypress/*.cy.ts`), monta o payload do Jira Xray (`dist/xray/evidences/xray-execution-payload.json`) e recompila o Grafo (`15 nós`).
 
 ### 2. Testar Veto de Segurança do `@sec` (SQL Injection bloqueado e corrigido)
 ```powershell
@@ -31,65 +31,40 @@ npm.cmd run squad:simulate-veto
 ```
 > **O que acontece:** Simula o `@dev` subindo uma query concatenada no projeto PIX (`proj-pix-settlement`), o `@sec` vetando a entrega (`REJECTED_BY_SEC`), o retorno para o `@dev` corrigir com Bind Variable (`:p_cpf_pagador`) e a aprovação final com evidências Xray.
 
-### 3. Testar Geração de Contexto Minificado (Token-Saver) para qualquer Projeto/Regra
-```powershell
-node scripts/context-pack.js --project proj-pix-settlement --task rule-limite-pix-noturno
-```
-> Abra [`dist/context/active-context.md`](dist/context/active-context.md) para ver como toda a especificação de PIX Noturno + Tabela Oracle + ADR cabe em poucas linhas ultra-densas.
-
-### 4. Testar Auto-Onboarding de Projeto Legado Não Mapeado (`examples/legacy-order-api`)
+### 3. Testar Auto-Onboarding de Projeto Legado Não Mapeado (`examples/legacy-order-api`)
 Temos um projeto C# + Oracle de exemplo na pasta [`examples/legacy-order-api/`](examples/legacy-order-api/README.md) que **ainda não está no grafo**. Para testar o analisador automático:
 ```powershell
 node skills/repo-analyzer/scripts/analyze-repo.js "./examples/legacy-order-api" --keep-clone
 ```
 
-### 5. Abrir a Sala de Guerra com 4 Terminais Sincronizados
+### 4. Abrir a Sala de Guerra com 4 Terminais Sincronizados
 ```powershell
 npm.cmd run squad:war-room
 ```
 
 ---
 
-## 🤖 PARTE 2: Prompts Curtos para Testar no Dropdown do GitHub Copilot Chat
+## 👑 PARTE 2: Prompts para Testar no `👑 Squad Orquestrador (TL)` (Seletor do VS Code)
 
-No painel do **GitHub Copilot Chat**, escolha o agente correspondente no seletor (dropdown ao lado do botão de enviar) e cole os prompts abaixo:
+No seletor de agentes do **GitHub Copilot Chat**, agora você escolhe apenas **1 único agente**: **`👑 Squad Orquestrador (TL)`**.
+Você passa a demanda como Tech Lead e **ele mesmo controla `@architect` ➔ `@dev` ➔ `@sec` ➔ `@qa` (Cypress + Xray) ➔ `@scribe` (Grafo) de ponta a ponta!**
 
----
+Cole qualquer um dos exemplos abaixo no chat com o **`👑 Squad Orquestrador (TL)`** selecionado:
 
-### Cenário A — Testando o `📐 Architect (Squad)`
+### Exemplo 1 — Mapear Projeto Legado Não Catalogado + Implementar + Gerar Cypress/Xray
+> `Mapeie o projeto existente em ./examples/legacy-order-api no grafo (criando proj-legacy-order-api, table-orders e rule-frete-gratis-vip), implemente um endpoint de validação de frete, audite a segurança (@sec) e gere a automação Cypress + evidências Jira Xray (@qa).`
 
-1. **Mapear o projeto legado de Pedidos (`examples/legacy-order-api`) que não está no grafo:**
-   > `Mapeie o projeto não catalogado em ./examples/legacy-order-api, crie proj-legacy-order-api, table-orders e rule-frete-gratis-vip no grafo e libere para o @dev.`
+### Exemplo 2 — Nova Regra de Negócio Completa no Motor PIX (`proj-pix-settlement`)
+> `No proj-pix-settlement, crie a rule-bloqueio-chave-pix-suspeita (bloqueia chaves com > 3 denúncias no DICT), implemente o serviço C# em src/PixSettlement/PixFraudService.cs com Dapper parametrizado, audite LGPD e gere os testes Cypress + payload Jira Xray.`
 
-2. **Criar uma nova especificação de negócio no motor de PIX (`proj-pix-settlement`):**
-   > `No proj-pix-settlement, crie a rule-bloqueio-chave-pix-suspeita (bloqueia chaves com > 3 denúncias no DICT) vinculada à table-pix-transactions e libere READY_FOR_DEV.`
+### Exemplo 3 — Implementar Regra Existente de Limite PIX Noturno de Ponta a Ponta
+> `Execute o ciclo completo da Squad para a rule-limite-pix-noturno do proj-pix-settlement: implemente src/PixSettlement/PixNightLimitValidator.cs seguindo a qry-consulta-limites-noturnos-pix, crie o teste unitário xUnit, rode a auditoria @sec e gere as evidências Cypress/Xray.`
 
-3. **Criar um projeto Greenfield (100% do zero):**
-   > `Crie do zero a arquitetura do projeto proj-notificacoes-push (envio de push e WhatsApp via RabbitMQ), criando proj-*, adr-*, table-notification-logs e rule-optout-lgpd.`
+### Exemplo 4 — Implementar Regra de Estorno Pro-Rata CDC (`proj-billing-engine`)
+> `Execute o ciclo completo da Squad para a rule-estorno-proporcional-cancelamento no proj-billing-engine: implemente src/Billing/RefundCalculator.cs (100% até 7 dias e pro-rata após 7 dias), audite e gere os artefatos Cypress e Jira Xray.`
 
----
-
-### Cenário B — Testando o `💻 Dev (Squad)`
-
-1. **Implementar a Regra de Limite PIX Noturno (.NET 8 + Dapper + Oracle):**
-   > `Implemente em src/PixSettlement/PixNightLimitService.cs a validação da rule-limite-pix-noturno usando a query parametrizada qry-consulta-limites-noturnos-pix e acione READY_FOR_VALIDATION.`
-
-2. **Implementar a Regra de Estorno Pro-Rata de Cancelamento (`proj-billing-engine`):**
-   > `Implemente em src/Billing/RefundCalculator.cs a rule-estorno-proporcional-cancelamento (100% até 7 dias CDC e pro-rata após 7 dias) e acione READY_FOR_VALIDATION.`
-
----
-
-### Cenário C — Testando o `🛡️ Sec Auditor (Squad)`
-
-1. **Auditar a implementação atual e tabelas LGPD:**
-   > `Audite a tarefa ativa em dist/context/active-context.md verificando SQL Injection (bind variables), secrets e mascaramento LGPD de NR_CPF_PAGADOR na table-pix-transactions.`
-
----
-
-### Cenário D — Testando o `🧪 QA & Grafo (Squad)` (Cypress + Jira Xray)
-
-1. **Gerar Automação Cypress + Pacote de Evidências Jira Xray para todas as regras:**
-   > `Gere os scripts Cypress (.cy.ts) com cy.screenshot() e o pacote de evidências do Jira Xray para rule-limite-pix-noturno e rule-estorno-proporcional-cancelamento, e aprove a entrega.`
+### Exemplo 5 — Criar um Projeto Greenfield (100% do Zero)
+> `Vamos criar do zero o projeto proj-notificacoes-push (disparo de alertas transacionais via RabbitMQ): desenhe o proj-*, adr-*, table-notification-logs e rule-optout-lgpd no grafo, implemente o worker inicial e gere o pacote de testes Xray.`
 
 ---
 

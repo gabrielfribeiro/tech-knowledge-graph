@@ -33,10 +33,10 @@
     ]
   },
   "token_economy": {
-    "mode": "STRICT_EXECUTION_ZERO_FLUFF",
-    "max_response_lines": 4,
+    "mode": "FREE_CONTEXT_READ_ZERO_FLUFF_OUTPUT",
+    "knowledge_base_reading": "UNLIMITED_FREE_ACCESS",
+    "max_response_lines": 5,
     "forbid_greetings_and_summaries": true,
-    "use_minified_context_file": "dist/context/active-context.md",
     "offload_boilerplate_to_scripts": true
   },
   "vscode_extensions_synced": true,
