@@ -6,7 +6,7 @@
   "sec_status": "APPROVED",
   "qa_status": "APPROVED",
   "rejection_reason": null,
-  "updated_at": "2026-10-10T23:30:11.056Z",
+  "updated_at": "2026-10-10T23:43:34.723Z",
   "history": [
     {
       "timestamp": "2026-10-10T23:30:10.780Z",
@@ -34,6 +34,36 @@
     },
     {
       "timestamp": "2026-10-10T23:30:11.056Z",
+      "actor": "@scribe",
+      "status": "COMPLETED",
+      "message": "Crescimento vegetativo concluído: Grafo e Teams atualizados!"
+    },
+    {
+      "timestamp": "2026-10-10T23:43:34.475Z",
+      "actor": "@architect",
+      "status": "READY_FOR_DEV",
+      "message": "Especificação aprovada para proj-billing-engine (rule-cobranca-recorrente). Liberado para @dev."
+    },
+    {
+      "timestamp": "2026-10-10T23:43:34.476Z",
+      "actor": "@dev",
+      "status": "READY_FOR_VALIDATION",
+      "message": "Implementação concluída para rule-cobranca-recorrente. Disparando @sec e @qa em paralelo!"
+    },
+    {
+      "timestamp": "2026-10-10T23:43:34.478Z",
+      "actor": "@sec",
+      "status": "READY_FOR_VALIDATION",
+      "message": "Auditoria de segurança aprovada (OWASP / SQL Bind / LGPD OK)."
+    },
+    {
+      "timestamp": "2026-10-10T23:43:34.570Z",
+      "actor": "@qa",
+      "status": "READY_FOR_VALIDATION",
+      "message": "Testes automatizados e conformidade de regras aprovados."
+    },
+    {
+      "timestamp": "2026-10-10T23:43:34.723Z",
       "actor": "@scribe",
       "status": "COMPLETED",
       "message": "Crescimento vegetativo concluído: Grafo e Teams atualizados!"

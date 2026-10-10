@@ -81,7 +81,7 @@ function performSecurityAudit(profile) {
   };
 }
 
-// QA & Vegetative Sync Logic (@qa)
+// QA, Cypress E2E, Jira Xray & Vegetative Sync Logic (@qa)
 function performQaAndVegetativeSync() {
   const lintOut = runCmd('node skills/knowledge-linter/scripts/validate.js --json');
   let lintResult = { totalFiles: 0, issues: [] };
@@ -89,18 +89,22 @@ function performQaAndVegetativeSync() {
     lintResult = JSON.parse(lintOut);
   } catch (_) {}
 
+  // Generate Cypress E2E specs + Jira Xray Test Execution Payload & Evidences
+  const xrayOut = runCmd('node skills/squad-qa/scripts/xray-exporter.js');
+
   const errors = (lintResult.issues || []).filter(i => i.severity === 'ERROR');
   return {
     passed: errors.length === 0,
     totalFiles: lintResult.totalFiles || 0,
-    errors
+    errors,
+    xraySummary: xrayOut
   };
 }
 
 function executeVegetativeGrowth() {
   console.log('\n🌱 [CRESCIMENTO VEGETATIVO] Sincronizando e auto-curando a Base de Conhecimento...');
   console.log(runCmd('node skills/knowledge-fixer/scripts/fix.js --create-stubs'));
-  console.log(runCmd('node skills/knowledge- governance/scripts/compile-graph.js'.replace('knowledge- governance', 'knowledge-governance')));
+  console.log(runCmd('node skills/knowledge-governance/scripts/compile-graph.js'));
   console.log(runCmd('node skills/knowledge-governance/scripts/export-for-teams.js'));
 }
 
@@ -234,13 +238,16 @@ async function startRoleTerminal(role) {
     }
 
     if (role === 'qa' && state.status === 'READY_FOR_VALIDATION' && state.qa_status === 'PENDING') {
-      console.log(`\n🧪 [@qa DESPERTOU!] O @dev terminou "${state.task_id}". Validando testes e integridade...`);
-      console.log(`   - Framework Backend:  ${profile.quality_and_security.test_framework_backend}`);
-      console.log(`   - Framework Frontend: ${profile.quality_and_security.test_framework_frontend}`);
-      console.log(`   - Meta de Cobertura:  ${profile.quality_and_security.min_coverage_percent}%`);
+      console.log(`\n🧪 [@qa DESPERTOU!] O @dev terminou "${state.task_id}". Validando testes, automação Cypress e evidências Xray...`);
+      console.log(`   - Framework Backend:   ${profile.quality_and_security.test_framework_backend}`);
+      console.log(`   - Framework Frontend:  ${profile.quality_and_security.test_framework_frontend}`);
+      console.log(`   - Automação E2E:       ${profile.quality_and_security.e2e_automation_tool || 'Cypress'}`);
+      console.log(`   - Gestão & Evidências: ${profile.quality_and_security.test_management_tool || 'Jira Xray'}`);
+      console.log(`   - Meta de Cobertura:   ${profile.quality_and_security.min_coverage_percent}%`);
       const qaRes = performQaAndVegetativeSync();
+      if (qaRes.xraySummary) console.log(qaRes.xraySummary);
       if (qaRes.passed) {
-        console.log(`✅ [@qa PASS] Todos os ${qaRes.totalFiles} nós e critérios validados sem erros!`);
+        console.log(`✅ [@qa PASS] Todos os ${qaRes.totalFiles} nós, scripts Cypress e evidências Xray validados sem erros!`);
         handleTrigger('QA_APPROVED');
       } else {
         console.log(`❌ [@qa FAIL] Erros encontrados na validação:`, qaRes.errors);
@@ -257,6 +264,7 @@ async function simulateFullCycle() {
   console.log(`🎬 SIMULAÇÃO DE CICLO COMPLETO DA SQUAD: "${profile.identity.squad_name}"`);
   console.log(`👑 Tech Lead: ${profile.identity.tech_lead}`);
   console.log(`🛠️  Stack:     ${profile.stack.frontend} | ${profile.stack.backend} | ${profile.stack.database}`);
+  console.log(`🧪 QA & Evid: ${profile.quality_and_security.e2e_automation_tool || 'Cypress'} + ${profile.quality_and_security.test_management_tool || 'Jira Xray'}`);
   console.log('============================================================\n');
 
   console.log('1️⃣ [TERMINAL 1 - @architect] Validando projeto no Grafo e liberando especificação...');
@@ -272,8 +280,9 @@ async function simulateFullCycle() {
     handleTrigger('SEC_APPROVED');
   }
 
-  console.log('\n4️⃣ [TERMINAL 4 - @qa] Despertou em paralelo! Validando critérios de aceite e disparando Crescimento Vegetativo...');
+  console.log('\n4️⃣ [TERMINAL 4 - @qa] Despertou em paralelo! Gerando automação Cypress + Evidências Jira Xray e Crescimento Vegetativo...');
   const qaAudit = performQaAndVegetativeSync();
+  if (qaAudit.xraySummary) console.log(qaAudit.xraySummary);
   if (qaAudit.passed) {
     handleTrigger('QA_APPROVED');
   }

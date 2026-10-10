@@ -17,6 +17,13 @@
   "quality_and_security": {
     "test_framework_backend": "xUnit + Moq + FluentAssertions",
     "test_framework_frontend": "Vitest + React Testing Library",
+    "e2e_automation_tool": "Cypress",
+    "test_management_tool": "Jira Xray",
+    "evidence_requirements": [
+      "Cypress Screenshots (cy.screenshot) em cada passo crítico da rule-*",
+      "Relatório de Execução compatível com Jira Xray JSON / JUnit XML",
+      "Vínculo do Caso de Teste Xray com o ID da regra (rule-*)"
+    ],
     "min_coverage_percent": 80,
     "security_standards": [
       "OWASP Top 10",

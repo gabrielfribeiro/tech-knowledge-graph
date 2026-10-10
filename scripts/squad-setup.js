@@ -113,10 +113,13 @@ async function runSetup() {
   current.stack.architecture_style = await ask('7. Qual é o padrão de Arquitetura? (ex: Clean Architecture, Hexagonal, MVC)', current.stack.architecture_style);
   current.stack.messaging = await ask('8. Qual é a tecnologia de Mensageria/Eventos? (ex: RabbitMQ, Kafka, SQS)', current.stack.messaging);
 
-  const covStr = await ask('9. Qual a cobertura mínima de testes exigida pelo QA (%)?', String(current.quality_and_security.min_coverage_percent));
+  current.quality_and_security.e2e_automation_tool = await ask('9. Qual a ferramenta de Automação E2E / UI do QA? (ex: Cypress, Playwright)', current.quality_and_security.e2e_automation_tool || 'Cypress');
+  current.quality_and_security.test_management_tool = await ask('10. Qual a ferramenta para subir Evidências e Planos de Teste? (ex: Jira Xray, Zephyr, Azure Test Plans)', current.quality_and_security.test_management_tool || 'Jira Xray');
+
+  const covStr = await ask('11. Qual a cobertura mínima de testes exigida pelo QA (%)?', String(current.quality_and_security.min_coverage_percent));
   current.quality_and_security.min_coverage_percent = parseInt(covStr, 10) || 80;
 
-  const syncAns = await ask('10. Deseja varrer os plugins instalados neste VS Code agora para absorver os padrões? (S/n)', 'S');
+  const syncAns = await ask('12. Deseja varrer os plugins instalados neste VS Code agora para absorver os padrões? (S/n)', 'S');
 
   rl.close();
 
@@ -136,7 +139,7 @@ async function runSetup() {
   console.log(`⚙️  Backend:     ${current.stack.backend}`);
   console.log(`🗄️  Banco:       ${current.stack.database} (${current.stack.orm_data_access})`);
   console.log(`🏛️  Arquitetura: ${current.stack.architecture_style}`);
-  console.log(`🧪 Meta de QA:  ${current.quality_and_security.min_coverage_percent}% de cobertura`);
+  console.log(`🧪 Automação:   ${current.quality_and_security.e2e_automation_tool} + ${current.quality_and_security.test_management_tool} (${current.quality_and_security.min_coverage_percent}% cov)`);
   console.log(`📄 Perfil salvo em: spec/squad-profile.json\n`);
 }
 

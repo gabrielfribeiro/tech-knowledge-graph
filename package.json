@@ -20,7 +20,8 @@
     "squad:war-room": "node scripts/squad-terminal.js --spawn-terminals",
     "squad:simulate": "node scripts/squad-terminal.js --simulate",
     "squad:dev-start": "node scripts/squad-terminal.js --trigger READY_FOR_DEV",
-    "squad:dev-done": "node scripts/squad-terminal.js --trigger READY_FOR_VALIDATION"
+    "squad:dev-done": "node scripts/squad-terminal.js --trigger READY_FOR_VALIDATION",
+    "qa:xray": "node skills/squad-qa/scripts/xray-exporter.js"
   },
   "keywords": [
     "knowledge-graph",
