@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync, spawn } = require('child_process');
 const { loadCurrentProfile, runSetup } = require('./squad-setup');
+const { generateCompactContext } = require('./context-pack');
 
 const REPO_ROOT = path.resolve(__dirname, '../');
 const KB_DIR = path.join(REPO_ROOT, 'knowledge-base');
@@ -124,6 +125,7 @@ function handleTrigger(triggerName) {
     state.qa_status = 'PENDING';
     state.rejection_reason = null;
     addEvent(state, '@architect', `Especificação aprovada para ${proj} (${task}). Liberado para @dev.`);
+    generateCompactContext(proj, task);
     console.log(`📐 [@architect] Bastão passado para @dev -> Estado: READY_FOR_DEV (${task})`);
   } else if (triggerName === 'READY_FOR_VALIDATION') {
     state.status = 'READY_FOR_VALIDATION';
@@ -131,6 +133,7 @@ function handleTrigger(triggerName) {
     state.qa_status = 'PENDING';
     state.rejection_reason = null;
     addEvent(state, '@dev', `Implementação concluída para ${task}. Disparando @sec e @qa em paralelo!`);
+    generateCompactContext(proj, task);
     console.log(`💻 [@dev] Implementação finalizada! Despertando terminais @sec e @qa...`);
   } else if (triggerName === 'REJECTED_BY_SEC') {
     state.status = 'REJECTED_BY_SEC';
@@ -214,7 +217,7 @@ async function startRoleTerminal(role) {
     if (role === 'dev') {
       if (state.status === 'READY_FOR_DEV') {
         console.log(`\n🚀 [@dev DESPERTOU!] Nova tarefa recebida: ${state.task_id} (${state.project_id})`);
-        console.log(`   - Aplicando arquitetura: ${profile.stack.architecture_style}`);
+        console.log(`   - Contexto Token-Saver: dist/context/active-context.md`);
         console.log(`   - Stack alvo: ${profile.stack.backend} + ${profile.stack.database}`);
         console.log(`   👉 Quando terminar de codar, execute: npm run squad:dev-done\n`);
       } else if (state.status === 'REJECTED_BY_SEC' || state.status === 'REJECTED_BY_QA') {
@@ -292,6 +295,39 @@ async function simulateFullCycle() {
   console.log('============================================================\n');
 }
 
+// Simulate a Security Veto (SQL Injection caught by @sec) -> returned to @dev -> fixed -> approved
+async function simulateVetoCycle() {
+  const profile = loadCurrentProfile();
+  console.log('\n============================================================');
+  console.log(`🚨 SIMULAÇÃO DE VETO DE SEGURANÇA (@sec) E AUTO-CORREÇÃO (@dev)`);
+  console.log(`🤖 Squad: ${profile.identity.squad_name} | Projeto: proj-pix-settlement`);
+  console.log('============================================================\n');
+
+  process.argv.push('--project', 'proj-pix-settlement', '--task', 'rule-limite-pix-noturno');
+  console.log('1️⃣ [@architect] Liberando especificação de PIX Noturno para @dev...');
+  handleTrigger('READY_FOR_DEV');
+
+  console.log('\n2️⃣ [@dev - Tentativa 1] Código enviado com query concatenada: "SELECT * FROM TB_PIX WHERE CPF = \'" + cpf + "\'"');
+  handleTrigger('READY_FOR_VALIDATION');
+
+  console.log('\n3️⃣ [@sec] Auditando entrega...');
+  process.argv.push('--reason', 'SQL Injection detectado: concatenação de NR_CPF_PAGADOR sem Bind Variable (:p_cpf_pagador).');
+  handleTrigger('REJECTED_BY_SEC');
+
+  console.log('\n4️⃣ [@dev - Tentativa 2 (Correção)] Substituído por Dapper Bind Parameter (:p_cpf_pagador) conforme qry-consulta-limites-noturnos-pix...');
+  handleTrigger('READY_FOR_VALIDATION');
+
+  console.log('\n5️⃣ [@sec & @qa] Revalidando entrega corrigida...');
+  handleTrigger('SEC_APPROVED');
+  const qaAudit = performQaAndVegetativeSync();
+  if (qaAudit.xraySummary) console.log(qaAudit.xraySummary);
+  handleTrigger('QA_APPROVED');
+
+  console.log('\n============================================================');
+  console.log('✅ VETO TESTADO, CORRIGIDO PELO @dev E APROVADO COM EVIDÊNCIAS XRAY!');
+  console.log('============================================================\n');
+}
+
 // Spawn 4 Windows PowerShell terminals automatically if requested
 function launchFourWindowsTerminals() {
   const roles = ['orchestrator', 'dev', 'sec', 'qa'];
@@ -310,7 +346,9 @@ if (require.main === module) {
   const trigger = getArgValue('--trigger');
   const role = getArgValue('--role');
 
-  if (process.argv.includes('--simulate')) {
+  if (process.argv.includes('--simulate-veto')) {
+    simulateVetoCycle();
+  } else if (process.argv.includes('--simulate')) {
     simulateFullCycle();
   } else if (process.argv.includes('--spawn-terminals')) {
     launchFourWindowsTerminals();

@@ -21,6 +21,7 @@
 
 ### Componentes que Dependem ou Utilizam Este Nó:
 - O PROJECT **Motor de Cobrança (Billing Engine)** (`proj-billing-engine`) conecta via **REFERENCES**
+- O RULE **Regra de Estorno Proporcional (Pro-Rata) em Cancelamento de Assinatura** (`rule-estorno-proporcional-cancelamento`) conecta via **REFERENCES**
 
 ## 📖 Conteúdo e Especificação Técnica
 

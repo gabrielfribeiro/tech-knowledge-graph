@@ -32,6 +32,13 @@
       "Mapeamento de dados sensíveis (LGPD/PII) em todas as tabelas (table-*)"
     ]
   },
+  "token_economy": {
+    "mode": "STRICT_EXECUTION_ZERO_FLUFF",
+    "max_response_lines": 4,
+    "forbid_greetings_and_summaries": true,
+    "use_minified_context_file": "dist/context/active-context.md",
+    "offload_boilerplate_to_scripts": true
+  },
   "vscode_extensions_synced": true,
   "synced_extensions_count": 31
 }

@@ -23,6 +23,7 @@
 - O PROJECT **Motor de Cobrança (Billing Engine)** (`proj-billing-engine`) conecta via **REFERENCES**
 - O QUERY **Busca de Assinaturas Vencendo sem Fatura Gerada** (`qry-assinaturas-pendentes-faturamento`) conecta via **READS_FROM_TABLE**
 - O QUERY **Busca de Assinaturas Vencendo sem Fatura Gerada** (`qry-assinaturas-pendentes-faturamento`) conecta via **REFERENCES**
+- O RULE **Regra de Estorno Proporcional (Pro-Rata) em Cancelamento de Assinatura** (`rule-estorno-proporcional-cancelamento`) conecta via **REFERENCES**
 - O PROJECT **Motor de Cobrança (Billing Engine)** (`proj-billing-engine`) conecta via **OWNS_TABLE**
 
 ## 📖 Conteúdo e Especificação Técnica

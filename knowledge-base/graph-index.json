@@ -1,24 +1,24 @@
 {
   "metadata": {
-    "generated_at": "2026-10-10T23:43:34.656Z",
-    "total_nodes": 8,
-    "total_edges": 35,
+    "generated_at": "2026-10-10T23:52:35.219Z",
+    "total_nodes": 15,
+    "total_edges": 59,
     "counts_by_type": {
-      "adr": 1,
-      "process": 1,
-      "project": 2,
-      "query": 1,
-      "rule": 1,
-      "table": 2
+      "adr": 2,
+      "process": 2,
+      "project": 3,
+      "query": 2,
+      "rule": 3,
+      "table": 3
     },
     "counts_by_relation": {
       "decides_on": 2,
-      "references": 22,
-      "belongs_to": 5,
+      "references": 43,
+      "belongs_to": 7,
       "depends_on": 1,
       "implements_rule": 1,
       "reads_from_table": 2,
-      "owns_table": 2
+      "owns_table": 3
     }
   },
   "nodes": {
@@ -43,6 +43,43 @@
         ],
         "date": "2026-09-14"
       }
+    },
+    "adr-002-idempotencia-liquidacao-pix": {
+      "id": "adr-002-idempotencia-liquidacao-pix",
+      "type": "adr",
+      "title": "ADR 002 - Idempotência Distribuída na Liquidação PIX com Redis e Oracle",
+      "path": "knowledge-base/adrs/adr-002-idempotencia-liquidacao-pix.md",
+      "updated_at": "2026-10-10",
+      "tags": [
+        "adr",
+        "pix",
+        "idempotencia",
+        "redis",
+        "oracle"
+      ],
+      "metadata": {
+        "status": "accepted",
+        "deciders": [
+          "Gabriel",
+          "Squad Jarvis Core"
+        ],
+        "date": null
+      }
+    },
+    "proc-bloqueio-cautelar-med": {
+      "id": "proc-bloqueio-cautelar-med",
+      "type": "process",
+      "title": "Runbook de Bloqueio Cautelar e Devolução PIX (MED Bacen)",
+      "path": "knowledge-base/processes/proc-bloqueio-cautelar-med.md",
+      "updated_at": "2026-10-10",
+      "tags": [
+        "processo",
+        "runbook",
+        "pix",
+        "med",
+        "antifraude"
+      ],
+      "metadata": {}
     },
     "proc-reprocessar-cobranca-falha": {
       "id": "proc-reprocessar-cobranca-falha",
@@ -89,6 +126,25 @@
         "repositorio": null
       }
     },
+    "proj-pix-settlement": {
+      "id": "proj-pix-settlement",
+      "type": "project",
+      "title": "Motor de Liquidação Instantânea PIX & Anti-Fraude",
+      "path": "knowledge-base/projects/proj-pix-settlement.md",
+      "updated_at": "2026-10-10",
+      "tags": [
+        "pix",
+        "bacen",
+        "pagamentos",
+        "antifraude",
+        "dotnet",
+        "oracle"
+      ],
+      "metadata": {
+        "responsavel": "Squad Jarvis Core",
+        "repositorio": null
+      }
+    },
     "qry-assinaturas-pendentes-faturamento": {
       "id": "qry-assinaturas-pendentes-faturamento",
       "type": "query",
@@ -104,6 +160,22 @@
         "database": "postgres-billing"
       }
     },
+    "qry-consulta-limites-noturnos-pix": {
+      "id": "qry-consulta-limites-noturnos-pix",
+      "type": "query",
+      "title": "Query de Apuração do Acumulado PIX Noturno por CPF (Oracle)",
+      "path": "knowledge-base/queries/qry-consulta-limites-noturnos-pix.md",
+      "updated_at": "2026-10-10",
+      "tags": [
+        "query",
+        "oracle",
+        "pix",
+        "limite-noturno"
+      ],
+      "metadata": {
+        "database": "Oracle Database"
+      }
+    },
     "rule-cobranca-recorrente": {
       "id": "rule-cobranca-recorrente",
       "type": "rule",
@@ -117,6 +189,40 @@
       ],
       "metadata": {
         "dominio": "Monetização e Faturamento"
+      }
+    },
+    "rule-estorno-proporcional-cancelamento": {
+      "id": "rule-estorno-proporcional-cancelamento",
+      "type": "rule",
+      "title": "Regra de Estorno Proporcional (Pro-Rata) em Cancelamento de Assinatura",
+      "path": "knowledge-base/rules/rule-estorno-proporcional-cancelamento.md",
+      "updated_at": "2026-10-10",
+      "tags": [
+        "regra",
+        "billing",
+        "estorno",
+        "pro-rata",
+        "cdc"
+      ],
+      "metadata": {
+        "dominio": "Faturamento e Assinaturas"
+      }
+    },
+    "rule-limite-pix-noturno": {
+      "id": "rule-limite-pix-noturno",
+      "type": "rule",
+      "title": "Regra de Limite PIX Noturno (20h às 06h) e Prevenção a Fraude",
+      "path": "knowledge-base/rules/rule-limite-pix-noturno.md",
+      "updated_at": "2026-10-10",
+      "tags": [
+        "regra",
+        "pix",
+        "bacen",
+        "limite-noturno",
+        "seguranca"
+      ],
+      "metadata": {
+        "dominio": "Pagamentos Instantâneos (PIX)"
       }
     },
     "table-invoices": {
@@ -136,6 +242,26 @@
         "schema": "public",
         "service_owner": "[[proj-billing-engine]]",
         "primary_key": "id"
+      }
+    },
+    "table-pix-transactions": {
+      "id": "table-pix-transactions",
+      "type": "table",
+      "title": "Tabela TB_PIX_TRANSACTIONS (Transações e Liquidação PIX)",
+      "path": "knowledge-base/tables/table-pix-transactions.md",
+      "updated_at": "2026-10-10",
+      "tags": [
+        "tabela",
+        "oracle",
+        "pix",
+        "lgpd",
+        "pii"
+      ],
+      "metadata": {
+        "database": "Oracle Database",
+        "schema": "PIX_CORE",
+        "service_owner": "proj-pix-settlement",
+        "primary_key": null
       }
     },
     "table-subscriptions": {
@@ -200,6 +326,36 @@
       "relation": "references"
     },
     {
+      "source": "adr-002-idempotencia-liquidacao-pix",
+      "target": "proj-pix-settlement",
+      "relation": "references"
+    },
+    {
+      "source": "adr-002-idempotencia-liquidacao-pix",
+      "target": "rule-limite-pix-noturno",
+      "relation": "references"
+    },
+    {
+      "source": "adr-002-idempotencia-liquidacao-pix",
+      "target": "table-pix-transactions",
+      "relation": "references"
+    },
+    {
+      "source": "proc-bloqueio-cautelar-med",
+      "target": "proj-pix-settlement",
+      "relation": "references"
+    },
+    {
+      "source": "proc-bloqueio-cautelar-med",
+      "target": "rule-limite-pix-noturno",
+      "relation": "references"
+    },
+    {
+      "source": "proc-bloqueio-cautelar-med",
+      "target": "table-pix-transactions",
+      "relation": "references"
+    },
+    {
       "source": "proc-reprocessar-cobranca-falha",
       "target": "proj-billing-engine",
       "relation": "belongs_to"
@@ -232,6 +388,26 @@
     {
       "source": "proj-billing-engine",
       "target": "adr-001-cobranca-assincrona-com-filas",
+      "relation": "references"
+    },
+    {
+      "source": "proj-pix-settlement",
+      "target": "table-pix-transactions",
+      "relation": "references"
+    },
+    {
+      "source": "proj-pix-settlement",
+      "target": "adr-002-idempotencia-liquidacao-pix",
+      "relation": "references"
+    },
+    {
+      "source": "proj-pix-settlement",
+      "target": "rule-limite-pix-noturno",
+      "relation": "references"
+    },
+    {
+      "source": "proj-pix-settlement",
+      "target": "proc-bloqueio-cautelar-med",
       "relation": "references"
     },
     {
@@ -270,6 +446,21 @@
       "relation": "references"
     },
     {
+      "source": "qry-consulta-limites-noturnos-pix",
+      "target": "proj-pix-settlement",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "qry-consulta-limites-noturnos-pix",
+      "target": "table-pix-transactions",
+      "relation": "references"
+    },
+    {
+      "source": "qry-consulta-limites-noturnos-pix",
+      "target": "rule-limite-pix-noturno",
+      "relation": "references"
+    },
+    {
       "source": "rule-cobranca-recorrente",
       "target": "proj-billing-engine",
       "relation": "belongs_to"
@@ -277,6 +468,46 @@
     {
       "source": "rule-cobranca-recorrente",
       "target": "proj-billing-engine",
+      "relation": "references"
+    },
+    {
+      "source": "rule-estorno-proporcional-cancelamento",
+      "target": "proj-billing-engine",
+      "relation": "references"
+    },
+    {
+      "source": "rule-estorno-proporcional-cancelamento",
+      "target": "table-subscriptions",
+      "relation": "references"
+    },
+    {
+      "source": "rule-estorno-proporcional-cancelamento",
+      "target": "table-invoices",
+      "relation": "references"
+    },
+    {
+      "source": "rule-estorno-proporcional-cancelamento",
+      "target": "adr-001-cobranca-assincrona-com-filas",
+      "relation": "references"
+    },
+    {
+      "source": "rule-limite-pix-noturno",
+      "target": "proj-pix-settlement",
+      "relation": "references"
+    },
+    {
+      "source": "rule-limite-pix-noturno",
+      "target": "table-pix-transactions",
+      "relation": "references"
+    },
+    {
+      "source": "rule-limite-pix-noturno",
+      "target": "qry-consulta-limites-noturnos-pix",
+      "relation": "references"
+    },
+    {
+      "source": "rule-limite-pix-noturno",
+      "target": "proc-bloqueio-cautelar-med",
       "relation": "references"
     },
     {
@@ -307,6 +538,21 @@
     {
       "source": "table-invoices",
       "target": "qry-assinaturas-pendentes-faturamento",
+      "relation": "references"
+    },
+    {
+      "source": "table-pix-transactions",
+      "target": "proj-pix-settlement",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "proj-pix-settlement",
+      "target": "table-pix-transactions",
+      "relation": "owns_table"
+    },
+    {
+      "source": "table-pix-transactions",
+      "target": "proj-pix-settlement",
       "relation": "references"
     },
     {

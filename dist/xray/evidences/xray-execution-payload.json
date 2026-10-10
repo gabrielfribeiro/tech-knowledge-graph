@@ -3,14 +3,14 @@
     "summary": "[Squad Jarvis Core] Execução Automatizada Cypress - Grafo Técnico",
     "description": "Pacote de evidências gerado automaticamente pelo Agente @qa para importação no Jira Xray.",
     "user": "Gabriel",
-    "startDate": "2026-10-10T23:43:34.560Z",
-    "finishDate": "2026-10-10T23:43:34.560Z"
+    "startDate": "2026-10-10T23:52:35.119Z",
+    "finishDate": "2026-10-10T23:52:35.119Z"
   },
   "tests": [
     {
       "testKey": "XRAY-001",
-      "start": "2026-10-10T23:43:34.560Z",
-      "finish": "2026-10-10T23:43:34.560Z",
+      "start": "2026-10-10T23:52:35.118Z",
+      "finish": "2026-10-10T23:52:35.118Z",
       "comment": "Execução automatizada Cypress vinculada ao nó rule-cobranca-recorrente do Tech Knowledge Graph.",
       "status": "PASSED",
       "steps": [
@@ -45,6 +45,132 @@
           "evidences": [
             {
               "filename": "XRAY-001-step-3-rule-cobranca-recorrente.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "testKey": "XRAY-002",
+      "start": "2026-10-10T23:52:35.118Z",
+      "finish": "2026-10-10T23:52:35.118Z",
+      "comment": "Execução automatizada Cypress vinculada ao nó rule-estorno-proporcional-cancelamento do Tech Knowledge Graph.",
+      "status": "PASSED",
+      "steps": [
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: rel: belongs_to",
+          "actualResult": "Comportamento conforme especificação de rule-estorno-proporcional-cancelamento",
+          "evidences": [
+            {
+              "filename": "XRAY-002-step-1-rule-estorno-proporcional-cancelamento.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: rel: reads_from_table",
+          "actualResult": "Comportamento conforme especificação de rule-estorno-proporcional-cancelamento",
+          "evidences": [
+            {
+              "filename": "XRAY-002-step-2-rule-estorno-proporcional-cancelamento.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: rel: writes_to_table",
+          "actualResult": "Comportamento conforme especificação de rule-estorno-proporcional-cancelamento",
+          "evidences": [
+            {
+              "filename": "XRAY-002-step-3-rule-estorno-proporcional-cancelamento.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: rel: references",
+          "actualResult": "Comportamento conforme especificação de rule-estorno-proporcional-cancelamento",
+          "evidences": [
+            {
+              "filename": "XRAY-002-step-4-rule-estorno-proporcional-cancelamento.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "testKey": "XRAY-003",
+      "start": "2026-10-10T23:52:35.119Z",
+      "finish": "2026-10-10T23:52:35.119Z",
+      "comment": "Execução automatizada Cypress vinculada ao nó rule-limite-pix-noturno do Tech Knowledge Graph.",
+      "status": "PASSED",
+      "steps": [
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: rel: belongs_to",
+          "actualResult": "Comportamento conforme especificação de rule-limite-pix-noturno",
+          "evidences": [
+            {
+              "filename": "XRAY-003-step-1-rule-limite-pix-noturno.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: rel: reads_from_table",
+          "actualResult": "Comportamento conforme especificação de rule-limite-pix-noturno",
+          "evidences": [
+            {
+              "filename": "XRAY-003-step-2-rule-limite-pix-noturno.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: rel: writes_to_table",
+          "actualResult": "Comportamento conforme especificação de rule-limite-pix-noturno",
+          "evidences": [
+            {
+              "filename": "XRAY-003-step-3-rule-limite-pix-noturno.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: rel: references",
+          "actualResult": "Comportamento conforme especificação de rule-limite-pix-noturno",
+          "evidences": [
+            {
+              "filename": "XRAY-003-step-4-rule-limite-pix-noturno.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: rel: references",
+          "actualResult": "Comportamento conforme especificação de rule-limite-pix-noturno",
+          "evidences": [
+            {
+              "filename": "XRAY-003-step-5-rule-limite-pix-noturno.png",
               "contentType": "image/png",
               "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
             }

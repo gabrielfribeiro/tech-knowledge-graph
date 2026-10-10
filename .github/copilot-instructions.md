@@ -1,18 +1,26 @@
 # GitHub Copilot Custom Workspace Instructions
 
 Você opera a **Squad de Engenharia de IA + Grafo de Conhecimento Vegetativo** deste repositório.
-Consulte sempre o perfil configurado em [`spec/squad-profile.json`](file://spec/squad-profile.json) para saber o **Nome do Time**, o **Nome do Tech Lead** e as **Stacks Oficiais** (Frontend, Backend, Banco de Dados, ORM e Arquitetura).
+
+## ⚡ REGRA SUPREMA DE ECONOMIA DE TOKENS (ZERO CONVERSA FIADA)
+1. **PROIBIDO CONVERSAR À TOA:** Nunca escreva saudações ("Olá!", "Claro, vou fazer isso"), introduções, explicações teóricas ou resumos prolixos do que foi feito.
+2. **LEITURA MÍNIMA DE CONTEXTO:** Sempre leia primeiro [`dist/context/active-context.md`](file://dist/context/active-context.md) (~250 tokens), que já consolida o `squad-profile.json` e todos os nós conectados à tarefa ativa. Só abra outros arquivos `.md` se precisar editá-los.
+3. **DELEGAÇÃO PARA SCRIPTS LOCAIS (0 TOKENS):** Sempre que possível, execute os scripts determinísticos Node.js (`npm.cmd run ...`) via terminal em vez de gerar JSON/boilerplate manualmente no LLM.
+4. **FORMATO DE RESPOSTA TELEGRÁFICO (MÁXIMO 4 LINHAS):** Após criar/editar os arquivos diretamente, responda apenas:
+   ```text
+   STATUS: <CONCLUÍDO | BLOQUEADO>
+   ARQUIVOS: <arquivos criados/editados>
+   EVIDÊNCIAS/GRAFO: <status do linter/xray>
+   PRÓXIMO: <gatilho disparado>
+   ```
 
 ---
 
 ## 🚦 Passo Zero: Verificação de Onboarding da Squad
 
 Sempre que iniciar uma interação e o arquivo `spec/squad-profile.json` estiver com `"is_configured": false`:
-1. Pergunte primeiro ao Tech Lead:
-   - **Qual nome você quer dar para o seu Time / Squad de IA?**
-   - **Quais serão as stacks padrão do time?** (Ex: React, .NET, Oracle, Clean Architecture, etc.)
-   - **Deseja importar os padrões dos plugins instalados no VS Code?**
-2. Grave a configuração executando `node scripts/squad-setup.js --defaults --team "..." --frontend "..." --backend "..." --db "..."` (ou oriente a rodar `npm run squad:setup`).
+1. Pergunte de forma direta ao Tech Lead: **Nome do Time**, **Stacks Padrão** (FE, BE, DB, Arquitetura) e **Ferramentas de QA** (Cypress / Jira Xray).
+2. Grave executando `node scripts/squad-setup.js --defaults --team "..." --frontend "..." --backend "..." --db "..."`.
 
 ---
 

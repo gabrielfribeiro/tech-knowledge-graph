@@ -1,12 +1,12 @@
 {
   "mission_id": "mission-1791675010779",
-  "project_id": "proj-billing-engine",
-  "task_id": "rule-cobranca-recorrente",
+  "project_id": "proj-pix-settlement",
+  "task_id": "rule-limite-pix-noturno",
   "status": "COMPLETED",
   "sec_status": "APPROVED",
   "qa_status": "APPROVED",
   "rejection_reason": null,
-  "updated_at": "2026-10-10T23:43:34.723Z",
+  "updated_at": "2026-10-10T23:52:35.287Z",
   "history": [
     {
       "timestamp": "2026-10-10T23:30:10.780Z",
@@ -64,6 +64,54 @@
     },
     {
       "timestamp": "2026-10-10T23:43:34.723Z",
+      "actor": "@scribe",
+      "status": "COMPLETED",
+      "message": "Crescimento vegetativo concluído: Grafo e Teams atualizados!"
+    },
+    {
+      "timestamp": "2026-10-10T23:51:18.042Z",
+      "actor": "@architect",
+      "status": "READY_FOR_DEV",
+      "message": "Especificação aprovada para proj-pix-settlement (rule-limite-pix-noturno). Liberado para @dev."
+    },
+    {
+      "timestamp": "2026-10-10T23:52:35.017Z",
+      "actor": "@architect",
+      "status": "READY_FOR_DEV",
+      "message": "Especificação aprovada para proj-pix-settlement (rule-limite-pix-noturno). Liberado para @dev."
+    },
+    {
+      "timestamp": "2026-10-10T23:52:35.020Z",
+      "actor": "@dev",
+      "status": "READY_FOR_VALIDATION",
+      "message": "Implementação concluída para rule-limite-pix-noturno. Disparando @sec e @qa em paralelo!"
+    },
+    {
+      "timestamp": "2026-10-10T23:52:35.023Z",
+      "actor": "@sec",
+      "status": "REJECTED_BY_SEC",
+      "message": "VETO DE SEGURANÇA: SQL Injection detectado: concatenação de NR_CPF_PAGADOR sem Bind Variable (:p_cpf_pagador)."
+    },
+    {
+      "timestamp": "2026-10-10T23:52:35.023Z",
+      "actor": "@dev",
+      "status": "READY_FOR_VALIDATION",
+      "message": "Implementação concluída para rule-limite-pix-noturno. Disparando @sec e @qa em paralelo!"
+    },
+    {
+      "timestamp": "2026-10-10T23:52:35.026Z",
+      "actor": "@sec",
+      "status": "READY_FOR_VALIDATION",
+      "message": "Auditoria de segurança aprovada (OWASP / SQL Bind / LGPD OK)."
+    },
+    {
+      "timestamp": "2026-10-10T23:52:35.129Z",
+      "actor": "@qa",
+      "status": "READY_FOR_VALIDATION",
+      "message": "Testes automatizados e conformidade de regras aprovados."
+    },
+    {
+      "timestamp": "2026-10-10T23:52:35.287Z",
       "actor": "@scribe",
       "status": "COMPLETED",
       "message": "Crescimento vegetativo concluído: Grafo e Teams atualizados!"

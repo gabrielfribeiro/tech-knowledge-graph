@@ -24,6 +24,7 @@
 - O QUERY **Busca de Assinaturas Vencendo sem Fatura Gerada** (`qry-assinaturas-pendentes-faturamento`) conecta via **BELONGS_TO**
 - O RULE **Regra de Cobrança Recorrente e Tentativas** (`rule-cobranca-recorrente`) conecta via **BELONGS_TO**
 - O RULE **Regra de Cobrança Recorrente e Tentativas** (`rule-cobranca-recorrente`) conecta via **REFERENCES**
+- O RULE **Regra de Estorno Proporcional (Pro-Rata) em Cancelamento de Assinatura** (`rule-estorno-proporcional-cancelamento`) conecta via **REFERENCES**
 - O TABLE **Tabela de Faturas (invoices)** (`table-invoices`) conecta via **BELONGS_TO**
 - O TABLE **Tabela de Faturas (invoices)** (`table-invoices`) conecta via **REFERENCES**
 - O TABLE **Tabela de Assinaturas (subscriptions)** (`table-subscriptions`) conecta via **BELONGS_TO**
