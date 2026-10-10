@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "tech-knowledge-graph",
   "version": "1.0.0",
   "description": "Agent-agnostic self-healing knowledge graph ecosystem for engineering teams",
@@ -14,7 +14,13 @@
     "audit": "node skills/knowledge-governance/scripts/audit-gaps.js",
     "analyze": "node skills/knowledge-orchestrator/scripts/analyze-intake.js",
     "ingest": "node skills/knowledge-orchestrator/scripts/ingest.js",
-    "export:teams": "node skills/knowledge-governance/scripts/export-for-teams.js"
+    "export:teams": "node skills/knowledge-governance/scripts/export-for-teams.js",
+    "squad:setup": "node scripts/squad-setup.js",
+    "sync:standards": "node skills/standards-extractor/scripts/extract-vscode-standards.js",
+    "squad:war-room": "node scripts/squad-terminal.js --spawn-terminals",
+    "squad:simulate": "node scripts/squad-terminal.js --simulate",
+    "squad:dev-start": "node scripts/squad-terminal.js --trigger READY_FOR_DEV",
+    "squad:dev-done": "node scripts/squad-terminal.js --trigger READY_FOR_VALIDATION"
   },
   "keywords": [
     "knowledge-graph",

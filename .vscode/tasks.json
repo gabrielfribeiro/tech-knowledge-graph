@@ -1,0 +1,60 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🚀 Iniciar War Room da Squad (4 Terminais Split)",
+      "dependsOn": [
+        "1️⃣ [TL & Architect] Orquestrador",
+        "2️⃣ [@dev] Agente Desenvolvedor",
+        "3️⃣ [@sec] Agente de Segurança",
+        "4️⃣ [@qa] Agente QA & Grafo Vegetativo"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "1️⃣ [TL & Architect] Orquestrador",
+      "type": "shell",
+      "command": "node scripts/squad-terminal.js --role orchestrator",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "squad-war-room"
+      }
+    },
+    {
+      "label": "2️⃣ [@dev] Agente Desenvolvedor",
+      "type": "shell",
+      "command": "node scripts/squad-terminal.js --role dev",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "squad-war-room"
+      }
+    },
+    {
+      "label": "3️⃣ [@sec] Agente de Segurança",
+      "type": "shell",
+      "command": "node scripts/squad-terminal.js --role sec",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "squad-war-room"
+      }
+    },
+    {
+      "label": "4️⃣ [@qa] Agente QA & Grafo Vegetativo",
+      "type": "shell",
+      "command": "node scripts/squad-terminal.js --role qa",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "squad-war-room"
+      }
+    }
+  ]
+}

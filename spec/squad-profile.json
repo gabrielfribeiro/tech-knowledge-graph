@@ -1,0 +1,30 @@
+{
+  "is_configured": false,
+  "updated_at": "2026-10-10",
+  "identity": {
+    "squad_name": "Squad Jarvis Core",
+    "tech_lead": "Gabriel",
+    "mission": "Desenvolvimento autônomo com crescimento vegetativo da base de conhecimento"
+  },
+  "stack": {
+    "frontend": "React + TypeScript",
+    "backend": ".NET 8 (C#)",
+    "database": "Oracle Database",
+    "orm_data_access": "Dapper / Entity Framework Core",
+    "architecture_style": "Clean Architecture + CQRS",
+    "messaging": "RabbitMQ / AWS SQS"
+  },
+  "quality_and_security": {
+    "test_framework_backend": "xUnit + Moq + FluentAssertions",
+    "test_framework_frontend": "Vitest + React Testing Library",
+    "min_coverage_percent": 80,
+    "security_standards": [
+      "OWASP Top 10",
+      "Queries parametrizadas obrigatórias (proibido concatenação SQL/PL-SQL)",
+      "Autenticação JWT / OAuth2 em rotas privadas",
+      "Mapeamento de dados sensíveis (LGPD/PII) em todas as tabelas (table-*)"
+    ]
+  },
+  "vscode_extensions_synced": true,
+  "synced_extensions_count": 31
+}

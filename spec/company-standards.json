@@ -1,0 +1,1603 @@
+{
+  "synced_at": "2026-10-10T23:29:51.836Z",
+  "filter_applied": "all",
+  "total_extensions_extracted": 31,
+  "extensions": [
+    {
+      "id": "adpyke.codesnap",
+      "displayName": "CodeSnap",
+      "version": "1.3.4",
+      "description": "📷 Take beautiful screenshots of your code",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "codesnap.backgroundColor",
+          "default": "#abb8c3",
+          "description": "The background color of the snippet's container"
+        },
+        {
+          "key": "codesnap.boxShadow",
+          "default": "rgba(0, 0, 0, 0.55) 0px 20px 68px",
+          "description": "The CSS box-shadow for the snippet"
+        },
+        {
+          "key": "codesnap.containerPadding",
+          "default": "3em",
+          "description": "The padding for the snippet's container"
+        },
+        {
+          "key": "codesnap.roundedCorners",
+          "default": true,
+          "description": "Use rounded corners for the window"
+        },
+        {
+          "key": "codesnap.showWindowControls",
+          "default": true,
+          "description": "Display OS X style window controls"
+        },
+        {
+          "key": "codesnap.showWindowTitle",
+          "default": false,
+          "description": "Display window title with open folder / file name"
+        },
+        {
+          "key": "codesnap.showLineNumbers",
+          "default": true,
+          "description": "Display line numbers"
+        },
+        {
+          "key": "codesnap.realLineNumbers",
+          "default": false,
+          "description": "Start from the selection's line number instead of 1"
+        },
+        {
+          "key": "codesnap.transparentBackground",
+          "default": false,
+          "description": "Use a transparent background when taking the screenshot"
+        },
+        {
+          "key": "codesnap.target",
+          "default": "container",
+          "description": "Take the shot with or without the container"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "amazonwebservices.aws-toolkit-vscode",
+      "displayName": "AWS Toolkit",
+      "version": "4.17.0",
+      "description": "Including CodeCatalyst, Infrastructure Composer, and support for Lambda, S3, CloudWatch Logs, CloudFormation, and many other services.",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "aws.profile",
+          "description": "%AWS.configuration.profileDescription%"
+        },
+        {
+          "key": "aws.ecs.openTerminalCommand",
+          "default": "/bin/sh",
+          "description": "%AWS.configuration.description.ecs.openTerminalCommand%"
+        },
+        {
+          "key": "aws.iot.maxItemsPerPage",
+          "default": 100,
+          "description": "%AWS.configuration.description.iot.maxItemsPerPage%"
+        },
+        {
+          "key": "aws.s3.maxItemsPerPage",
+          "default": 300,
+          "description": "%AWS.configuration.description.s3.maxItemsPerPage%"
+        },
+        {
+          "key": "aws.samcli.location",
+          "default": "",
+          "description": "%AWS.configuration.description.samcli.location%"
+        },
+        {
+          "key": "aws.samcli.lambdaTimeout",
+          "default": 90000,
+          "description": "%AWS.configuration.description.samcli.lambdaTimeout%"
+        },
+        {
+          "key": "aws.samcli.legacyDeploy",
+          "default": false,
+          "description": "%AWS.configuration.description.samcli.legacyDeploy%"
+        },
+        {
+          "key": "aws.telemetry",
+          "default": true,
+          "description": "%AWS.configuration.description.telemetry%"
+        },
+        {
+          "key": "aws.stepfunctions.asl.format.enable",
+          "default": true,
+          "description": "%AWS.stepFunctions.asl.format.enable.desc%"
+        },
+        {
+          "key": "aws.stepfunctions.asl.maxItemsComputed",
+          "default": 5000,
+          "description": "%AWS.stepFunctions.asl.maxItemsComputed.desc%"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "dbaeumer.vscode-eslint",
+      "displayName": "ESLint",
+      "version": "3.0.34",
+      "description": "Integrates ESLint JavaScript into VS Code.",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "eslint.enable",
+          "default": true,
+          "description": "Controls whether eslint is enabled or not."
+        },
+        {
+          "key": "eslint.packageManager",
+          "default": "npm",
+          "description": "The package manager you use to install node modules."
+        },
+        {
+          "key": "eslint.problems.shortenToSingleLine",
+          "default": false,
+          "description": "Shortens the text spans of underlined problems to their first related line."
+        },
+        {
+          "key": "eslint.nodeEnv",
+          "default": null,
+          "description": "The value of `NODE_ENV` to use when running eslint tasks."
+        },
+        {
+          "key": "eslint.nodePath",
+          "default": null,
+          "description": "A path added to `NODE_PATH` when resolving the eslint module."
+        },
+        {
+          "key": "eslint.options",
+          "default": {},
+          "description": "The eslint options object to provide args normally passed to eslint when executed from a command line (see https://eslint.org/docs/developer-guide/nodejs-api#eslint-class)."
+        },
+        {
+          "key": "eslint.trace.server",
+          "default": "off",
+          "description": "Traces the communication between VSCode and the eslint linter service."
+        },
+        {
+          "key": "eslint.run",
+          "default": "onType",
+          "description": "Run the linter on save (onSave) or on type (onType)"
+        },
+        {
+          "key": "eslint.autoFixOnSave",
+          "default": false,
+          "description": "Turns auto fix on save on or off."
+        },
+        {
+          "key": "eslint.quiet",
+          "default": false,
+          "description": "Turns on quiet mode, which ignores warnings and info diagnostics."
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "docker.docker",
+      "displayName": "Docker DX",
+      "version": "0.18.0",
+      "description": "Edit smarter, ship faster with an enhanced Docker-development experience",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "docker.extension.enableComposeLanguageServer",
+          "default": true,
+          "description": "Enable Compose editing features from the Docker DX extension. Note that changing this value requires a restart of Visual Studio Code to take effect."
+        },
+        {
+          "key": "docker.extension.dockerEngineAvailabilityPrompt",
+          "default": true,
+          "description": "Be notified when Docker Engine is not available."
+        },
+        {
+          "key": "docker.extension.editor.dockerfileBuildStageDecorationLines",
+          "default": true,
+          "description": "Render a divider line between each build stage of a Dockerfile."
+        },
+        {
+          "key": "docker.lsp.telemetry",
+          "default": "all",
+          "description": "Determines what telemetry is collected by Docker. If vscode.env.isTelemetryEnabled is false, then telemetry collection is disabled regardless of what has been set for this configuration value."
+        },
+        {
+          "key": "docker.lsp.debugServerPort",
+          "default": null,
+          "description": "Enter the port on localhost where the language server is running, used for debugging."
+        },
+        {
+          "key": "docker.lsp.experimental.vulnerabilityScanning",
+          "default": true,
+          "description": "Enable image analysis of Dockerfiles (Experimental)"
+        },
+        {
+          "key": "docker.lsp.experimental.scout.criticalHighVulnerabilities",
+          "default": true,
+          "description": "Determines if `critical_high_vulnerabilities` diagnostics should be shown. If `docker.lsp.experimental.vulnerabilityScanning` is false then this setting will be ignored."
+        },
+        {
+          "key": "docker.lsp.experimental.scout.notPinnedDigest",
+          "default": false,
+          "description": "Determines if `not_pinned_digest` diagnostics should be shown. If `docker.lsp.experimental.vulnerabilityScanning` is false then this setting will be ignored."
+        },
+        {
+          "key": "docker.lsp.experimental.scout.recommendedTag",
+          "default": false,
+          "description": "Determines if `recommended_tag` diagnostics should be shown. If `docker.lsp.experimental.vulnerabilityScanning` is false then this setting will be ignored."
+        },
+        {
+          "key": "docker.lsp.experimental.scout.vulnerabilities",
+          "default": true,
+          "description": "Determines if `vulnerabilities` diagnostics should be shown. If `docker.lsp.experimental.vulnerabilityScanning` is false then this setting will be ignored."
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "drknoxy.eslint-disable-snippets",
+      "displayName": "eslint-disable-snippets",
+      "version": "1.4.1",
+      "description": "Simple snippets to disable eslint rules",
+      "chatParticipants": [],
+      "snippets": [
+        {
+          "language": "javascript",
+          "templates": [
+            {
+              "name": "eslint-disable",
+              "prefix": "eslint-disable",
+              "description": "ESLint disable wrapper"
+            },
+            {
+              "name": "eslint-disable-line",
+              "prefix": "eslint-disable-line",
+              "description": "ESLint disable line"
+            },
+            {
+              "name": "eslint-disable-next-line",
+              "prefix": "eslint-disable-next-line",
+              "description": "ESLint disable next line"
+            }
+          ]
+        },
+        {
+          "language": "javascriptreact",
+          "templates": [
+            {
+              "name": "eslint-disable",
+              "prefix": "eslint-disable",
+              "description": "ESLint disable wrapper"
+            },
+            {
+              "name": "eslint-disable-line",
+              "prefix": "eslint-disable-line",
+              "description": "ESLint disable line"
+            },
+            {
+              "name": "eslint-disable-next-line",
+              "prefix": "eslint-disable-next-line",
+              "description": "ESLint disable next line"
+            }
+          ]
+        },
+        {
+          "language": "typescript",
+          "templates": [
+            {
+              "name": "eslint-disable",
+              "prefix": "eslint-disable",
+              "description": "ESLint disable wrapper"
+            },
+            {
+              "name": "eslint-disable-line",
+              "prefix": "eslint-disable-line",
+              "description": "ESLint disable line"
+            },
+            {
+              "name": "eslint-disable-next-line",
+              "prefix": "eslint-disable-next-line",
+              "description": "ESLint disable next line"
+            }
+          ]
+        },
+        {
+          "language": "typescriptreact",
+          "templates": [
+            {
+              "name": "eslint-disable",
+              "prefix": "eslint-disable",
+              "description": "ESLint disable wrapper"
+            },
+            {
+              "name": "eslint-disable-line",
+              "prefix": "eslint-disable-line",
+              "description": "ESLint disable line"
+            },
+            {
+              "name": "eslint-disable-next-line",
+              "prefix": "eslint-disable-next-line",
+              "description": "ESLint disable next line"
+            }
+          ]
+        },
+        {
+          "language": "vue",
+          "templates": [
+            {
+              "name": "eslint-disable",
+              "prefix": "eslint-disable",
+              "description": "ESLint disable wrapper"
+            },
+            {
+              "name": "eslint-disable-line",
+              "prefix": "eslint-disable-line",
+              "description": "ESLint disable line"
+            },
+            {
+              "name": "eslint-disable-next-line",
+              "prefix": "eslint-disable-next-line",
+              "description": "ESLint disable next line"
+            }
+          ]
+        }
+      ],
+      "configurations": [],
+      "instructionFiles": []
+    },
+    {
+      "id": "eamodio.gitlens",
+      "displayName": "%gitlens.displayName%",
+      "version": "19.3.0",
+      "description": "%gitlens.description%",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "gitlens.currentLine.enabled",
+          "default": true,
+          "description": "%config.currentLine.enabled.markdownDescription%"
+        },
+        {
+          "key": "gitlens.currentLine.pullRequests.enabled",
+          "default": true,
+          "description": "%config.currentLine.pullRequests.enabled.markdownDescription%"
+        },
+        {
+          "key": "gitlens.currentLine.format",
+          "default": "${author, }${agoOrDate}${' via  'pullRequest}${ • message|50?}",
+          "description": "%config.currentLine.format.markdownDescription%"
+        },
+        {
+          "key": "gitlens.currentLine.uncommittedChangesFormat",
+          "default": null,
+          "description": "%config.currentLine.uncommittedChangesFormat.markdownDescription%"
+        },
+        {
+          "key": "gitlens.currentLine.fontFamily",
+          "default": "",
+          "description": "%config.currentLine.fontFamily.markdownDescription%"
+        },
+        {
+          "key": "gitlens.currentLine.fontSize",
+          "default": 0,
+          "description": "%config.currentLine.fontSize.markdownDescription%"
+        },
+        {
+          "key": "gitlens.currentLine.fontStyle",
+          "default": "normal",
+          "description": "%config.currentLine.fontStyle.markdownDescription%"
+        },
+        {
+          "key": "gitlens.currentLine.fontWeight",
+          "default": "normal",
+          "description": "%config.currentLine.fontWeight.markdownDescription%"
+        },
+        {
+          "key": "gitlens.currentLine.scrollable",
+          "default": true,
+          "description": "%config.currentLine.scrollable.markdownDescription%"
+        },
+        {
+          "key": "gitlens.currentLine.dateFormat",
+          "default": null,
+          "description": "%config.currentLine.dateFormat.markdownDescription%"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "ecmel.vscode-html-css",
+      "displayName": "HTML CSS Support",
+      "version": "2.0.14",
+      "description": "CSS Intellisense for HTML",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "css.enabledLanguages",
+          "default": [
+            "html"
+          ],
+          "description": "List of languages which suggestions are desired."
+        },
+        {
+          "key": "css.styleSheets",
+          "default": [],
+          "description": "List of local or remote style sheets for suggestions."
+        },
+        {
+          "key": "css.autoValidation",
+          "default": "Never",
+          "description": "When to validate class selectors."
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "esbenp.prettier-vscode",
+      "displayName": "Prettier - Code formatter",
+      "version": "12.4.0",
+      "description": "Code formatter using prettier",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "prettier.enable",
+          "default": true,
+          "description": "%ext.config.enable%"
+        },
+        {
+          "key": "prettier.requireConfig",
+          "default": false,
+          "description": "%ext.config.requireConfig%"
+        },
+        {
+          "key": "prettier.resolveGlobalModules",
+          "default": false,
+          "description": "%ext.config.resolveGlobalModules%"
+        },
+        {
+          "key": "prettier.withNodeModules",
+          "default": false,
+          "description": "%ext.config.withNodeModules%"
+        },
+        {
+          "key": "prettier.packageManager",
+          "default": "npm",
+          "description": "%ext.config.packageManager%"
+        },
+        {
+          "key": "prettier.useEditorConfig",
+          "default": true,
+          "description": "%ext.config.useEditorConfig%"
+        },
+        {
+          "key": "prettier.ignorePath",
+          "default": ".prettierignore",
+          "description": "%ext.config.ignorePath%"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "formulahendry.auto-close-tag",
+      "displayName": "Auto Close Tag",
+      "version": "0.5.15",
+      "description": "Automatically add HTML/XML close tag, same as Visual Studio IDE or Sublime Text",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "auto-close-tag.activationOnLanguage",
+          "default": [
+            "xml",
+            "php",
+            "blade",
+            "ejs",
+            "jinja",
+            "javascript",
+            "javascriptreact",
+            "typescript",
+            "typescriptreact",
+            "plaintext",
+            "markdown",
+            "vue",
+            "liquid",
+            "erb",
+            "lang-cfml",
+            "cfml",
+            "HTML (EEx)",
+            "HTML (Eex)",
+            "plist"
+          ],
+          "description": "Set the languages that the extension will be activated.  e.g. [\"html\",\"xml\",\"php\"]. Use [\"*\"] to activate for all languages."
+        },
+        {
+          "key": "auto-close-tag.disableOnLanguage",
+          "default": [],
+          "description": "Set the languages where the extension will be disabled.  e.g. [\"html\",\"xml\",\"php\"]."
+        },
+        {
+          "key": "auto-close-tag.excludedTags",
+          "default": [
+            "area",
+            "base",
+            "br",
+            "col",
+            "command",
+            "embed",
+            "hr",
+            "img",
+            "input",
+            "keygen",
+            "link",
+            "meta",
+            "param",
+            "source",
+            "track",
+            "wbr"
+          ],
+          "description": "Set the tag list that would not be auto closed."
+        },
+        {
+          "key": "auto-close-tag.SublimeText3Mode",
+          "default": false,
+          "description": "Auto close tag when </ is typed, same as Sublime Text 3"
+        },
+        {
+          "key": "auto-close-tag.enableAutoCloseTag",
+          "default": true,
+          "description": "Whether to insert close tag automatically"
+        },
+        {
+          "key": "auto-close-tag.enableAutoCloseSelfClosingTag",
+          "default": true,
+          "description": "Whether to close self-closing tag automatically"
+        },
+        {
+          "key": "auto-close-tag.insertSpaceBeforeSelfClosingTag",
+          "default": false,
+          "description": "Insert a space before the forward slash in a self-closing tag."
+        },
+        {
+          "key": "auto-close-tag.fullMode",
+          "default": false,
+          "description": "Enable both Visual Studio and Sublime Text mode"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "formulahendry.auto-rename-tag",
+      "displayName": "Auto Rename Tag",
+      "version": "0.1.10",
+      "description": "Auto rename paired HTML/XML tag",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "auto-rename-tag.activationOnLanguage",
+          "default": [
+            "*"
+          ],
+          "description": "Set the languages that the extension will be activated.  e.g. [\"html\",\"xml\",\"php\"] By default, it is [\"*\"] and will be activated for all languages."
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "kisstkondoros.vscode-codemetrics",
+      "displayName": "CodeMetrics",
+      "version": "1.26.1",
+      "description": "Computes complexity in TypeScript / JavaScript files.",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "codemetrics.basics.Exclude",
+          "default": [],
+          "description": "Array of exclusion patterns (in glob format)"
+        },
+        {
+          "key": "codemetrics.basics.OverviewRulerModeEnabled",
+          "default": true,
+          "description": "A flag which indicates whether code metrics are shown on the overview ruler"
+        },
+        {
+          "key": "codemetrics.basics.DecorationModeEnabled",
+          "default": true,
+          "description": "A flag which indicates whether code metrics are shown as inline decoration"
+        },
+        {
+          "key": "codemetrics.basics.DecorationTemplate",
+          "default": "<svg xmlns='http://www.w3.org/2000/svg' width='{{size}}px' height='{{size}}px' viewbox='0 0 {{size}} {{size}}'><rect width='{{size}}' height='{{size}}' style='fill:{{color}};stroke-width:1;stroke:#fff'/></svg>",
+          "description": "A flag which indicates whether code metrics are shown as inline decoration"
+        },
+        {
+          "key": "codemetrics.basics.CodeLensEnabled",
+          "default": true,
+          "description": "A flag which indicates whether code metrics are shown as code lens"
+        },
+        {
+          "key": "codemetrics.basics.DiagnosticsEnabled",
+          "default": false,
+          "description": "A flag which indicates whether code metrics are shown as diagnostics"
+        },
+        {
+          "key": "codemetrics.basics.IgnoredFunctionNames",
+          "default": [],
+          "description": "A set of function names to ignore from calculations"
+        },
+        {
+          "key": "codemetrics.basics.MetricsForClassDeclarationsToggled",
+          "default": true,
+          "description": "A flag which indicates whether code metrics are enabled for class declarations"
+        },
+        {
+          "key": "codemetrics.basics.MetricsForConstructorsToggled",
+          "default": true,
+          "description": "A flag which indicates whether code metrics are enabled for constructors"
+        },
+        {
+          "key": "codemetrics.basics.MetricsForEnumDeclarationsToggled",
+          "default": true,
+          "description": "A flag which indicates whether code metrics are enabled for enum declarations"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "ms-azuretools.vscode-containers",
+      "displayName": "Container Tools",
+      "version": "2.5.2",
+      "description": "Makes it easy to create, manage, and debug containerized applications.",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "containers.promptForRegistryWhenPushingImages",
+          "default": true,
+          "description": "%vscode-containers.config.containers.promptForRegistryWhenPushingImages%"
+        },
+        {
+          "key": "containers.commands.build",
+          "default": "${containerCommand} build --pull ${rm} -f \"${dockerfile}\" -t ${tag} \"${context}\"",
+          "description": "%vscode-containers.config.template.build.description%"
+        },
+        {
+          "key": "containers.commands.run",
+          "default": "${containerCommand} run --rm -d ${exposedPorts} ${tag}",
+          "description": "%vscode-containers.config.template.run.description%"
+        },
+        {
+          "key": "containers.commands.runInteractive",
+          "default": "${containerCommand} run --rm -it ${exposedPorts} ${tag}",
+          "description": "%vscode-containers.config.template.runInteractive.description%"
+        },
+        {
+          "key": "containers.commands.attach",
+          "default": "${containerCommand} exec -it ${containerId} ${shellCommand}",
+          "description": "%vscode-containers.config.template.attach.description%"
+        },
+        {
+          "key": "containers.commands.logs",
+          "default": "${containerCommand} logs --tail 1000 -f ${containerId}",
+          "description": "%vscode-containers.config.template.logs.description%"
+        },
+        {
+          "key": "containers.commands.composeLogs",
+          "default": [
+            {
+              "label": "Compose Logs",
+              "template": "${composeCommand} ${configurationFile} ${projectName} ${environmentFile} logs --tail 1000 -f"
+            }
+          ],
+          "description": "%vscode-containers.config.template.composeLogs.description%"
+        },
+        {
+          "key": "containers.commands.composeUp",
+          "default": [
+            {
+              "label": "Compose Up",
+              "template": "${composeCommand} ${configurationFile} up ${detached} ${build}"
+            }
+          ],
+          "description": "%vscode-containers.config.template.composeUp.description%"
+        },
+        {
+          "key": "containers.commands.composeUpSubset",
+          "default": [
+            {
+              "label": "Compose Up",
+              "template": "${composeCommand} ${profileList} ${configurationFile} up ${detached} ${build} ${serviceList}"
+            }
+          ],
+          "description": "%vscode-containers.config.template.composeUpSubset.description%"
+        },
+        {
+          "key": "containers.commands.composeDown",
+          "default": [
+            {
+              "label": "Compose Down",
+              "template": "${composeCommand} ${configurationFile} down"
+            }
+          ],
+          "description": "%vscode-containers.config.template.composeDown.description%"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "ms-vscode-remote.remote-containers",
+      "displayName": "%displayName%",
+      "version": "0.469.0",
+      "description": "%description%",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "dev.containers.defaultExtensions",
+          "default": [],
+          "description": "%configuration.defaultExtensions.description%"
+        },
+        {
+          "key": "dev.containers.defaultFeatures",
+          "default": {},
+          "description": "%configuration.defaultFeatures%"
+        },
+        {
+          "key": "dev.containers.workspaceMountConsistency",
+          "default": "cached",
+          "description": "%configuration.workspaceMountConsistency.description%"
+        },
+        {
+          "key": "dev.containers.gpuAvailability",
+          "default": "detect",
+          "description": "%configuration.gpuAvailability.description%"
+        },
+        {
+          "key": "dev.containers.cacheVolume",
+          "default": true,
+          "description": "%configuration.cacheVolume.description%"
+        },
+        {
+          "key": "dev.containers.copyGitConfig",
+          "default": true,
+          "description": "%configuration.copyGitConfig.markdownDescription%"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "ms-vscode-remote.remote-ssh",
+      "displayName": "Remote - SSH",
+      "version": "0.128.0",
+      "description": "%description%",
+      "chatParticipants": [
+        {
+          "id": "remote-ssh",
+          "name": "remote-ssh",
+          "description": "%chatParticipants.description%",
+          "commands": []
+        }
+      ],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "remote.SSH.configFile",
+          "default": "",
+          "description": "%setting.configFile.description%"
+        },
+        {
+          "key": "remote.SSH.showLoginTerminal",
+          "default": false,
+          "description": "%setting.showLoginTerminal.description%"
+        },
+        {
+          "key": "remote.SSH.defaultForwardedPorts",
+          "default": [],
+          "description": "%setting.defaultForwardedPorts.description%"
+        },
+        {
+          "key": "remote.SSH.defaultExtensions",
+          "description": "%setting.defaultExtensions.description%"
+        },
+        {
+          "key": "remote.SSH.path",
+          "default": "",
+          "description": "%setting.path.description%"
+        },
+        {
+          "key": "remote.SSH.serverInstallPath",
+          "description": "%setting.serverInstallPath.description%"
+        },
+        {
+          "key": "remote.SSH.lockfilesInTmp",
+          "default": false,
+          "description": "%setting.lockfilesInTmp.description%"
+        },
+        {
+          "key": "remote.SSH.useFlock",
+          "default": true,
+          "description": "%setting.useFlock.description%"
+        },
+        {
+          "key": "remote.SSH.enableDynamicForwarding",
+          "default": true,
+          "description": "%setting.enableDynamicForwarding.description%"
+        },
+        {
+          "key": "remote.SSH.enableAgentForwarding",
+          "default": true,
+          "description": "%setting.enableAgentForwarding.description%"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "ms-vscode-remote.remote-wsl",
+      "displayName": "%displayName%",
+      "version": "0.104.3",
+      "description": "%description%",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "remote.WSL.fileWatcher.polling",
+          "default": false,
+          "description": "%settings.remote.WSL.fileWatcher.polling%"
+        },
+        {
+          "key": "remote.WSL.fileWatcher.pollingInterval",
+          "default": 5000,
+          "description": "%settings.remote.WSL.fileWatcher.pollingInterval%"
+        },
+        {
+          "key": "remote.WSL.debug",
+          "default": false,
+          "description": "%settings.remote.WSL.debug%"
+        },
+        {
+          "key": "remote.WSL.useShellEnvironment",
+          "default": true,
+          "description": "%settings.remote.WSL.useShellEnvironment%"
+        },
+        {
+          "key": "remote.WSL.downloadInBackground",
+          "default": true,
+          "description": "%settings.remote.WSL.downloadInBackground%"
+        },
+        {
+          "key": "remote.WSL.experimental.scriptLessStartup",
+          "default": false,
+          "description": "%settings.remote.WSL.experimental.scriptLessStartup%"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "ms-vscode.remote-explorer",
+      "displayName": "%displayName%",
+      "version": "0.5.0",
+      "description": "%description%",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "remote-explorer.foldersSortOrder",
+          "default": "most recently used",
+          "description": "%settings.foldersSortOrder.description%"
+        },
+        {
+          "key": "remote-explorer.collapseRecentFolders",
+          "default": false,
+          "description": "%settings.collapseRecentFolders.description%"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "ms-vsliveshare.vsliveshare",
+      "displayName": "%extension.liveshare.displayName.title%",
+      "version": "1.1.122",
+      "description": "%extension.liveshare.description.title%",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "liveshare.anonymousGuestApproval",
+          "default": "prompt",
+          "description": "%extension.liveshare.anonymousGuestApproval.title%"
+        },
+        {
+          "key": "liveshare.launcherClient",
+          "default": "web",
+          "description": "%extension.liveshare.launcherClient.title%"
+        },
+        {
+          "key": "liveshare.diagnosticLoggingLevel",
+          "default": "Warning",
+          "description": "%extension.liveshare.diagnosticLoggingLevel.title%"
+        },
+        {
+          "key": "liveshare.diagnosticLogging",
+          "default": false,
+          "description": "%extension.liveshare.diagnosticLogging.title%"
+        },
+        {
+          "key": "liveshare.diagnosticMode",
+          "default": false,
+          "description": "%extension.liveshare.diagnosticMode.title%"
+        },
+        {
+          "key": "liveshare.connectionMode",
+          "default": "auto",
+          "description": "%extension.liveshare.connectionMode.title%"
+        },
+        {
+          "key": "liveshare.nameTagVisibility",
+          "default": "Activity",
+          "description": "%extension.liveshare.nameTagVisibility.title%"
+        },
+        {
+          "key": "liveshare.guestApprovalRequired",
+          "default": false,
+          "description": "%extension.liveshare.guestApprovalRequired.title%"
+        },
+        {
+          "key": "liveshare.shareExternalFiles",
+          "default": true,
+          "description": "%extension.liveshare.shareExternalFiles.title%"
+        },
+        {
+          "key": "liveshare.joinDebugSessionOption",
+          "default": "Automatic",
+          "description": "%extension.liveshare.joinDebugSessionOption.title%"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "naumovs.color-highlight",
+      "displayName": "Color Highlight",
+      "version": "2.8.0",
+      "description": "Highlight web colors in your editor",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "color-highlight.enable",
+          "default": true,
+          "description": "Controls if plugin is enabled"
+        },
+        {
+          "key": "color-highlight.languages",
+          "default": [
+            "*"
+          ],
+          "description": "An array of language ids which should be highlighted by Color Highlight. \"*\" to trigger on any language; Prepend language id with \"!\" to exclude the language (i.e \"!typescript\", \"!javascript\")"
+        },
+        {
+          "key": "color-highlight.matchWords",
+          "default": false,
+          "description": "Highlight color words in all files (grey, green, etc.)"
+        },
+        {
+          "key": "color-highlight.useARGB",
+          "default": false,
+          "description": "Highlight HEX values using ARGB instead of RGBA (default)"
+        },
+        {
+          "key": "color-highlight.matchRgbWithNoFunction",
+          "default": false,
+          "description": "Highlight rgb without functions like rgb() ('255, 255, 255', [255, 255, 255], '255 255 255', etc.)"
+        },
+        {
+          "key": "color-highlight.rgbWithNoFunctionLanguages",
+          "default": [
+            "*"
+          ],
+          "description": "An array of language ids which should be highlighted by Color Highlight with the rgbWithNoFunction pattern. \"*\" to trigger on any language; Prepend language id with \"!\" to exclude the language (i.e \"!typescript\", \"!javascript\")"
+        },
+        {
+          "key": "color-highlight.matchHslWithNoFunction",
+          "default": false,
+          "description": "Highlight hsl without functions like hsl() ('255, 100%, 80%', [255, 100%, 80%], '255 100% 80%', etc.)"
+        },
+        {
+          "key": "color-highlight.hslWithNoFunctionLanguages",
+          "default": [
+            "*"
+          ],
+          "description": "An array of language ids which should be highlighted by Color Highlight with the rgbWithNoFunction pattern. \"*\" to trigger on any language; Prepend language id with \"!\" to exclude the language (i.e \"!typescript\", \"!javascript\")"
+        },
+        {
+          "key": "color-highlight.markerType",
+          "default": "background",
+          "description": "Style of the highlight. Can be 'dot-before', 'dot-after', 'foreground', 'background', 'outline', 'underline'"
+        },
+        {
+          "key": "color-highlight.markRuler",
+          "default": true,
+          "description": "Highlight colors on the ruler (scroll bar), true/false"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "pnp.polacode",
+      "displayName": "Polacode",
+      "version": "0.3.4",
+      "description": "📸  Polaroid for your code",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "polacode.shadow",
+          "default": "rgba(0, 0, 0, 0.55) 0px 20px 68px",
+          "description": "Shadow of the snippet node. Use any value for CSS `box-shadow`"
+        },
+        {
+          "key": "polacode.transparentBackground",
+          "default": false,
+          "description": "Transparent background for containers"
+        },
+        {
+          "key": "polacode.backgroundColor",
+          "default": "#f2f2f2",
+          "description": "Background color of snippet container. Use any value for CSS `background-color`"
+        },
+        {
+          "key": "polacode.target",
+          "default": "container",
+          "description": "Shoot with or without container"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "pranaygp.vscode-css-peek",
+      "displayName": "CSS Peek",
+      "version": "4.4.3",
+      "description": "Allow peeking to css ID and class strings as definitions from html files to respective CSS. Allows peek and goto definition.",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "cssPeek.enable",
+          "default": true,
+          "description": "Controls the enablement."
+        },
+        {
+          "key": "cssPeek.supportTags",
+          "default": true,
+          "description": "Enable Peeking from HTML tags in addition to classnames and IDs. React components are ignored, but it's a good idea to disable this feature when using Angular"
+        },
+        {
+          "key": "cssPeek.peekFromLanguages",
+          "default": [
+            "html",
+            "django-html",
+            "laravel-blade",
+            "razor",
+            "vue",
+            "blade",
+            "pug",
+            "jade",
+            "handlebars",
+            "php",
+            "twig",
+            "md",
+            "nunjucks",
+            "javascript",
+            "javascriptreact",
+            "erb",
+            "typescript",
+            "typescriptreact",
+            "HTML (Eex)",
+            "html-eex",
+            "ejs",
+            "hbs",
+            "svelte"
+          ],
+          "description": "A list of vscode language names where the extension should be used."
+        },
+        {
+          "key": "cssPeek.peekToExclude",
+          "default": [
+            "**/node_modules/**",
+            "**/bower_components/**"
+          ],
+          "description": "A list of file globs that filters out peekable files"
+        },
+        {
+          "key": "cssPeek.trace.server",
+          "default": "off",
+          "description": "Traces the communication between VSCode and the language server."
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "redhat.fabric8-analytics",
+      "displayName": "Red Hat Dependency Analytics",
+      "version": "1.1.0",
+      "description": "Provides insights on security vulnerabilities and license compatibility in your application dependencies.",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "redhat.telemetry.enabled",
+          "default": null,
+          "description": "Enable usage data and errors to be sent to Red Hat servers. Read our [privacy statement](https://developers.redhat.com/article/tool-data-collection)."
+        },
+        {
+          "key": "redHatDependencyAnalytics.backendUrl",
+          "default": "https://rhda.rhcloud.com",
+          "description": "Red Hat Dependency Analytics backend URL to use for stack, component & image analysis."
+        },
+        {
+          "key": "redHatDependencyAnalytics.matchManifestVersions",
+          "default": true,
+          "description": "Restricts RHDA from performing analysis on dependency tags that do not match the tags requested within the manifest files."
+        },
+        {
+          "key": "redHatDependencyAnalytics.reportFilePath",
+          "default": "/tmp/redhatDependencyAnalyticsReport.html",
+          "description": "Path to a local file where the Red Hat Dependency Analytics report will be saved."
+        },
+        {
+          "key": "redHatDependencyAnalytics.mvn.executable.path",
+          "default": "",
+          "description": "Specifies absolute path of mvn executable."
+        },
+        {
+          "key": "redHatDependencyAnalytics.mvn.preferWrapper",
+          "default": "fallback",
+          "description": "Specifies whether to use the local maven wrapper. The 'fallback' option will default to the value of `#maven.executable.preferMavenWrapper#` from the `Maven for Java` extension, else defaulting to 'true'."
+        },
+        {
+          "key": "redHatDependencyAnalytics.gradle.executable.path",
+          "default": "",
+          "description": "Specifies absolute path of gradle executable."
+        },
+        {
+          "key": "redHatDependencyAnalytics.gradle.preferWrapper",
+          "default": "fallback",
+          "description": "Specifies whether to use the local gradle wrapper. The 'fallback' option will default to the value of `#java.import.gradle.wrapper.enabled` from the 'Language Support for Java(TM) by Red Hat' extension, else defaulting to 'true'."
+        },
+        {
+          "key": "redHatDependencyAnalytics.npm.executable.path",
+          "default": "",
+          "description": "Specifies absolute path of npm executable."
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "redhat.vscode-commons",
+      "displayName": "Red Hat Commons",
+      "version": "0.0.6",
+      "description": "Base utilities for Red Hat extensions. Notably controls telemetry settings.",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "redhat.telemetry.enabled",
+          "default": false,
+          "description": "Enable usage data and errors to be sent to Red Hat servers. Read our [privacy statement](https://developers.redhat.com/article/tool-data-collection)."
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "redhat.vscode-yaml",
+      "displayName": "YAML",
+      "version": "1.25.0",
+      "description": "YAML Language Support by Red Hat, with built-in Kubernetes syntax support",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "redhat.telemetry.enabled",
+          "default": null,
+          "description": "Enable usage data and errors to be sent to Red Hat servers. Read our [privacy statement](https://developers.redhat.com/article/tool-data-collection)."
+        },
+        {
+          "key": "yaml.yamlVersion",
+          "default": "1.2",
+          "description": "Default YAML spec version"
+        },
+        {
+          "key": "yaml.trace.server",
+          "default": "off",
+          "description": "Traces the communication between VSCode and the YAML language service."
+        },
+        {
+          "key": "yaml.schemas",
+          "default": {},
+          "description": "Associate schemas to YAML files in the current workspace. The expected value of this configuration option is a string to string map:\n- **Key**: The path or URL of the schema to use\n- **Value**: A glob pattern or list of glob patterns specifying which files the schema should be used on. Prefix a pattern with `!` to exclude matching files; at least one positive pattern is required."
+        },
+        {
+          "key": "yaml.disableSchemaDetection",
+          "default": [],
+          "description": "Disable schema detection for YAML files matching the configured glob pattern or list of glob patterns. Modelines still apply."
+        },
+        {
+          "key": "yaml.kubernetesCRDStore.enable",
+          "default": true,
+          "description": "Enable/disable validation of Kubernetes custom resources using schemas from well-known Custom Resource Definitions (CRDs)"
+        },
+        {
+          "key": "yaml.kubernetesCRDStore.url",
+          "default": "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main",
+          "description": "The base URL for fetching well-known Custom Resource Definition (CRD) schemas"
+        },
+        {
+          "key": "yaml.kubernetesVersion",
+          "description": "Kubernetes version used to build the schema URL when yaml.schemas maps files to the Kubernetes keyword"
+        },
+        {
+          "key": "yaml.format.enable",
+          "default": true,
+          "description": "Enable/disable default YAML formatter"
+        },
+        {
+          "key": "yaml.format.singleQuote",
+          "default": false,
+          "description": "Use single quotes instead of double quotes"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "rvest.vs-code-prettier-eslint",
+      "displayName": "Prettier ESLint",
+      "version": "6.0.0",
+      "description": "A Visual Studio Extension to format JavaScript and Typescript code using prettier-eslint package",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "vs-code-prettier-eslint.prettierLast",
+          "default": false,
+          "description": "Run Prettier Last"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "simonsiefke.svg-preview",
+      "displayName": "Svg Preview",
+      "version": "2.8.3",
+      "description": "Preview for Svg files",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "svgPreview.autoOpen",
+          "default": true,
+          "description": "Automatically open the preview when an svg file is opened."
+        },
+        {
+          "key": "svgPreview.scaleToFit",
+          "default": true,
+          "description": "Whether or not the svg should be scaled to fit the viewport or keep its original size"
+        },
+        {
+          "key": "svgPreview.style",
+          "default": {},
+          "description": "Custom style for the preview."
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "steoates.autoimport",
+      "displayName": "Auto Import",
+      "version": "1.5.4",
+      "description": "Automatically finds, parses and provides code actions and code completion for all available imports. Works with Typescript and TSX",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "autoimport.filesToScan",
+          "default": "**/*.{ts,tsx}",
+          "description": "Glob for files to watch and scan, e.g ./src/** ./src/app/**/*.ts. Defaults to **/*.{ts,tsx}"
+        },
+        {
+          "key": "autoimport.showNotifications",
+          "default": false,
+          "description": "Specifies wether to show notifications from Auto Import"
+        },
+        {
+          "key": "autoimport.doubleQuotes",
+          "default": false,
+          "description": "Specifies wether to use double quotes"
+        },
+        {
+          "key": "autoimport.spaceBetweenBraces",
+          "default": true,
+          "description": "Specifies wether to use spaces between first and last brace"
+        },
+        {
+          "key": "autoimport.autoComplete",
+          "default": true,
+          "description": "Adds found items to intellisense and automatically imports then"
+        },
+        {
+          "key": "autoimport.useSemiColon",
+          "default": true,
+          "description": "Use ; at the end of a line e.g Import * from ./app or Import * from ./app; - Default True"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "stylelint.vscode-stylelint",
+      "displayName": "Stylelint",
+      "version": "2.2.1",
+      "description": "Official Stylelint extension for Visual Studio Code",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "stylelint.enable",
+          "default": true,
+          "description": "Control whether Stylelint is enabled or not."
+        },
+        {
+          "key": "stylelint.run",
+          "default": "onType",
+          "description": "Control when the extension lints your files. onType lints files as you edit them, while onSave only lints when you save the file."
+        },
+        {
+          "key": "stylelint.logLevel",
+          "default": "info",
+          "description": "Controls the log level used by the Stylelint extension and language server. Restart the extension host or the window after changing the setting, since it's picked up at initialization."
+        },
+        {
+          "key": "stylelint.runtime",
+          "default": null,
+          "description": "The location of the node binary to run Stylelint under."
+        },
+        {
+          "key": "stylelint.execArgv",
+          "default": null,
+          "description": "Additional exec argv arguments passed to the Node.js runtime."
+        },
+        {
+          "key": "stylelint.codeAction.disableRuleComment",
+          "default": {
+            "location": "separateLine"
+          },
+          "description": "Options for the disable lint rule action in the quick fix menu."
+        },
+        {
+          "key": "stylelint.config",
+          "default": null,
+          "description": "A Stylelint configuration object."
+        },
+        {
+          "key": "stylelint.configFile",
+          "default": "",
+          "description": "Path to a JSON, YAML, or JS file that contains your configuration object. Use this option if you don't want Stylelint to search for a configuration file."
+        },
+        {
+          "key": "stylelint.configBasedir",
+          "default": "",
+          "description": "A path to the directory that relative paths defining \"extends\" and \"plugins\" are relative to."
+        },
+        {
+          "key": "stylelint.customSyntax",
+          "default": "",
+          "description": "An absolute path to a custom PostCSS-compatible syntax module."
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "vmware.vscode-concourse",
+      "displayName": "Concourse CI Pipeline Editor",
+      "version": "1.56.0",
+      "description": "Provides validation and content assist for Concourse CI pipeline and task configuration yml files",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "concourse.ls.logfile",
+          "description": "The path of a file to write language server logs. If not set or null, then logs are discarded."
+        },
+        {
+          "key": "concourse.ls.java.heap",
+          "description": "Passed as an `-Xmx` argument to the language server JVM process"
+        },
+        {
+          "key": "concourse.ls.java.home",
+          "description": "Overrides JAVA_HOME used for launching the language server JVM process"
+        },
+        {
+          "key": "concourse.ls.java.vmargs",
+          "description": "Additional 'user defined' VM args to pass to the language server process."
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "vmware.vscode-manifest-yaml",
+      "displayName": "Cloudfoundry Manifest YML Support",
+      "version": "1.56.0",
+      "description": "Adds linting, content assist and hoverinfo's for Cloudfoundry Deployment Manifests (a.k.a. `manifest.yml`) files.",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "cloudfoundry-manifest.ls.logfile",
+          "description": "The path of a file to write language server logs. If not set or null, then logs are discarded."
+        },
+        {
+          "key": "cloudfoundry-manifest.ls.java.heap",
+          "description": "Passed as an `-Xmx` argument to the language server JVM process"
+        },
+        {
+          "key": "cloudfoundry-manifest.ls.java.home",
+          "description": "Overrides JAVA_HOME used for launching the language server JVM process"
+        },
+        {
+          "key": "cloudfoundry-manifest.ls.java.vmargs",
+          "description": "Additional 'user defined' VM args to pass to the language server process."
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "wayou.vscode-todo-highlight",
+      "displayName": "TODO Highlight",
+      "version": "1.0.5",
+      "description": "highlight TODOs, FIXMEs, and any keywords, annotations...",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "todohighlight.isEnable",
+          "default": true,
+          "description": "Enable or disable the highlight"
+        },
+        {
+          "key": "todohighlight.isCaseSensitive",
+          "default": true,
+          "description": "Specify whether the keywords are case sensitive or not"
+        },
+        {
+          "key": "todohighlight.toggleURI",
+          "default": false,
+          "description": "If the file path within the output channel not clickable, set this to true to toggle the path patten between `<path>#<line>` and `<path>:<line>:<column>`"
+        },
+        {
+          "key": "todohighlight.keywords",
+          "description": "Customize keywords and colors. Any css color identifier is valid."
+        },
+        {
+          "key": "todohighlight.keywordsPattern",
+          "default": "",
+          "description": "Specify keywords via RegExp instead of `todohighlight.keywords` one by one. NOTE that if this presents, `todohighlight.keywords` will be ignored. And REMEMBER to escapse the back slash if there's any in your regexp (using \\\\ instead of single back slash)"
+        },
+        {
+          "key": "todohighlight.defaultStyle",
+          "description": "Default style for all customized keywords"
+        },
+        {
+          "key": "todohighlight.include",
+          "default": [
+            "**/*.js",
+            "**/*.jsx",
+            "**/*.ts",
+            "**/*.tsx",
+            "**/*.html",
+            "**/*.php",
+            "**/*.css",
+            "**/*.scss"
+          ],
+          "description": "Glob patterns that defines the files to search for. Only include files you need, DO NOT USE `{**/*.*}` for both permormance and avoiding binary files reason."
+        },
+        {
+          "key": "todohighlight.exclude",
+          "default": [
+            "**/node_modules/**",
+            "**/bower_components/**",
+            "**/dist/**",
+            "**/build/**",
+            "**/.vscode/**",
+            "**/.github/**",
+            "**/_output/**",
+            "**/*.min.*",
+            "**/*.map",
+            "**/.next/**"
+          ],
+          "description": "Glob pattern that defines files and folders to exclude while listing annotations."
+        },
+        {
+          "key": "todohighlight.maxFilesForSearch",
+          "default": 5120,
+          "description": "Max files for searching"
+        }
+      ],
+      "instructionFiles": []
+    },
+    {
+      "id": "zignd.html-css-class-completion",
+      "displayName": "IntelliSense for CSS class names in HTML",
+      "version": "1.20.0",
+      "description": "CSS class name completion for the HTML class attribute based on the definitions found in your workspace.",
+      "chatParticipants": [],
+      "snippets": [],
+      "configurations": [
+        {
+          "key": "html-css-class-completion.includeGlobPattern",
+          "default": "**/*.{css,html}",
+          "description": "A glob pattern that defines files and folders to search for. The glob pattern will be matched against the paths of resulting matches relative to their workspace."
+        },
+        {
+          "key": "html-css-class-completion.excludeGlobPattern",
+          "default": "",
+          "description": "A glob pattern that defines files and folders to exclude. The glob pattern will be matched against the file paths of resulting matches relative to their workspace."
+        },
+        {
+          "key": "html-css-class-completion.enableEmmetSupport",
+          "default": false,
+          "description": "Enables completion when you're writing Emmet abbreviations."
+        },
+        {
+          "key": "html-css-class-completion.HTMLLanguages",
+          "default": [
+            "html",
+            "vue",
+            "razor",
+            "blade",
+            "handlebars",
+            "twig",
+            "django-html",
+            "php",
+            "markdown",
+            "erb",
+            "ejs",
+            "svelte"
+          ],
+          "description": "A list of HTML based languages where suggestions are enabled."
+        },
+        {
+          "key": "html-css-class-completion.CSSLanguages",
+          "default": [
+            "css",
+            "sass",
+            "scss"
+          ],
+          "description": "A list of CSS based languages where suggestions are enabled."
+        },
+        {
+          "key": "html-css-class-completion.JavaScriptLanguages",
+          "default": [
+            "javascript",
+            "javascriptreact",
+            "typescriptreact"
+          ],
+          "description": "A list of JavaScript based languages where suggestions are enabled."
+        }
+      ],
+      "instructionFiles": []
+    }
+  ]
+}
