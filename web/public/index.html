@@ -56,12 +56,15 @@
     </div>
 
     <!-- Navigation Tabs -->
-    <div class="max-w-7xl mx-auto px-6 flex space-x-8 text-sm font-medium border-t border-slate-800/50">
-      <button onclick="switchTab('intake')" id="tab-btn-intake" class="py-3 border-b-2 border-indigo-500 text-indigo-400 flex items-center space-x-2">
+    <div class="max-w-7xl mx-auto px-6 flex space-x-8 text-sm font-medium border-t border-slate-800/50 overflow-x-auto">
+      <button onclick="switchTab('intake')" id="tab-btn-intake" class="shrink-0 py-3 border-b-2 border-indigo-500 text-indigo-400 flex items-center space-x-2">
         <span>📥 Ingestão Livre & Anti-Conflito</span>
       </button>
-      <button onclick="switchTab('audit')" id="tab-btn-audit" class="py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2">
+      <button onclick="switchTab('audit')" id="tab-btn-audit" class="shrink-0 py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2">
         <span>🩺 Central de Governança & Auto-Cura</span>
+      </button>
+      <button onclick="switchTab('graph')" id="tab-btn-graph" class="shrink-0 py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2">
+        <span>🕸️ Estrutura do Grafo</span>
       </button>
     </div>
   </header>
@@ -193,12 +196,73 @@
 
     </section>
 
+    <!-- TAB 3: GRAPH STRUCTURE -->
+    <section id="tab-graph" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h2 class="text-lg font-semibold text-white">Explorador da estrutura do grafo</h2>
+            <p class="text-sm text-slate-400 mt-1">Consulte os seis tipos de nós, as relações canônicas e os registros compilados na base.</p>
+          </div>
+          <button onclick="fetchGraphExplorer()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">
+            ↻ Atualizar grafo
+          </button>
+        </div>
+        <div id="graph-explorer-status" role="status" class="text-xs text-slate-400 mt-4">Carregando estrutura do grafo...</div>
+        <div id="graph-type-cards" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-5"></div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h3 class="text-base font-semibold text-white">Relações canônicas</h3>
+            <p class="text-xs text-slate-400 mt-1">Predicados permitidos, tipos de origem/destino e sinônimos mapeados.</p>
+          </div>
+          <span id="graph-relation-count" class="text-xs text-indigo-300 font-mono"></span>
+        </div>
+        <div id="graph-relations" class="grid grid-cols-1 lg:grid-cols-2 gap-3"></div>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-5 gap-6">
+        <div class="xl:col-span-3 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+          <div>
+            <h3 class="text-base font-semibold text-white">Nós cadastrados</h3>
+            <p id="graph-node-count" class="text-xs text-slate-400 mt-1">Carregando nós...</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label class="text-xs text-slate-400">
+              Buscar por ID, título ou tag
+              <input id="graph-search" type="search" oninput="renderGraphNodes()" placeholder="Ex.: proj-billing-engine" class="mt-1 w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+            </label>
+            <label class="text-xs text-slate-400">
+              Filtrar por tipo
+              <select id="graph-type-filter" onchange="renderGraphNodes()" class="mt-1 w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+                <option value="">Todos os tipos</option>
+                <option value="project">Projeto</option>
+                <option value="rule">Regra</option>
+                <option value="query">Query</option>
+                <option value="process">Processo</option>
+                <option value="adr">ADR</option>
+                <option value="table">Tabela</option>
+              </select>
+            </label>
+          </div>
+          <div id="graph-node-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+        </div>
+
+        <aside class="xl:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl min-h-72">
+          <h3 class="text-base font-semibold text-white">Detalhes do nó</h3>
+          <div id="graph-node-detail" class="mt-4 text-sm text-slate-500">Selecione um nó para consultar seus metadados e conteúdo Markdown.</div>
+        </aside>
+      </div>
+    </section>
+
   </main>
 
   <!-- Frontend Logic -->
   <script>
     function switchTab(tabId) {
-      ['intake', 'audit'].forEach(t => {
+      ['intake', 'audit', 'graph'].forEach(t => {
         document.getElementById(`tab-${t}`).classList.add('hidden');
         document.getElementById(`tab-btn-${t}`).className = 'py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2';
       });
@@ -208,6 +272,191 @@
       if (tabId === 'audit') {
         fetchAudit();
         fetchValidate();
+      }
+      if (tabId === 'graph') {
+        fetchGraphExplorer();
+      }
+    }
+
+    const graphNodeTypes = [
+      { type: 'project', prefix: 'proj-*', folder: 'projects/', label: 'Projeto / Serviço', icon: '🧩', description: 'Serviços, microsserviços, APIs e aplicações.', fields: 'id, type, title, responsavel, repositorio, updated_at, tags, depends_on' },
+      { type: 'rule', prefix: 'rule-*', folder: 'rules/', label: 'Regra de negócio', icon: '📜', description: 'Políticas, regras de negócio, SLAs e cálculos.', fields: 'id, type, title, dominio, updated_at, tags, related_projects' },
+      { type: 'query', prefix: 'qry-*', folder: 'queries/', label: 'Query / SQL', icon: '🔎', description: 'Consultas críticas de suporte, relatório e auditoria.', fields: 'id, type, title, database, updated_at, tags, belongs_to, implements_rule' },
+      { type: 'process', prefix: 'proc-*', folder: 'processes/', label: 'Processo / Runbook', icon: '🧭', description: 'Processos operacionais, contingência e suporte.', fields: 'id, type, title, updated_at, tags, related_projects' },
+      { type: 'adr', prefix: 'adr-*', folder: 'adrs/', label: 'Decisão arquitetural', icon: '🏛️', description: 'ADRs com contexto, decisão e trade-offs.', fields: 'id, type, title, status, date, deciders, updated_at, tags, affects_projects' },
+      { type: 'table', prefix: 'table-*', folder: 'tables/', label: 'Tabela / Schema', icon: '🗄️', description: 'Modelos de dados, schemas e tabelas de banco.', fields: 'id, type, title, database, schema, service_owner, primary_key, foreign_keys, indexes, retention, updated_at, tags' }
+    ];
+    let graphExplorerData = null;
+
+    async function fetchGraphExplorer() {
+      const status = document.getElementById('graph-explorer-status');
+      status.textContent = 'Carregando nós e relações...';
+      try {
+        const [graphResponse, relationsResponse] = await Promise.all([
+          fetch('/api/graph'),
+          fetch('/api/relations')
+        ]);
+        if (!graphResponse.ok || !relationsResponse.ok) {
+          throw new Error('Não foi possível carregar o índice do grafo ou o catálogo de relações.');
+        }
+        const [graph, relationCatalog] = await Promise.all([graphResponse.json(), relationsResponse.json()]);
+        graphExplorerData = { graph, relationCatalog };
+        renderGraphStructure();
+        status.textContent = `Grafo atualizado: ${graph.metadata.total_nodes} nós e ${graph.metadata.total_edges} conexões.`;
+      } catch (error) {
+        status.textContent = `Erro ao carregar estrutura do grafo: ${error.message}`;
+        document.getElementById('graph-type-cards').replaceChildren();
+        document.getElementById('graph-relations').replaceChildren();
+        document.getElementById('graph-node-count').textContent = 'Nós indisponíveis.';
+        document.getElementById('graph-node-list').replaceChildren();
+      }
+    }
+
+    function renderGraphStructure() {
+      const { graph, relationCatalog } = graphExplorerData;
+      const typeCards = document.getElementById('graph-type-cards');
+      typeCards.replaceChildren();
+
+      graphNodeTypes.forEach(typeInfo => {
+        const card = document.createElement('article');
+        card.className = 'bg-slate-950/70 border border-slate-800 rounded-xl p-4 space-y-2';
+        const heading = document.createElement('h3');
+        heading.className = 'text-sm font-semibold text-white';
+        heading.textContent = `${typeInfo.icon} ${typeInfo.label}`;
+        const identifier = document.createElement('p');
+        identifier.className = 'text-xs font-mono text-indigo-300';
+        identifier.textContent = `${typeInfo.prefix} · knowledge-base/${typeInfo.folder}`;
+        const description = document.createElement('p');
+        description.className = 'text-xs text-slate-400';
+        description.textContent = typeInfo.description;
+        const fields = document.createElement('p');
+        fields.className = 'text-xs text-slate-500 leading-relaxed';
+        fields.textContent = `Campos suportados: ${typeInfo.fields}`;
+        const count = document.createElement('span');
+        count.className = 'inline-block text-xs bg-slate-800 text-slate-300 px-2 py-1 rounded-md';
+        count.textContent = `${graph.metadata.counts_by_type[typeInfo.type] || 0} nó(s)`;
+        card.append(heading, identifier, description, fields, count);
+        typeCards.append(card);
+      });
+
+      const relationEntries = Object.values(relationCatalog.relations);
+      document.getElementById('graph-relation-count').textContent = `${relationEntries.length} tipos canônicos`;
+      const relationContainer = document.getElementById('graph-relations');
+      relationContainer.replaceChildren();
+      relationEntries.forEach(relation => {
+        const card = document.createElement('article');
+        card.className = 'bg-slate-950/70 border border-slate-800 rounded-xl p-4 space-y-2';
+        const heading = document.createElement('h4');
+        heading.className = 'text-sm font-mono font-semibold text-indigo-300';
+        heading.textContent = relation.canonical;
+        const description = document.createElement('p');
+        description.className = 'text-xs text-slate-400';
+        description.textContent = relation.description;
+        const endpoints = document.createElement('p');
+        endpoints.className = 'text-xs text-slate-300';
+        endpoints.textContent = `Origem: ${relation.allowed_sources.join(', ')} → Destino: ${relation.allowed_targets.join(', ')}`;
+        const synonyms = document.createElement('p');
+        synonyms.className = 'text-xs text-slate-500';
+        synonyms.textContent = `Sinônimos: ${relation.synonyms.join(', ') || 'nenhum'}`;
+        const usage = document.createElement('span');
+        usage.className = 'inline-block text-xs bg-slate-800 text-slate-300 px-2 py-1 rounded-md';
+        usage.textContent = `${graph.metadata.counts_by_relation[relation.canonical] || 0} conexão(ões)`;
+        card.append(heading, description, endpoints, synonyms, usage);
+        relationContainer.append(card);
+      });
+
+      renderGraphNodes();
+    }
+
+    function renderGraphNodes() {
+      if (!graphExplorerData) return;
+      const query = document.getElementById('graph-search').value.trim().toLowerCase();
+      const typeFilter = document.getElementById('graph-type-filter').value;
+      const nodes = Object.values(graphExplorerData.graph.nodes).filter(node => {
+        const matchesType = !typeFilter || node.type === typeFilter;
+        const searchableText = [node.id, node.title, ...(node.tags || [])].join(' ').toLowerCase();
+        return matchesType && searchableText.includes(query);
+      });
+      document.getElementById('graph-node-count').textContent = `${nodes.length} de ${graphExplorerData.graph.metadata.total_nodes} nó(s)`;
+      const list = document.getElementById('graph-node-list');
+      list.replaceChildren();
+
+      if (nodes.length === 0) {
+        const emptyState = document.createElement('p');
+        emptyState.className = 'sm:col-span-2 text-xs text-slate-500 py-4';
+        emptyState.textContent = 'Nenhum nó corresponde aos filtros.';
+        list.append(emptyState);
+        return;
+      }
+
+      nodes.forEach(node => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'text-left bg-slate-950 border border-slate-800 rounded-lg p-3 hover:border-indigo-500 transition';
+        button.onclick = () => fetchGraphNode(node.id);
+        const title = document.createElement('span');
+        title.className = 'block text-xs font-semibold text-slate-200';
+        title.textContent = node.title;
+        const identifier = document.createElement('span');
+        identifier.className = 'block text-xs font-mono text-slate-500 mt-1';
+        identifier.textContent = `${node.type} · ${node.id}`;
+        button.append(title, identifier);
+        list.append(button);
+      });
+    }
+
+    async function fetchGraphNode(nodeId) {
+      const detail = document.getElementById('graph-node-detail');
+      detail.textContent = 'Carregando detalhes...';
+      try {
+        const response = await fetch(`/api/node?id=${encodeURIComponent(nodeId)}`);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Não foi possível carregar o nó.');
+
+        const container = document.createElement('div');
+        container.className = 'space-y-3';
+        const title = document.createElement('h4');
+        title.className = 'text-sm font-semibold text-white';
+        title.textContent = data.node.title;
+        const identifier = document.createElement('p');
+        identifier.className = 'text-xs font-mono text-indigo-300 break-all';
+        identifier.textContent = `${data.node.type} · ${data.node.id}`;
+        const metadata = document.createElement('pre');
+        metadata.className = 'text-xs text-slate-300 bg-slate-950 border border-slate-800 rounded-lg p-3 overflow-x-auto';
+        metadata.textContent = JSON.stringify({ tags: data.node.tags, metadata: data.node.metadata }, null, 2);
+        const contentLabel = document.createElement('h5');
+        contentLabel.className = 'text-xs font-semibold text-slate-300';
+        contentLabel.textContent = 'Conteúdo Markdown';
+        const content = document.createElement('pre');
+        content.className = 'text-xs text-slate-400 bg-slate-950 border border-slate-800 rounded-lg p-3 overflow-auto max-h-96 whitespace-pre-wrap';
+        content.textContent = data.content;
+        const connectionsLabel = document.createElement('h5');
+        connectionsLabel.className = 'text-xs font-semibold text-slate-300';
+        connectionsLabel.textContent = 'Conexões do nó';
+        const connections = document.createElement('div');
+        connections.className = 'space-y-2';
+        const relatedEdges = graphExplorerData.graph.edges.filter(edge => edge.source === nodeId || edge.target === nodeId);
+        if (relatedEdges.length === 0) {
+          const emptyConnections = document.createElement('p');
+          emptyConnections.className = 'text-xs text-slate-500';
+          emptyConnections.textContent = 'Este nó não possui conexões no grafo.';
+          connections.append(emptyConnections);
+        } else {
+          relatedEdges.forEach(edge => {
+            const neighborId = edge.source === nodeId ? edge.target : edge.source;
+            const neighbor = graphExplorerData.graph.nodes[neighborId];
+            const connection = document.createElement('button');
+            connection.type = 'button';
+            connection.className = 'block w-full text-left text-xs bg-slate-950 border border-slate-800 rounded-lg p-2 hover:border-indigo-500 transition';
+            connection.onclick = () => fetchGraphNode(neighborId);
+            connection.textContent = `${edge.source === nodeId ? '→' : '←'} ${edge.relation} · ${neighbor ? neighbor.title : neighborId} (${neighborId})`;
+            connections.append(connection);
+          });
+        }
+        container.append(title, identifier, metadata, connectionsLabel, connections, contentLabel, content);
+        detail.replaceChildren(container);
+      } catch (error) {
+        detail.textContent = `Erro ao carregar o nó: ${error.message}`;
       }
     }
 

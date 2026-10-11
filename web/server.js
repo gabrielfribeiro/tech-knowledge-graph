@@ -60,6 +60,16 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 404, { error: 'Grafo ainda não compilado.' });
     }
 
+    // API: Canonical Graph Relations
+    if (pathname === '/api/relations' && req.method === 'GET') {
+      const relationsFile = path.join(REPO_ROOT, 'spec', 'relations-catalog.json');
+      if (fs.existsSync(relationsFile)) {
+        const data = JSON.parse(fs.readFileSync(relationsFile, 'utf8'));
+        return sendJson(res, 200, data);
+      }
+      return sendJson(res, 404, { error: 'Catálogo de relações não encontrado.' });
+    }
+
     // API: Audit Gaps
     if (pathname === '/api/audit' && req.method === 'GET') {
       try {
