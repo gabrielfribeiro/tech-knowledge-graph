@@ -1,11 +1,13 @@
-﻿# OS files
+# OS files
 .DS_Store
 Thumbs.db
 desktop.ini
 
 # Editors & IDEs
 .idea/
-.vscode/
+.vscode/*
+!.vscode/tasks.json
+!.vscode/settings.json
 *.swp
 *.swo
 

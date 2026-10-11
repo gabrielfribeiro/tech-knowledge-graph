@@ -1,0 +1,44 @@
+{
+  "is_configured": true,
+  "updated_at": "2026-10-11",
+  "identity": {
+    "squad_name": "Squad Jarvis Core",
+    "tech_lead": "Gabriel",
+    "mission": "Desenvolvimento autônomo com crescimento vegetativo da base de conhecimento"
+  },
+  "stack": {
+    "frontend": "React + TypeScript",
+    "backend": ".NET 10",
+    "database": "Oracle Database",
+    "orm_data_access": "Dapper / Entity Framework Core",
+    "architecture_style": "Clean Architecture + SOLID + Event-Driven + Hexagonal",
+    "messaging": "RabbitMQ / AWS SQS"
+  },
+  "quality_and_security": {
+    "test_framework_backend": "xUnit + Moq + FluentAssertions",
+    "test_framework_frontend": "Vitest + React Testing Library",
+    "e2e_automation_tool": "Cypress",
+    "test_management_tool": "Jira Xray",
+    "evidence_requirements": [
+      "Cypress Screenshots (cy.screenshot) em cada passo crítico da rule-*",
+      "Relatório de Execução compatível com Jira Xray JSON / JUnit XML",
+      "Vínculo do Caso de Teste Xray com o ID da regra (rule-*)"
+    ],
+    "min_coverage_percent": 80,
+    "security_standards": [
+      "OWASP Top 10",
+      "Queries parametrizadas obrigatórias (proibido concatenação SQL/PL-SQL)",
+      "Autenticação JWT / OAuth2 em rotas privadas",
+      "Mapeamento de dados sensíveis (LGPD/PII) em todas as tabelas (table-*)"
+    ]
+  },
+  "token_economy": {
+    "mode": "FREE_CONTEXT_READ_ZERO_FLUFF_OUTPUT",
+    "knowledge_base_reading": "UNLIMITED_FREE_ACCESS",
+    "max_response_lines": 5,
+    "forbid_greetings_and_summaries": true,
+    "offload_boilerplate_to_scripts": true
+  },
+  "vscode_extensions_synced": true,
+  "synced_extensions_count": 31
+}

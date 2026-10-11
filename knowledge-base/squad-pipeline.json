@@ -1,0 +1,12 @@
+{
+  "mission_id": "mission-init",
+  "project_id": "aguardando-projeto",
+  "task_id": "aguardando-tarefa",
+  "status": "IDLE",
+  "sec_status": "PENDING",
+  "qa_status": "PENDING",
+  "plan_summary": null,
+  "rejection_reason": null,
+  "updated_at": "2026-10-10T00:00:00.000Z",
+  "history": []
+}
