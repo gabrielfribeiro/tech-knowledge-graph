@@ -104,6 +104,7 @@ function compileGraph() {
   const nodes = {};
   const edges = [];
   const edgeSet = new Set();
+  const specificPairSet = new Set();
 
   function addEdge(source, target, relation) {
     const s = cleanId(source);
@@ -112,7 +113,17 @@ function compileGraph() {
     
     // Normalize relation using canonical catalog
     const canonicalRel = normalizeRelation(relation);
-    const key = `${s}->${t}:${canonicalRel}`;
+    const pairKey = `${s}->${t}`;
+
+    // If adding a generic 'references' edge, skip if a stronger semantic relation already exists for this pair
+    if (canonicalRel === 'references' && specificPairSet.has(pairKey)) {
+      return;
+    }
+    if (canonicalRel !== 'references') {
+      specificPairSet.add(pairKey);
+    }
+
+    const key = `${pairKey}:${canonicalRel}`;
     
     // Strict deduplication: an edge between s and t with canonicalRel can NEVER repeat
     if (!edgeSet.has(key)) {
@@ -142,24 +153,37 @@ function compileGraph() {
     };
 
     if (frontmatter.type === 'query') {
-      nodes[id].metadata.database = frontmatter.database || null;
+      if (frontmatter.database) nodes[id].metadata.database = frontmatter.database;
     } else if (frontmatter.type === 'project') {
-      nodes[id].metadata.responsavel = frontmatter.responsavel || null;
-      nodes[id].metadata.repositorio = frontmatter.repositorio || null;
+      if (frontmatter.responsavel) nodes[id].metadata.responsavel = frontmatter.responsavel;
+      if (frontmatter.repositorio) nodes[id].metadata.repositorio = frontmatter.repositorio;
     } else if (frontmatter.type === 'rule') {
-      nodes[id].metadata.dominio = frontmatter.dominio || null;
+      if (frontmatter.dominio) nodes[id].metadata.dominio = frontmatter.dominio;
     } else if (frontmatter.type === 'table') {
-      nodes[id].metadata.database = frontmatter.database || null;
-      nodes[id].metadata.schema = frontmatter.schema || null;
-      nodes[id].metadata.service_owner = frontmatter.service_owner || frontmatter.belongs_to || null;
-      nodes[id].metadata.primary_key = frontmatter.primary_key || null;
+      if (frontmatter.database) nodes[id].metadata.database = frontmatter.database;
+      if (frontmatter.schema) nodes[id].metadata.schema = frontmatter.schema;
+      if (frontmatter.service_owner || frontmatter.belongs_to) {
+        nodes[id].metadata.service_owner = frontmatter.service_owner || frontmatter.belongs_to;
+      }
+      if (frontmatter.primary_key) nodes[id].metadata.primary_key = frontmatter.primary_key;
     } else if (frontmatter.type === 'adr') {
       nodes[id].metadata.status = frontmatter.status || 'draft';
-      nodes[id].metadata.deciders = frontmatter.deciders || frontmatter.decisores || [];
-      nodes[id].metadata.date = frontmatter.date || null;
+      const deciders = frontmatter.deciders || frontmatter.decisores;
+      if (deciders && deciders.length) nodes[id].metadata.deciders = deciders;
+      if (frontmatter.date) nodes[id].metadata.date = frontmatter.date;
     }
 
-    // Capture frontmatter edges
+    // Capture structured frontmatter links block (rel + target pairs)
+    const fmBlockMatch = content.replace(/^\uFEFF/, '').match(/^---\r?\n([\s\S]*?)\r?\n---/);
+    if (fmBlockMatch) {
+      const linkRegex = /-\s*rel:\s*([^\r\n]+)\r?\n\s*target:\s*([^\r\n]+)/g;
+      let lm;
+      while ((lm = linkRegex.exec(fmBlockMatch[1])) !== null) {
+        addEdge(id, lm[2].trim(), lm[1].trim());
+      }
+    }
+
+    // Capture flat frontmatter edges
     if (frontmatter.belongs_to) {
       addEdge(id, frontmatter.belongs_to, 'belongs_to');
     }
@@ -198,7 +222,7 @@ function compileGraph() {
       tables.forEach(t => addEdge(id, t, 'writes_to_table'));
     }
 
-    // Capture body markdown wikilinks
+    // Capture body markdown wikilinks (only if no specific semantic relation already exists for this pair)
     const bodyLinks = extractWikilinks(body);
     for (const link of bodyLinks) {
       addEdge(id, link, 'references');
@@ -227,7 +251,25 @@ function compileGraph() {
     edges
   };
 
-  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(graphData, null, 2), 'utf8');
+  // Serialize in compact line-per-item JSON format (reduces ~53,000 lines to ~8,000 lines on 2000 nodes, 100% compatible with JSON.parse)
+  const nodeEntries = Object.entries(nodes).map(
+    ([k, v]) => `    ${JSON.stringify(k)}: ${JSON.stringify(v)}`
+  );
+  const edgeEntries = edges.map(e => `    ${JSON.stringify(e)}`);
+
+  const compactJson = [
+    '{',
+    `  "metadata": ${JSON.stringify(graphData.metadata)},`,
+    '  "nodes": {',
+    nodeEntries.join(',\n'),
+    '  },',
+    '  "edges": [',
+    edgeEntries.join(',\n'),
+    '  ]',
+    '}'
+  ].join('\n');
+
+  fs.writeFileSync(OUTPUT_FILE, compactJson + '\n', 'utf8');
 
   return graphData;
 }
