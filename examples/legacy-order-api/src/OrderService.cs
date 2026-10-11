@@ -14,6 +14,17 @@ namespace LegacyOrderApi.Services
             _db = db;
         }
 
+        public FreightValidationResult ValidateFreight(string customerTier, decimal netTotal)
+        {
+            var normalizedTier = customerTier?.Trim();
+            if (netTotal >= 500m || string.Equals(normalizedTier, "DIAMOND", StringComparison.OrdinalIgnoreCase))
+            {
+                return FreightValidationResult.Free("FREIGHT_VIP_RULE");
+            }
+
+            return FreightValidationResult.Paid(39.90m);
+        }
+
         public async Task<OrderResult> CalculateAndCreateOrderAsync(string customerId, string customerTier, decimal itemsTotal, int maxSkuQuantity, string paymentMethod)
         {
             // Regra 1: Desconto progressivo atacado (12% se >= 10 unidades do mesmo SKU)
@@ -21,7 +32,8 @@ namespace LegacyOrderApi.Services
             decimal netTotal = itemsTotal - discount;
 
             // Regra 2: Frete Grátis acima de R$ 500 ou cliente DIAMOND
-            decimal freight = (netTotal >= 500m || customerTier == "DIAMOND") ? 0m : 39.90m;
+            var freightValidation = ValidateFreight(customerTier, netTotal);
+            decimal freight = freightValidation.FreightAmount;
 
             // Regra 3: Verificar inadimplência > 15 dias em compras a prazo (BOLETO_PRAZO)
             if (paymentMethod == "BOLETO_PRAZO")
@@ -61,6 +73,12 @@ namespace LegacyOrderApi.Services
 
             return OrderResult.Confirmed(orderId, netTotal, discount, freight);
         }
+    }
+
+    public record FreightValidationResult(decimal FreightAmount, bool IsFreeFreight, string Reason)
+    {
+        public static FreightValidationResult Free(string reason) => new(0m, true, reason);
+        public static FreightValidationResult Paid(decimal freightAmount) => new(freightAmount, false, "STANDARD_FREIGHT");
     }
 
     public record OrderResult(bool Success, string OrderId, string ErrorCode, decimal NetTotal, decimal Discount, decimal Freight)

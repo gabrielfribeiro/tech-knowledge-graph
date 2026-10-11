@@ -6,6 +6,10 @@ Um ecossistema completo que combina uma **Squad de Engenharia de IA (`@architect
 
 ## 🚀 1. Onboarding Inicial da Squad (`npm run squad:setup`)
 
+### Conheça o projeto
+
+Inicie a aplicação web com `npm start` e abra `http://localhost:3333` para conhecer a história e a proposta do Tech Knowledge Graph. O produto de ingestão e governança continua disponível em `http://localhost:3333/app`.
+
 Ao iniciar o projeto pela primeira vez, execute o **Wizard de Onboarding**:
 ```bash
 npm run squad:setup

@@ -13,7 +13,6 @@
 ## 🔗 Relações e Conexões com o Ecossistema
 ### Dependências e Saídas:
 - **[BELONGS_TO]** Aponta para o PROJECT: **Motor de Cobrança (Billing Engine)** (`proj-billing-engine`)
-- **[REFERENCES]** Aponta para o PROJECT: **Motor de Cobrança (Billing Engine)** (`proj-billing-engine`)
 - **[REFERENCES]** Aponta para o RULE: **Regra de Cobrança Recorrente e Tentativas** (`rule-cobranca-recorrente`)
 - **[REFERENCES]** Aponta para o QUERY: **Busca de Assinaturas Vencendo sem Fatura Gerada** (`qry-assinaturas-pendentes-faturamento`)
 
@@ -21,8 +20,7 @@
 - O ADR **ADR 001: Cobrança Assíncrona e Resiliência com Filas SQS** (`adr-001-cobranca-assincrona-com-filas`) conecta via **REFERENCES**
 - O PROJECT **Motor de Cobrança (Billing Engine)** (`proj-billing-engine`) conecta via **REFERENCES**
 - O QUERY **Busca de Assinaturas Vencendo sem Fatura Gerada** (`qry-assinaturas-pendentes-faturamento`) conecta via **READS_FROM_TABLE**
-- O QUERY **Busca de Assinaturas Vencendo sem Fatura Gerada** (`qry-assinaturas-pendentes-faturamento`) conecta via **REFERENCES**
-- O RULE **Regra de Estorno Proporcional (Pro-Rata) em Cancelamento de Assinatura** (`rule-estorno-proporcional-cancelamento`) conecta via **REFERENCES**
+- O RULE **Regra de Estorno Proporcional (Pro-Rata) em Cancelamento de Assinatura** (`rule-estorno-proporcional-cancelamento`) conecta via **READS_FROM_TABLE**
 - O TABLE **Tabela de Faturas (invoices)** (`table-invoices`) conecta via **REFERENCES**
 - O PROJECT **Motor de Cobrança (Billing Engine)** (`proj-billing-engine`) conecta via **OWNS_TABLE**
 

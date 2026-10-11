@@ -21,5 +21,31 @@ namespace LegacyOrderApi.Tests
             result.Freight.Should().Be(0m);
             result.NetTotal.Should().Be(880m);
         }
+
+        [Fact]
+        public void Should_Apply_Free_Freight_For_Vip_Customer()
+        {
+            var dbMock = new Mock<IDbConnection>();
+            var sut = new OrderService(dbMock.Object);
+
+            var result = sut.ValidateFreight("DIAMOND", 120m);
+
+            result.IsFreeFreight.Should().BeTrue();
+            result.FreightAmount.Should().Be(0m);
+            result.Reason.Should().Be("FREIGHT_VIP_RULE");
+        }
+
+        [Fact]
+        public void Should_Apply_Standard_Freight_For_Regular_Customer()
+        {
+            var dbMock = new Mock<IDbConnection>();
+            var sut = new OrderService(dbMock.Object);
+
+            var result = sut.ValidateFreight("GOLD", 120m);
+
+            result.IsFreeFreight.Should().BeFalse();
+            result.FreightAmount.Should().Be(39.90m);
+            result.Reason.Should().Be("STANDARD_FREIGHT");
+        }
     }
 }

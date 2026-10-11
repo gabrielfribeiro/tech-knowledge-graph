@@ -18,17 +18,13 @@
 
 ### Componentes que Dependem ou Utilizam Este Nó:
 - O ADR **ADR 001: Cobrança Assíncrona e Resiliência com Filas SQS** (`adr-001-cobranca-assincrona-com-filas`) conecta via **DECIDES_ON**
-- O ADR **ADR 001: Cobrança Assíncrona e Resiliência com Filas SQS** (`adr-001-cobranca-assincrona-com-filas`) conecta via **REFERENCES**
 - O PROCESS **Reprocessamento Manual de Cobranças Pendentes** (`proc-reprocessar-cobranca-falha`) conecta via **BELONGS_TO**
-- O PROCESS **Reprocessamento Manual de Cobranças Pendentes** (`proc-reprocessar-cobranca-falha`) conecta via **REFERENCES**
+- O PROJECT **Motor de Liquidação Instantânea PIX & Anti-Fraude** (`proj-pix-settlement`) conecta via **DEPENDS_ON**
 - O QUERY **Busca de Assinaturas Vencendo sem Fatura Gerada** (`qry-assinaturas-pendentes-faturamento`) conecta via **BELONGS_TO**
 - O RULE **Regra de Cobrança Recorrente e Tentativas** (`rule-cobranca-recorrente`) conecta via **BELONGS_TO**
-- O RULE **Regra de Cobrança Recorrente e Tentativas** (`rule-cobranca-recorrente`) conecta via **REFERENCES**
-- O RULE **Regra de Estorno Proporcional (Pro-Rata) em Cancelamento de Assinatura** (`rule-estorno-proporcional-cancelamento`) conecta via **REFERENCES**
+- O RULE **Regra de Estorno Proporcional (Pro-Rata) em Cancelamento de Assinatura** (`rule-estorno-proporcional-cancelamento`) conecta via **BELONGS_TO**
 - O TABLE **Tabela de Faturas (invoices)** (`table-invoices`) conecta via **BELONGS_TO**
-- O TABLE **Tabela de Faturas (invoices)** (`table-invoices`) conecta via **REFERENCES**
 - O TABLE **Tabela de Assinaturas (subscriptions)** (`table-subscriptions`) conecta via **BELONGS_TO**
-- O TABLE **Tabela de Assinaturas (subscriptions)** (`table-subscriptions`) conecta via **REFERENCES**
 
 ## 📖 Conteúdo e Especificação Técnica
 

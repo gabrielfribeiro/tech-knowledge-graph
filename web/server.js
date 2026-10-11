@@ -136,7 +136,12 @@ const server = http.createServer(async (req, res) => {
     }
 
     // Static Files Handler
-    let filePath = path.join(PUBLIC_DIR, pathname === '/' ? 'index.html' : pathname);
+    const publicPath = pathname === '/'
+      ? 'landing.html'
+      : pathname === '/app'
+        ? 'index.html'
+        : pathname;
+    let filePath = path.join(PUBLIC_DIR, publicPath);
     if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
       const ext = path.extname(filePath);
       const mimeTypes = {

@@ -1,6 +1,6 @@
 # 🧪 Plano de Testes & Evidências (Cypress + Jira Xray)
 
-> **Squad:** Squad Jarvis Core | **Tech Lead:** Gabriel | **Gerado em:** `2026-10-10T23:52:35.116Z`
+> **Squad:** Squad Jarvis Core | **Tech Lead:** Gabriel | **Gerado em:** `2026-10-11T00:42:05.061Z`
 
 ## 🎯 [XRAY-001] Regra de Cobrança Recorrente e Tentativas (`rule-cobranca-recorrente`)
 - **Script Cypress:** `dist/xray/cypress/rule-cobranca-recorrente.cy.ts`
@@ -27,17 +27,33 @@
 
 ---
 
-## 🎯 [XRAY-003] Regra de Limite PIX Noturno (20h às 06h) e Prevenção a Fraude (`rule-limite-pix-noturno`)
+## 🎯 [XRAY-003] Regra de Frete Grátis VIP (FREIGHT_VIP_RULE) (`rule-frete-gratis-vip`)
+- **Script Cypress:** `dist/xray/cypress/rule-frete-gratis-vip.cy.ts`
+- **Pacote de Evidências Xray:** `dist/xray/evidences/xray-execution-payload.json`
+
+| Passo | Critério / Ação (Cypress) | Resultado Esperado | Evidência Gerada (Xray) |
+| :--- | :--- | :--- | :--- |
+| **#1** | rel: belongs_to | Regra `rule-frete-gratis-vip` atendida com sucesso | `XRAY-003-step-1-rule-frete-gratis-vip.png` |
+| **#2** | rel: reads_from_table | Regra `rule-frete-gratis-vip` atendida com sucesso | `XRAY-003-step-2-rule-frete-gratis-vip.png` |
+| **#3** | rel: writes_to_table | Regra `rule-frete-gratis-vip` atendida com sucesso | `XRAY-003-step-3-rule-frete-gratis-vip.png` |
+| **#4** | Pedido acima do limiar: valor líquido calculado >= R$ 500,00 resulta em frete gratuito. | Regra `rule-frete-gratis-vip` atendida com sucesso | `XRAY-003-step-4-rule-frete-gratis-vip.png` |
+| **#5** | Cliente VIP: `customerTier = DIAMOND` resulta em frete gratuito mesmo sem atingir o valor. | Regra `rule-frete-gratis-vip` atendida com sucesso | `XRAY-003-step-5-rule-frete-gratis-vip.png` |
+| **#6** | Pedido comum: qualquer valor abaixo do limiar e fora do VIP paga frete padrão de R$ 39,90. | Regra `rule-frete-gratis-vip` atendida com sucesso | `XRAY-003-step-6-rule-frete-gratis-vip.png` |
+| **#7** | Segurança: a validação deve usar valores numéricos tipados e não concatenar SQL/PL-SQL em consultas. | Regra `rule-frete-gratis-vip` atendida com sucesso | `XRAY-003-step-7-rule-frete-gratis-vip.png` |
+
+---
+
+## 🎯 [XRAY-004] Regra de Limite PIX Noturno (20h às 06h) e Prevenção a Fraude (`rule-limite-pix-noturno`)
 - **Script Cypress:** `dist/xray/cypress/rule-limite-pix-noturno.cy.ts`
 - **Pacote de Evidências Xray:** `dist/xray/evidences/xray-execution-payload.json`
 
 | Passo | Critério / Ação (Cypress) | Resultado Esperado | Evidência Gerada (Xray) |
 | :--- | :--- | :--- | :--- |
-| **#1** | rel: belongs_to | Regra `rule-limite-pix-noturno` atendida com sucesso | `XRAY-003-step-1-rule-limite-pix-noturno.png` |
-| **#2** | rel: reads_from_table | Regra `rule-limite-pix-noturno` atendida com sucesso | `XRAY-003-step-2-rule-limite-pix-noturno.png` |
-| **#3** | rel: writes_to_table | Regra `rule-limite-pix-noturno` atendida com sucesso | `XRAY-003-step-3-rule-limite-pix-noturno.png` |
-| **#4** | rel: references | Regra `rule-limite-pix-noturno` atendida com sucesso | `XRAY-003-step-4-rule-limite-pix-noturno.png` |
-| **#5** | rel: references | Regra `rule-limite-pix-noturno` atendida com sucesso | `XRAY-003-step-5-rule-limite-pix-noturno.png` |
+| **#1** | rel: belongs_to | Regra `rule-limite-pix-noturno` atendida com sucesso | `XRAY-004-step-1-rule-limite-pix-noturno.png` |
+| **#2** | rel: reads_from_table | Regra `rule-limite-pix-noturno` atendida com sucesso | `XRAY-004-step-2-rule-limite-pix-noturno.png` |
+| **#3** | rel: writes_to_table | Regra `rule-limite-pix-noturno` atendida com sucesso | `XRAY-004-step-3-rule-limite-pix-noturno.png` |
+| **#4** | rel: references | Regra `rule-limite-pix-noturno` atendida com sucesso | `XRAY-004-step-4-rule-limite-pix-noturno.png` |
+| **#5** | rel: references | Regra `rule-limite-pix-noturno` atendida com sucesso | `XRAY-004-step-5-rule-limite-pix-noturno.png` |
 
 ---
 

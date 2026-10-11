@@ -13,10 +13,8 @@
 - **[DECIDES_ON]** Aponta para o PROJECT: **Motor de Cobrança (Billing Engine)** (`proj-billing-engine`)
 - **[DECIDES_ON]** Aponta para o PROJECT: **Serviço: proj-payment-gateway** (`proj-payment-gateway`)
 - **[REFERENCES]** Aponta para o TABLE: **Tabela de Assinaturas (subscriptions)** (`table-subscriptions`)
-- **[REFERENCES]** Aponta para o PROJECT: **Serviço: proj-payment-gateway** (`proj-payment-gateway`)
 - **[REFERENCES]** Aponta para o PROCESS: **Reprocessamento Manual de Cobranças Pendentes** (`proc-reprocessar-cobranca-falha`)
 - **[REFERENCES]** Aponta para o TABLE: **Tabela de Faturas (invoices)** (`table-invoices`)
-- **[REFERENCES]** Aponta para o PROJECT: **Motor de Cobrança (Billing Engine)** (`proj-billing-engine`)
 - **[REFERENCES]** Aponta para o RULE: **Regra de Cobrança Recorrente e Tentativas** (`rule-cobranca-recorrente`)
 
 ### Componentes que Dependem ou Utilizam Este Nó:

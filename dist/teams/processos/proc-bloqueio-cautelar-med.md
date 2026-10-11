@@ -8,7 +8,7 @@
 
 ## 🔗 Relações e Conexões com o Ecossistema
 ### Dependências e Saídas:
-- **[REFERENCES]** Aponta para o PROJECT: **Motor de Liquidação Instantânea PIX & Anti-Fraude** (`proj-pix-settlement`)
+- **[RECOVERS_SERVICE]** Aponta para o PROJECT: **Motor de Liquidação Instantânea PIX & Anti-Fraude** (`proj-pix-settlement`)
 - **[REFERENCES]** Aponta para o RULE: **Regra de Limite PIX Noturno (20h às 06h) e Prevenção a Fraude** (`rule-limite-pix-noturno`)
 - **[REFERENCES]** Aponta para o TABLE: **Tabela TB_PIX_TRANSACTIONS (Transações e Liquidação PIX)** (`table-pix-transactions`)
 

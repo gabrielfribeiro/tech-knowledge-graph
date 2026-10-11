@@ -3,14 +3,14 @@
     "summary": "[Squad Jarvis Core] Execução Automatizada Cypress - Grafo Técnico",
     "description": "Pacote de evidências gerado automaticamente pelo Agente @qa para importação no Jira Xray.",
     "user": "Gabriel",
-    "startDate": "2026-10-10T23:52:35.119Z",
-    "finishDate": "2026-10-10T23:52:35.119Z"
+    "startDate": "2026-10-11T00:42:05.064Z",
+    "finishDate": "2026-10-11T00:42:05.064Z"
   },
   "tests": [
     {
       "testKey": "XRAY-001",
-      "start": "2026-10-10T23:52:35.118Z",
-      "finish": "2026-10-10T23:52:35.118Z",
+      "start": "2026-10-11T00:42:05.062Z",
+      "finish": "2026-10-11T00:42:05.062Z",
       "comment": "Execução automatizada Cypress vinculada ao nó rule-cobranca-recorrente do Tech Knowledge Graph.",
       "status": "PASSED",
       "steps": [
@@ -54,8 +54,8 @@
     },
     {
       "testKey": "XRAY-002",
-      "start": "2026-10-10T23:52:35.118Z",
-      "finish": "2026-10-10T23:52:35.118Z",
+      "start": "2026-10-11T00:42:05.063Z",
+      "finish": "2026-10-11T00:42:05.063Z",
       "comment": "Execução automatizada Cypress vinculada ao nó rule-estorno-proporcional-cancelamento do Tech Knowledge Graph.",
       "status": "PASSED",
       "steps": [
@@ -111,8 +111,101 @@
     },
     {
       "testKey": "XRAY-003",
-      "start": "2026-10-10T23:52:35.119Z",
-      "finish": "2026-10-10T23:52:35.119Z",
+      "start": "2026-10-11T00:42:05.063Z",
+      "finish": "2026-10-11T00:42:05.063Z",
+      "comment": "Execução automatizada Cypress vinculada ao nó rule-frete-gratis-vip do Tech Knowledge Graph.",
+      "status": "PASSED",
+      "steps": [
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: rel: belongs_to",
+          "actualResult": "Comportamento conforme especificação de rule-frete-gratis-vip",
+          "evidences": [
+            {
+              "filename": "XRAY-003-step-1-rule-frete-gratis-vip.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: rel: reads_from_table",
+          "actualResult": "Comportamento conforme especificação de rule-frete-gratis-vip",
+          "evidences": [
+            {
+              "filename": "XRAY-003-step-2-rule-frete-gratis-vip.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: rel: writes_to_table",
+          "actualResult": "Comportamento conforme especificação de rule-frete-gratis-vip",
+          "evidences": [
+            {
+              "filename": "XRAY-003-step-3-rule-frete-gratis-vip.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: Pedido acima do limiar: valor líquido calculado >= R$ 500,00 resulta em frete gratuito.",
+          "actualResult": "Comportamento conforme especificação de rule-frete-gratis-vip",
+          "evidences": [
+            {
+              "filename": "XRAY-003-step-4-rule-frete-gratis-vip.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: Cliente VIP: `customerTier = DIAMOND` resulta em frete gratuito mesmo sem atingir o valor.",
+          "actualResult": "Comportamento conforme especificação de rule-frete-gratis-vip",
+          "evidences": [
+            {
+              "filename": "XRAY-003-step-5-rule-frete-gratis-vip.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: Pedido comum: qualquer valor abaixo do limiar e fora do VIP paga frete padrão de R$ 39,90.",
+          "actualResult": "Comportamento conforme especificação de rule-frete-gratis-vip",
+          "evidences": [
+            {
+              "filename": "XRAY-003-step-6-rule-frete-gratis-vip.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "status": "PASSED",
+          "comment": "Critério validado via Cypress: Segurança: a validação deve usar valores numéricos tipados e não concatenar SQL/PL-SQL em consultas.",
+          "actualResult": "Comportamento conforme especificação de rule-frete-gratis-vip",
+          "evidences": [
+            {
+              "filename": "XRAY-003-step-7-rule-frete-gratis-vip.png",
+              "contentType": "image/png",
+              "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "testKey": "XRAY-004",
+      "start": "2026-10-11T00:42:05.064Z",
+      "finish": "2026-10-11T00:42:05.064Z",
       "comment": "Execução automatizada Cypress vinculada ao nó rule-limite-pix-noturno do Tech Knowledge Graph.",
       "status": "PASSED",
       "steps": [
@@ -122,7 +215,7 @@
           "actualResult": "Comportamento conforme especificação de rule-limite-pix-noturno",
           "evidences": [
             {
-              "filename": "XRAY-003-step-1-rule-limite-pix-noturno.png",
+              "filename": "XRAY-004-step-1-rule-limite-pix-noturno.png",
               "contentType": "image/png",
               "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
             }
@@ -134,7 +227,7 @@
           "actualResult": "Comportamento conforme especificação de rule-limite-pix-noturno",
           "evidences": [
             {
-              "filename": "XRAY-003-step-2-rule-limite-pix-noturno.png",
+              "filename": "XRAY-004-step-2-rule-limite-pix-noturno.png",
               "contentType": "image/png",
               "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
             }
@@ -146,7 +239,7 @@
           "actualResult": "Comportamento conforme especificação de rule-limite-pix-noturno",
           "evidences": [
             {
-              "filename": "XRAY-003-step-3-rule-limite-pix-noturno.png",
+              "filename": "XRAY-004-step-3-rule-limite-pix-noturno.png",
               "contentType": "image/png",
               "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
             }
@@ -158,7 +251,7 @@
           "actualResult": "Comportamento conforme especificação de rule-limite-pix-noturno",
           "evidences": [
             {
-              "filename": "XRAY-003-step-4-rule-limite-pix-noturno.png",
+              "filename": "XRAY-004-step-4-rule-limite-pix-noturno.png",
               "contentType": "image/png",
               "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
             }
@@ -170,7 +263,7 @@
           "actualResult": "Comportamento conforme especificação de rule-limite-pix-noturno",
           "evidences": [
             {
-              "filename": "XRAY-003-step-5-rule-limite-pix-noturno.png",
+              "filename": "XRAY-004-step-5-rule-limite-pix-noturno.png",
               "contentType": "image/png",
               "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
             }

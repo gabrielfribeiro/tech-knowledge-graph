@@ -9,9 +9,9 @@
 
 ## 🔗 Relações e Conexões com o Ecossistema
 ### Dependências e Saídas:
-- **[REFERENCES]** Aponta para o PROJECT: **Motor de Cobrança (Billing Engine)** (`proj-billing-engine`)
-- **[REFERENCES]** Aponta para o TABLE: **Tabela de Assinaturas (subscriptions)** (`table-subscriptions`)
-- **[REFERENCES]** Aponta para o TABLE: **Tabela de Faturas (invoices)** (`table-invoices`)
+- **[BELONGS_TO]** Aponta para o PROJECT: **Motor de Cobrança (Billing Engine)** (`proj-billing-engine`)
+- **[READS_FROM_TABLE]** Aponta para o TABLE: **Tabela de Assinaturas (subscriptions)** (`table-subscriptions`)
+- **[WRITES_TO_TABLE]** Aponta para o TABLE: **Tabela de Faturas (invoices)** (`table-invoices`)
 - **[REFERENCES]** Aponta para o ADR: **ADR 001: Cobrança Assíncrona e Resiliência com Filas SQS** (`adr-001-cobranca-assincrona-com-filas`)
 
 ## 📖 Conteúdo e Especificação Técnica

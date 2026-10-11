@@ -10,7 +10,6 @@
 ## 🔗 Relações e Conexões com o Ecossistema
 ### Componentes que Dependem ou Utilizam Este Nó:
 - O ADR **ADR 001: Cobrança Assíncrona e Resiliência com Filas SQS** (`adr-001-cobranca-assincrona-com-filas`) conecta via **DECIDES_ON**
-- O ADR **ADR 001: Cobrança Assíncrona e Resiliência com Filas SQS** (`adr-001-cobranca-assincrona-com-filas`) conecta via **REFERENCES**
 - O PROJECT **Motor de Cobrança (Billing Engine)** (`proj-billing-engine`) conecta via **DEPENDS_ON**
 
 ## 📖 Conteúdo e Especificação Técnica

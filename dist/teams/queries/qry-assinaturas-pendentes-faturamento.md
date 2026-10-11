@@ -12,8 +12,6 @@
 - **[IMPLEMENTS_RULE]** Aponta para o RULE: **Regra de Cobrança Recorrente e Tentativas** (`rule-cobranca-recorrente`)
 - **[READS_FROM_TABLE]** Aponta para o TABLE: **Tabela de Assinaturas (subscriptions)** (`table-subscriptions`)
 - **[READS_FROM_TABLE]** Aponta para o TABLE: **Tabela de Faturas (invoices)** (`table-invoices`)
-- **[REFERENCES]** Aponta para o TABLE: **Tabela de Assinaturas (subscriptions)** (`table-subscriptions`)
-- **[REFERENCES]** Aponta para o TABLE: **Tabela de Faturas (invoices)** (`table-invoices`)
 - **[REFERENCES]** Aponta para o PROCESS: **Reprocessamento Manual de Cobranças Pendentes** (`proc-reprocessar-cobranca-falha`)
 
 ### Componentes que Dependem ou Utilizam Este Nó:

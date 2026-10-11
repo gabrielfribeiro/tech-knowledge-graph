@@ -12,15 +12,16 @@
 ## 🔗 Relações e Conexões com o Ecossistema
 ### Dependências e Saídas:
 - **[BELONGS_TO]** Aponta para o PROJECT: **Motor de Liquidação Instantânea PIX & Anti-Fraude** (`proj-pix-settlement`)
-- **[REFERENCES]** Aponta para o PROJECT: **Motor de Liquidação Instantânea PIX & Anti-Fraude** (`proj-pix-settlement`)
+- **[REFERENCES]** Aponta para o RULE: **Regra de Limite PIX Noturno (20h às 06h) e Prevenção a Fraude** (`rule-limite-pix-noturno`)
+- **[REFERENCES]** Aponta para o ADR: **ADR 002 - Idempotência Distribuída na Liquidação PIX com Redis e Oracle** (`adr-002-idempotencia-liquidacao-pix`)
 
 ### Componentes que Dependem ou Utilizam Este Nó:
 - O ADR **ADR 002 - Idempotência Distribuída na Liquidação PIX com Redis e Oracle** (`adr-002-idempotencia-liquidacao-pix`) conecta via **REFERENCES**
 - O PROCESS **Runbook de Bloqueio Cautelar e Devolução PIX (MED Bacen)** (`proc-bloqueio-cautelar-med`) conecta via **REFERENCES**
-- O PROJECT **Motor de Liquidação Instantânea PIX & Anti-Fraude** (`proj-pix-settlement`) conecta via **REFERENCES**
-- O QUERY **Query de Apuração do Acumulado PIX Noturno por CPF (Oracle)** (`qry-consulta-limites-noturnos-pix`) conecta via **REFERENCES**
-- O RULE **Regra de Limite PIX Noturno (20h às 06h) e Prevenção a Fraude** (`rule-limite-pix-noturno`) conecta via **REFERENCES**
 - O PROJECT **Motor de Liquidação Instantânea PIX & Anti-Fraude** (`proj-pix-settlement`) conecta via **OWNS_TABLE**
+- O QUERY **Query de Apuração do Acumulado PIX Noturno por CPF (Oracle)** (`qry-consulta-limites-noturnos-pix`) conecta via **READS_FROM_TABLE**
+- O RULE **Regra de Limite PIX Noturno (20h às 06h) e Prevenção a Fraude** (`rule-limite-pix-noturno`) conecta via **READS_FROM_TABLE**
+- O RULE **Regra de Limite PIX Noturno (20h às 06h) e Prevenção a Fraude** (`rule-limite-pix-noturno`) conecta via **WRITES_TO_TABLE**
 
 ## 📖 Conteúdo e Especificação Técnica
 

@@ -1,6 +1,6 @@
 # 🏢 Padrões Extraídos dos Plugins do VS Code
 
-> **Sincronizado em:** `2026-10-10T23:29:51.836Z` | **Plugins Mapeados:** **31**
+> **Sincronizado em:** `2026-10-11T00:14:17.223Z` | **Plugins Mapeados:** **31**
 
 Este documento consolida automaticamente as regras, participantes de chat, snippets e configurações extraídos das extensões instaladas no VS Code desta máquina para guiar a **Squad de Agentes (`@architect`, `@dev`, `@sec`, `@qa`)**.
 
